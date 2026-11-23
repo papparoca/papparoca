@@ -8,7 +8,7 @@
   <style>
     :root, [data-theme="light"] {
       --bg: #f4f6fa;
-      --header-bg: rgba(255, 255, 255, 0.94);
+      --header-bg: rgba(255, 255, 255, 0.95);
       --card: #ffffff;
       --card-2: #f1f5f9;
       --border: #e2e8f0;
@@ -17,11 +17,11 @@
       --desc-text: #334155;
       --tip-bg: #fffbeb;
       --accent: #d97706;
-      --accent-soft: rgba(217, 119, 6, 0.12);
+      --accent-soft: rgba(217, 119, 6, 0.11);
       --water: #0284c7;
-      --water-soft: rgba(2, 132, 199, 0.10);
+      --water-soft: rgba(2, 132, 199, 0.09);
       --green: #059669;
-      --green-soft: rgba(5, 150, 105, 0.12);
+      --green-soft: rgba(5, 150, 105, 0.11);
       --danger: #dc2626;
       --danger-soft: rgba(220, 38, 38, 0.10);
       --guide-bg: #ecfdf5;
@@ -33,12 +33,12 @@
       --alert-bg: linear-gradient(135deg, #e0f2fe, #f0f9ff);
       --alert-source: #0369a1;
       --recipe-text: #334155;
-      --radius: 18px;
+      --radius: 16px;
     }
 
     [data-theme="dark"] {
       --bg: #0f1117;
-      --header-bg: rgba(15, 17, 23, 0.92);
+      --header-bg: rgba(15, 17, 23, 0.93);
       --card: #171a23;
       --card-2: #1f2430;
       --border: #2a3040;
@@ -49,7 +49,7 @@
       --accent: #f59e0b;
       --accent-soft: rgba(245, 158, 11, 0.14);
       --water: #38bdf8;
-      --water-soft: rgba(56, 189, 248, 0.14);
+      --water-soft: rgba(56, 189, 248, 0.13);
       --green: #10b981;
       --green-soft: rgba(16, 185, 129, 0.14);
       --danger: #ef4444;
@@ -60,7 +60,7 @@
       --guide2-bg: rgba(245, 158, 11, 0.08);
       --guide2-text: #fef3c7;
       --guide2-source: #fde68a;
-      --alert-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(14, 165, 233, 0.08));
+      --alert-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(14, 165, 233, 0.07));
       --alert-source: #bae6fd;
       --recipe-text: #cbd5e1;
     }
@@ -78,6 +78,41 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
 
+    /* SVG sober icons */
+    .ico {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .ico-sm {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .ico-lg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -85,11 +120,11 @@
       background: var(--header-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 18px;
+      padding: 12px 18px;
     }
 
     .header-inner {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -104,19 +139,19 @@
     }
 
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(217, 119, 6, 0.35);
+      color: var(--accent);
       display: grid;
       place-items: center;
-      font-size: 19px;
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.28);
       flex-shrink: 0;
     }
 
     .brand h1 {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -130,7 +165,7 @@
 
     .header-actions {
       display: flex;
-      gap: 7px;
+      gap: 6px;
       align-items: center;
     }
 
@@ -138,20 +173,22 @@
       background: var(--card-2);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 0.82rem;
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       transition: 0.15s ease;
     }
 
     .icon-btn:hover { border-color: var(--accent); }
 
+    /* Alert Banner */
     .alert-banner {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 14px auto 0;
       padding: 0 16px;
       display: none;
@@ -179,6 +216,7 @@
       font-weight: 600;
       flex: 1;
       min-width: 220px;
+      color: var(--water);
     }
 
     .alert-source {
@@ -195,42 +233,52 @@
       gap: 8px;
     }
 
-    main {
-      max-width: 1120px;
+    /* Layout Container + Explicit Mobile / PC View Switcher */
+    .app-shell {
+      max-width: 1140px;
       margin: 18px auto 0;
       padding: 0 16px;
+    }
+
+    main.grid-view {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
+      grid-template-columns: 1.08fr 0.92fr;
+      align-items: start;
+      gap: 20px;
     }
 
-    @media (min-width: 860px) {
-      main {
-        grid-template-columns: 1.08fr 0.92fr;
-        align-items: start;
-        gap: 20px;
-      }
-      .col-left, .col-right {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
+    main.mobile-view {
+      display: flex;
+      flex-direction: column;
+      max-width: 440px;
+      margin: 0 auto;
+      gap: 14px;
     }
 
-    @media (max-width: 859px) {
-      .col-left, .col-right {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .hide-sm { display: none; }
+    .col-left, .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
 
+    .mobile-view .col-left,
+    .mobile-view .col-right {
+      gap: 14px;
+    }
+
+    .mobile-view .hide-sm { display: none; }
+
+    /* Cards */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 18px;
+    }
+
+    .mobile-view .card {
+      padding: 15px;
+      border-radius: 15px;
     }
 
     .card-header {
@@ -250,31 +298,37 @@
     }
 
     .pill {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 999px;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
     }
 
-    .pill.fasting { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(245, 158, 11, 0.35); }
-    .pill.eating { background: var(--green-soft); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.35); }
-    .pill.water { background: var(--water-soft); color: var(--water); border: 1px solid rgba(56, 189, 248, 0.35); }
+    .pill.fasting { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(217, 119, 6, 0.32); }
+    .pill.eating { background: var(--green-soft); color: var(--green); border: 1px solid rgba(5, 150, 105, 0.32); }
+    .pill.water { background: var(--water-soft); color: var(--water); border: 1px solid rgba(2, 132, 199, 0.32); }
 
+    /* Fasting Ring */
     .timer-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 6px 0 12px;
+      padding: 6px 0 10px;
     }
 
     .ring-container {
       position: relative;
-      width: 230px;
-      height: 230px;
+      width: 224px;
+      height: 224px;
       display: grid;
       place-items: center;
+    }
+
+    .mobile-view .ring-container {
+      width: 196px;
+      height: 196px;
     }
 
     .ring-svg {
@@ -304,7 +358,7 @@
     }
 
     .timer-label {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -312,11 +366,13 @@
     }
 
     .timer-digits {
-      font-size: 2.15rem;
+      font-size: 2.1rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
+
+    .mobile-view .timer-digits { font-size: 1.8rem; }
 
     .timer-sub {
       font-size: 0.8rem;
@@ -324,6 +380,7 @@
       margin-top: 4px;
     }
 
+    /* Goal Chips */
     .goal-row {
       display: flex;
       flex-wrap: wrap;
@@ -350,12 +407,13 @@
       color: var(--accent);
     }
 
+    /* Buttons */
     .btn {
       width: 100%;
       border: none;
-      border-radius: 13px;
-      padding: 14px 16px;
-      font-size: 0.95rem;
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -368,15 +426,15 @@
     .btn:active { transform: scale(0.98); }
 
     .btn-primary {
-      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      background: linear-gradient(135deg, #d97706, #b45309);
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.25);
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.24);
     }
 
     .btn-photo {
-      background: linear-gradient(135deg, #10b981, #059669);
+      background: linear-gradient(135deg, #059669, #047857);
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.24);
     }
 
     .btn-water {
@@ -386,7 +444,14 @@
       padding: 10px 8px;
       font-size: 0.8rem;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+    }
+
+    .btn-water .btn-water-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
     }
 
     .btn-water small {
@@ -395,14 +460,14 @@
       opacity: 0.85;
     }
 
-    .btn-water:hover { opacity: 0.85; }
+    .btn-water:hover { opacity: 0.88; }
 
     .btn-ghost {
       background: var(--card-2);
       border: 1px solid var(--border);
       color: var(--muted);
       padding: 10px 12px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
     }
 
     .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
@@ -448,7 +513,7 @@
 
     .phase-highlight {
       background: var(--accent-soft);
-      border: 1px solid rgba(245, 158, 11, 0.32);
+      border: 1px solid rgba(217, 119, 6, 0.32);
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
@@ -506,7 +571,7 @@
       background: var(--card-2);
       border: 1px solid transparent;
       font-size: 0.81rem;
-      opacity: 0.72;
+      opacity: 0.74;
       transition: 0.2s;
     }
 
@@ -542,6 +607,9 @@
     .water-goal {
       font-size: 0.84rem;
       color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .progress-track {
@@ -578,8 +646,8 @@
       margin-bottom: 12px;
     }
 
-    @media (min-width: 480px) {
-      .water-buttons { grid-template-columns: repeat(4, 1fr); }
+    .grid-view .water-buttons {
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .water-recipe {
@@ -604,6 +672,12 @@
       border-radius: 12px;
       font-size: 0.8rem;
       flex-wrap: wrap;
+    }
+
+    .reminder-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .reminder-bar select {
@@ -659,9 +733,9 @@
       height: 64px;
       border-radius: 10px;
       background: var(--card);
+      color: var(--muted);
       display: grid;
       place-items: center;
-      font-size: 1.4rem;
       flex-shrink: 0;
       border: 1px dashed var(--border);
     }
@@ -698,8 +772,11 @@
       color: var(--muted);
       cursor: pointer;
       padding: 6px;
-      font-size: 1rem;
+      font-size: 0.85rem;
       border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
     .del-btn:hover { color: var(--danger); background: var(--danger-soft); }
 
@@ -731,6 +808,9 @@
     .modal h3 {
       font-size: 1.05rem;
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
 
     .modal label {
@@ -831,16 +911,30 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <div class="brand-logo">🍽️</div>
+        <div class="brand-logo" aria-hidden="true">
+          <svg class="ico-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
         <div>
           <h1>Papparoca</h1>
           <span>Jejum, ciência &amp; hidratação • Pinto Coelho &amp; Deusa da Glicose</span>
         </div>
       </div>
       <div class="header-actions">
-        <button class="icon-btn" id="btnTheme" title="Alternar modo dia / noite">🌙 <span class="hide-sm">Noite</span></button>
-        <button class="icon-btn" id="btnNotif" title="Ativar notificações do dispositivo">🔔 <span class="hide-sm">Alertas</span></button>
-        <button class="icon-btn" id="btnBackup" title="Exportar ou importar dados">💾</button>
+        <button class="icon-btn" id="btnViewMode" title="Alternar entre modo Mobile e modo PC">
+          <span id="viewModeIcon"></span>
+          <span class="hide-sm" id="viewModeLabel">Modo</span>
+        </button>
+        <button class="icon-btn" id="btnTheme" title="Alternar modo dia / noite">
+          <span id="themeIcon"></span>
+          <span class="hide-sm" id="themeLabel">Noite</span>
+        </button>
+        <button class="icon-btn" id="btnNotif" title="Ativar notificações do dispositivo">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="hide-sm">Alertas</span>
+        </button>
+        <button class="icon-btn" id="btnBackup" title="Exportar ou importar dados">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        </button>
       </div>
     </div>
   </header>
@@ -848,7 +942,7 @@
   <div class="alert-banner" id="hydrationAlert">
     <div class="alert-box">
       <div class="alert-text">
-        <span>💧</span>
+        <svg class="ico-lg" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
         <div>
           <span id="hydrationAlertMsg">Não bebes nada há 2 horas, vamos lá bebericar qualquer coisa!</span>
           <span class="alert-source" id="hydrationAlertSource"></span>
@@ -861,140 +955,183 @@
     </div>
   </div>
 
-  <main>
-    <div class="col-left">
+  <div class="app-shell">
+    <main id="mainLayout" class="grid-view">
+      <div class="col-left">
 
-      <section class="card">
-        <div class="card-header">
-          <div class="card-title">⏱️ Estado do Jejum</div>
-          <span class="pill eating" id="statusPill">Janela Alimentar</span>
-        </div>
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              Estado do Jejum
+            </div>
+            <span class="pill eating" id="statusPill">Janela Alimentar</span>
+          </div>
 
-        <div class="timer-wrap">
-          <div class="ring-container">
-            <svg class="ring-svg" viewBox="0 0 220 220">
-              <circle class="ring-bg" cx="110" cy="110" r="96"></circle>
-              <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="96" stroke-dasharray="603.19" stroke-dashoffset="603.19"></circle>
-            </svg>
-            <div class="ring-center">
-              <div class="timer-label" id="timerLabel">Em pausa</div>
-              <div class="timer-digits" id="timerDigits">00:00:00</div>
-              <div class="timer-sub" id="timerSub">Objetivo: 16h</div>
+          <div class="timer-wrap">
+            <div class="ring-container">
+              <svg class="ring-svg" viewBox="0 0 220 220">
+                <circle class="ring-bg" cx="110" cy="110" r="96"></circle>
+                <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="96" stroke-dasharray="603.19" stroke-dashoffset="603.19"></circle>
+              </svg>
+              <div class="ring-center">
+                <div class="timer-label" id="timerLabel">Em pausa</div>
+                <div class="timer-digits" id="timerDigits">00:00:00</div>
+                <div class="timer-sub" id="timerSub">Objetivo: 16h</div>
+              </div>
+            </div>
+
+            <div class="goal-row" id="goalChips">
+              <button class="goal-chip" data-hours="12">12h</button>
+              <button class="goal-chip active" data-hours="16">16h</button>
+              <button class="goal-chip" data-hours="18">18h</button>
+              <button class="goal-chip" data-hours="20">20h</button>
+              <button class="goal-chip" data-hours="24">24h</button>
+              <button class="goal-chip" data-hours="36">36h</button>
+              <button class="goal-chip" data-hours="48">48h</button>
+            </div>
+
+            <input type="file" accept="image/*" capture="environment" id="mealPhotoInput" class="hidden-input" />
+
+            <div class="action-stack" id="fastingControls">
+              <button class="btn btn-primary" onclick="startFast()">
+                <svg class="ico" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                Iniciar Jejum Agora
+              </button>
+            </div>
+
+            <div class="meta-bar">
+              <div class="meta-box">
+                <small>Início</small>
+                <strong id="metaStart">—</strong>
+              </div>
+              <div class="meta-box">
+                <small>Previsão de meta</small>
+                <strong id="metaEnd">—</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M2 12h4l3-7 6 14 3-7h4"/></svg>
+              O que se passa no teu corpo
+            </div>
+            <span class="pill fasting" id="phasePill">Janela Alimentar</span>
+          </div>
+
+          <div class="phase-highlight" id="currentPhaseBox">
+            <div class="phase-tag" id="phaseTag">PREPARAÇÃO &amp; REFEIÇÕES</div>
+            <div class="phase-name" id="phaseName">Estás na janela alimentar</div>
+            <div class="phase-desc" id="phaseDesc">A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).</div>
+            <div class="phase-tip" id="phaseTip">
+              <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.
+              <span class="source-tag">Fonte: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>
             </div>
           </div>
 
-          <div class="goal-row" id="goalChips">
-            <button class="goal-chip" data-hours="12">12h</button>
-            <button class="goal-chip active" data-hours="16">16h</button>
-            <button class="goal-chip" data-hours="18">18h</button>
-            <button class="goal-chip" data-hours="20">20h</button>
-            <button class="goal-chip" data-hours="24">24h</button>
-            <button class="goal-chip" data-hours="36">36h</button>
-            <button class="goal-chip" data-hours="48">48h</button>
-          </div>
+          <div class="phase-list" id="phaseTimeline"></div>
+        </section>
 
-          <input type="file" accept="image/*" capture="environment" id="mealPhotoInput" class="hidden-input" />
+      </div>
 
-          <div class="action-stack" id="fastingControls">
-            <button class="btn btn-primary" onclick="startFast()">🚀 Iniciar Jejum Agora</button>
-          </div>
+      <div class="col-right">
 
-          <div class="meta-bar">
-            <div class="meta-box">
-              <small>Início</small>
-              <strong id="metaStart">—</strong>
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              Hidratação de Hoje
             </div>
-            <div class="meta-box">
-              <small>Previsão de meta</small>
-              <strong id="metaEnd">—</strong>
+            <span class="pill water" id="waterPercentPill">0%</span>
+          </div>
+
+          <div class="water-stats">
+            <div class="water-big" id="waterTotal">0 ml</div>
+            <div class="water-goal">
+              Meta: <strong id="waterGoalLabel">2500 ml</strong>
+              <button class="del-btn" onclick="openWaterGoalModal()" title="Alterar meta">
+                <svg class="ico-sm" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </button>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section class="card">
-        <div class="card-header">
-          <div class="card-title">🧬 O que se passa no teu corpo</div>
-          <span class="pill fasting" id="phasePill">Janela Alimentar</span>
-        </div>
-
-        <div class="phase-highlight" id="currentPhaseBox">
-          <div class="phase-tag" id="phaseTag">PREPARAÇÃO &amp; REFEIÇÕES</div>
-          <div class="phase-name" id="phaseName">Estás na janela alimentar</div>
-          <div class="phase-desc" id="phaseDesc">A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).</div>
-          <div class="phase-tip" id="phaseTip">
-            💡 <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.
-            <span class="source-tag">📖 Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>
+          <div class="progress-track">
+            <div class="progress-fill" id="waterFill" style="width: 0%"></div>
           </div>
-        </div>
 
-        <div class="phase-list" id="phaseTimeline"></div>
-      </section>
+          <div class="water-meta">
+            <span id="lastDrinkText">Ainda sem registo hoje</span>
+            <button class="del-btn" style="font-size: 0.78rem;" onclick="undoLastDrink()">
+              <svg class="ico-sm" viewBox="0 0 24 24"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+              Desfazer
+            </button>
+          </div>
 
-    </div>
+          <div class="water-buttons">
+            <button class="btn btn-water" onclick="addDrink(250, 'Água Alcalina')">
+              <span class="btn-water-top"><svg class="ico-sm" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>+250 ml</span>
+              <small>Água (pH &gt; 7,4)</small>
+            </button>
+            <button class="btn btn-water" onclick="addDrink(500, 'Água')">
+              <span class="btn-water-top"><svg class="ico-sm" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>+500 ml</span>
+              <small>Água</small>
+            </button>
+            <button class="btn btn-water" onclick="addDrink(250, 'Água Isotónica')">
+              <span class="btn-water-top"><svg class="ico-sm" viewBox="0 0 24 24"><path d="M2 12c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 5 0"/><path d="M2 18c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 5 0"/></svg>+250 ml</span>
+              <small>Isotónica / Sal</small>
+            </button>
+            <button class="btn btn-water" onclick="addDrink(200, 'Chá/Café')">
+              <span class="btn-water-top"><svg class="ico-sm" viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>+200 ml</span>
+              <small>Chá / Café s/ aç.</small>
+            </button>
+          </div>
 
-    <div class="col-right">
+          <div class="water-recipe">
+            <strong>Fórmula Isotónica (Plasma de Quinton):</strong> 1,5 L de água do mar + 3,5 L de água mineral (ou 2 colheres de sobremesa de flor de sal / sal dos Himalaias em 5 L de água). Bebe em pequenos goles — nutre as células com 118 minerais e acalma o apetite.
+            <span class="source-tag">Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!</span>
+          </div>
 
-      <section class="card">
-        <div class="card-header">
-          <div class="card-title">💧 Hidratação de Hoje</div>
-          <span class="pill water" id="waterPercentPill">0%</span>
-        </div>
+          <div class="reminder-bar">
+            <span class="reminder-label">
+              <svg class="ico-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              Alertar se ficar sem beber há:
+            </span>
+            <select id="reminderIntervalSelect" onchange="updateReminderInterval(this.value)">
+              <option value="60">1 hora</option>
+              <option value="90">1h 30m</option>
+              <option value="120" selected>2 horas</option>
+              <option value="180">3 horas</option>
+            </select>
+          </div>
+        </section>
 
-        <div class="water-stats">
-          <div class="water-big" id="waterTotal">0 ml</div>
-          <div class="water-goal">Meta: <strong id="waterGoalLabel">2500 ml</strong> <button class="del-btn" onclick="openWaterGoalModal()" title="Alterar meta">✏️</button></div>
-        </div>
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Registo de Quebras de Jejum
+            </div>
+            <span style="font-size: 0.78rem; color: var(--muted);" id="historyCount">0 registos</span>
+          </div>
 
-        <div class="progress-track">
-          <div class="progress-fill" id="waterFill" style="width: 0%"></div>
-        </div>
+          <div class="history-list" id="historyList">
+            <div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>
+          </div>
+        </section>
 
-        <div class="water-meta">
-          <span id="lastDrinkText">Ainda sem registo hoje</span>
-          <button class="del-btn" style="font-size: 0.78rem;" onclick="undoLastDrink()">↩ Desfazer</button>
-        </div>
-
-        <div class="water-buttons">
-          <button class="btn btn-water" onclick="addDrink(250, 'Água Alcalina')">💧 +250 ml<small>Água (pH &gt; 7,4)</small></button>
-          <button class="btn btn-water" onclick="addDrink(500, 'Água')">🫗 +500 ml<small>Água</small></button>
-          <button class="btn btn-water" onclick="addDrink(250, 'Água Isotónica')">🌊 +250 ml<small>Isotónica/Sal</small></button>
-          <button class="btn btn-water" onclick="addDrink(200, 'Chá/Café')">☕ +200 ml<small>Chá/Café s/ aç.</small></button>
-        </div>
-
-        <div class="water-recipe">
-          <strong>🌊 Fórmula Isotónica (Plasma de Quinton):</strong> 1,5 L de água do mar + 3,5 L de água mineral (ou 2 colheres de sobremesa de flor de sal / sal dos Himalaias em 5 L de água). Bebe em pequenos goles — nutre as células com 118 minerais e acalma o apetite.
-          <span class="source-tag">📖 Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!</span>
-        </div>
-
-        <div class="reminder-bar">
-          <span>⏰ Alertar se ficar sem beber há:</span>
-          <select id="reminderIntervalSelect" onchange="updateReminderInterval(this.value)">
-            <option value="60">1 hora</option>
-            <option value="90">1h 30m</option>
-            <option value="120" selected>2 horas</option>
-            <option value="180">3 horas</option>
-          </select>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-header">
-          <div class="card-title">📸 Registo de Quebras de Jejum</div>
-          <span style="font-size: 0.78rem; color: var(--muted);" id="historyCount">0 registos</span>
-        </div>
-
-        <div class="history-list" id="historyList">
-          <div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>
-        </div>
-      </section>
-
-    </div>
-  </main>
+      </div>
+    </main>
+  </div>
 
   <div class="modal-backdrop" id="editStartModal">
     <div class="modal">
-      <h3>⏰ Ajustar início do jejum</h3>
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+        Ajustar início do jejum
+      </h3>
       <label for="editStartInput">Quando fizeste a última refeição?</label>
       <input type="datetime-local" id="editStartInput" />
       <div class="modal-actions">
@@ -1006,24 +1143,27 @@
 
   <div class="modal-backdrop" id="breakFastModal">
     <div class="modal">
-      <h3>🍽️ Quebrar jejum — Bom apetite!</h3>
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/></svg>
+        Quebrar jejum — Bom apetite!
+      </h3>
       <img id="breakPhotoPreview" class="modal-preview" alt="Foto da refeição" />
       <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 10px;" id="breakSummaryText"></p>
 
       <div class="break-guide">
-        <strong>✨ Truques para evitar pico de glicose na quebra:</strong>
+        <strong>Truques para evitar pico de glicose na quebra:</strong>
         <ul>
           <li><strong>1.º Vinagre:</strong> 1 colher de sopa de vinagre (ex.: sidra) num copo de água antes de comer.</li>
           <li><strong>2.º Ordem certa:</strong> começa pelos vegetais (fibra), depois proteínas e gorduras, e hidratos/fruta inteira por último.</li>
           <li><strong>3.º Quebra salgada:</strong> base de proteína + gorduras boas (ovos, peixe, abacate, azeite), sem doces nem sumos.</li>
           <li><strong>4.º Mexe-te depois:</strong> 10 a 20 min de caminhada leve após a refeição.</li>
         </ul>
-        <span class="source-tag">📖 Fonte: Jessie Inchauspé (Deusa da Glicose) — A Revolução da Glicose / O Método Glucose Goddess</span>
+        <span class="source-tag">Fonte: Jessie Inchauspé (Deusa da Glicose) — A Revolução da Glicose / O Método Glucose Goddess</span>
       </div>
 
       <div class="break-guide alt">
-        <strong>🛡️ Proteger o intestino:</strong> evita glúten, caseína e açúcar refinado; privilegia caldo de carne, vegetais verdes/brócolos e mastiga devagar.
-        <span class="source-tag">📖 Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / O Segredo do Sistema Imunitário</span>
+        <strong>Proteger o intestino:</strong> evita glúten, caseína e açúcar refinado; privilegia caldo de carne, vegetais verdes/brócolos e mastiga devagar.
+        <span class="source-tag">Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / O Segredo do Sistema Imunitário</span>
       </div>
 
       <label for="breakNoteInput">Nota opcional (ex: salada, ovos, abacate, caldo...)</label>
@@ -1048,7 +1188,10 @@
 
   <div class="modal-backdrop" id="waterGoalModal">
     <div class="modal">
-      <h3>💧 Meta diária de hidratação</h3>
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        Meta diária de hidratação
+      </h3>
       <label for="waterGoalInput">Objetivo em mililitros (ml) — Recomendado: 2000 a 2500 ml</label>
       <input type="number" id="waterGoalInput" min="500" max="6000" step="100" />
       <div class="modal-actions">
@@ -1060,14 +1203,17 @@
 
   <div class="modal-backdrop" id="backupModal">
     <div class="modal">
-      <h3>💾 Backup dos teus dados</h3>
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Backup dos teus dados
+      </h3>
       <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 14px;">
         Os teus dados ficam guardados localmente neste dispositivo. Podes exportar um ficheiro para levar para o PC/telemóvel ou restaurar um backup.
       </p>
       <input type="file" accept="application/json" id="importJsonInput" class="hidden-input" />
       <div class="action-stack" style="margin-bottom: 14px;">
-        <button class="btn btn-primary" onclick="exportBackup()">⬇️ Exportar backup (.json)</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('importJsonInput').click()">⬆️ Importar backup (.json)</button>
+        <button class="btn btn-primary" onclick="exportBackup()">Exportar backup (.json)</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('importJsonInput').click()">Importar backup (.json)</button>
       </div>
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('backupModal')">Fechar</button>
@@ -1080,6 +1226,13 @@
   <script>
     const STORAGE_KEY = 'papparoca_v1_state';
     const RING_CIRCUMFERENCE = 2 * Math.PI * 96;
+
+    const SVG_MOBILE = '<svg class="ico" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
+    const SVG_PC = '<svg class="ico" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
+    const SVG_MOON = '<svg class="ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    const SVG_SUN = '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+    const SVG_CAMERA = '<svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+    const SVG_TRASH = '<svg class="ico-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
 
     const PHASES = [
       {
@@ -1151,6 +1304,13 @@
       }
     ];
 
+    function detectDeviceViewMode() {
+      const ua = navigator.userAgent || '';
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const isTouchPhone = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth < 860;
+      return (isMobileUA || isTouchPhone) ? 'mobile' : 'pc';
+    }
+
     function todayStr() {
       return new Date().toISOString().slice(0, 10);
     }
@@ -1158,6 +1318,7 @@
     function defaultState() {
       return {
         theme: 'light',
+        viewMode: detectDeviceViewMode(),
         isFasting: false,
         fastStart: null,
         goalHours: 16,
@@ -1182,6 +1343,9 @@
         if (!raw) return defaultState();
         const parsed = JSON.parse(raw);
         const merged = Object.assign(defaultState(), parsed);
+        if (!merged.viewMode) {
+          merged.viewMode = detectDeviceViewMode();
+        }
         if (merged.hydrationDate !== todayStr()) {
           merged.hydrationDate = todayStr();
           merged.drinksToday = [];
@@ -1200,16 +1364,42 @@
       }
     }
 
+    function applyViewMode() {
+      const mainEl = document.getElementById('mainLayout');
+      const iconEl = document.getElementById('viewModeIcon');
+      const labelEl = document.getElementById('viewModeLabel');
+      const isMobile = state.viewMode === 'mobile';
+
+      if (mainEl) {
+        mainEl.className = isMobile ? 'mobile-view' : 'grid-view';
+      }
+      if (iconEl) {
+        iconEl.innerHTML = isMobile ? SVG_PC : SVG_MOBILE;
+      }
+      if (labelEl) {
+        labelEl.textContent = isMobile ? 'Modo PC' : 'Modo Mobile';
+      }
+    }
+
+    function toggleViewMode() {
+      state.viewMode = state.viewMode === 'mobile' ? 'pc' : 'mobile';
+      saveState();
+      applyViewMode();
+      showToast(state.viewMode === 'mobile' ? 'Modo Mobile ativo.' : 'Modo PC ativo.');
+    }
+
     function applyTheme() {
       const theme = state.theme === 'dark' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', theme);
       const meta = document.getElementById('themeColorMeta');
       if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1117' : '#f4f6fa');
-      const btn = document.getElementById('btnTheme');
-      if (btn) {
-        btn.innerHTML = theme === 'dark'
-          ? '☀️ <span class="hide-sm">Dia</span>'
-          : '🌙 <span class="hide-sm">Noite</span>';
+      const iconEl = document.getElementById('themeIcon');
+      const labelEl = document.getElementById('themeLabel');
+      if (iconEl) {
+        iconEl.innerHTML = theme === 'dark' ? SVG_SUN : SVG_MOON;
+      }
+      if (labelEl) {
+        labelEl.textContent = theme === 'dark' ? 'Dia' : 'Noite';
       }
     }
 
@@ -1255,7 +1445,7 @@
       state.fastStart = Date.now();
       saveState();
       renderAll();
-      showToast('Jejum iniciado! Boa jornada.');
+      showToast('Jejum iniciado.');
     }
 
     function triggerMealPhoto() {
@@ -1331,7 +1521,7 @@
       state.fastStart = null;
       saveState();
       renderAll();
-      showToast('Jejum terminado (' + formatDuration(durationMs) + '). Bom apetite!');
+      showToast('Jejum terminado (' + formatDuration(durationMs) + ').');
     }
 
     function openEditStartModal() {
@@ -1371,7 +1561,7 @@
       saveState();
       renderHydration();
       checkHydrationAlert();
-      showToast('+' + ml + ' ml (' + label + ') registados!');
+      showToast('+' + ml + ' ml (' + label + ') registados.');
     }
 
     function undoLastDrink() {
@@ -1430,11 +1620,11 @@
         const msg = nudge.text.replace('{tempo}', tempoStr);
 
         document.getElementById('hydrationAlertMsg').textContent = msg;
-        document.getElementById('hydrationAlertSource').textContent = '📖 Fonte: ' + nudge.source;
+        document.getElementById('hydrationAlertSource').textContent = 'Fonte: ' + nudge.source;
         banner.classList.add('show');
 
         if ('Notification' in window && Notification.permission === 'granted' && (now - (state.lastNotifAt || 0) > 30 * 60 * 1000)) {
-          new Notification('Papparoca 💧', { body: msg + ' (' + nudge.source + ')' });
+          new Notification('Papparoca', { body: msg + ' (' + nudge.source + ')' });
           state.lastNotifAt = now;
           saveState();
         }
@@ -1453,12 +1643,17 @@
     function renderControls() {
       const wrap = document.getElementById('fastingControls');
       if (!state.isFasting) {
-        wrap.innerHTML = '<button class="btn btn-primary" onclick="startFast()">🚀 Iniciar Jejum Agora</button>';
+        wrap.innerHTML =
+          '<button class="btn btn-primary" onclick="startFast()">' +
+          '<svg class="ico" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>' +
+          'Iniciar Jejum Agora</button>';
       } else {
         wrap.innerHTML =
-          '<button class="btn btn-photo" onclick="triggerMealPhoto()">📸 Fotografar Refeição &amp; Quebrar Jejum</button>' +
+          '<button class="btn btn-photo" onclick="triggerMealPhoto()">' +
+          SVG_CAMERA +
+          'Fotografar Refeição &amp; Quebrar Jejum</button>' +
           '<div class="action-row-2">' +
-          '<button class="btn btn-ghost" onclick="openEditStartModal()">⏰ Ajustar início</button>' +
+          '<button class="btn btn-ghost" onclick="openEditStartModal()">Ajustar início</button>' +
           '<button class="btn btn-ghost" onclick="endFastWithoutPhoto()">Terminar sem foto</button>' +
           '</div>';
       }
@@ -1480,7 +1675,7 @@
         digits.textContent = '00:00:00';
         sub.textContent = 'Objetivo selecionado: ' + state.goalHours + 'h';
         ring.style.strokeDashoffset = RING_CIRCUMFERENCE;
-        ring.style.stroke = '#10b981';
+        ring.style.stroke = '#059669';
         metaStart.textContent = '—';
         metaEnd.textContent = '—';
         renderPhases(-1);
@@ -1501,7 +1696,7 @@
         : 'Faltam ' + formatDuration(goalMs - elapsedMs);
 
       ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
-      ring.style.stroke = pct >= 1 ? '#10b981' : '#f59e0b';
+      ring.style.stroke = pct >= 1 ? '#059669' : '#d97706';
 
       metaStart.textContent = formatShortDate(state.fastStart);
       metaEnd.textContent = formatShortDate(state.fastStart + goalMs);
@@ -1521,15 +1716,15 @@
         document.getElementById('phaseTag').textContent = 'FASE ATUAL • ' + current.range;
         document.getElementById('phaseName').textContent = current.name;
         document.getElementById('phaseDesc').textContent = current.desc;
-        tipBox.innerHTML = '💡 <strong>Dica:</strong> ' + current.tip + '<span class="source-tag">📖 Fonte: ' + current.source + '</span>';
+        tipBox.innerHTML = '<strong>Dica:</strong> ' + current.tip + '<span class="source-tag">Fonte: ' + current.source + '</span>';
       } else {
         phasePill.textContent = 'Janela Alimentar';
         document.getElementById('phaseTag').textContent = 'PREPARAÇÃO & REFEIÇÕES';
         document.getElementById('phaseName').textContent = 'Estás na janela alimentar';
         document.getElementById('phaseDesc').textContent = 'A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).';
         tipBox.innerHTML =
-          '💡 <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.' +
-          '<span class="source-tag">📖 Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>';
+          '<strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.' +
+          '<span class="source-tag">Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>';
       }
 
       timeline.innerHTML = PHASES.map(function (p) {
@@ -1540,7 +1735,7 @@
           '<div>' +
           '<strong style="display:block; margin-bottom:2px;">' + p.name + '</strong>' +
           '<span style="color: var(--muted);">' + p.desc + '</span>' +
-          '<span class="source-tag">📖 ' + p.source + '</span>' +
+          '<span class="source-tag">Fonte: ' + p.source + '</span>' +
           '</div></div>';
       }).join('');
     }
@@ -1589,7 +1784,7 @@
       list.innerHTML = state.history.map(function (item) {
         const media = item.photo
           ? '<img class="history-thumb" src="' + item.photo + '" alt="Refeição" onclick="openLightbox(' + item.id + ')" />'
-          : '<div class="history-no-photo">🍽️</div>';
+          : '<div class="history-no-photo">' + SVG_CAMERA + '</div>';
         const noteHtml = item.note ? '<div class="history-note">' + escapeHtml(item.note) + '</div>' : '';
         return '<div class="history-item">' +
           media +
@@ -1598,7 +1793,7 @@
           '<div class="history-dates">' + formatShortDate(item.start) + ' → ' + formatShortDate(item.end) + '</div>' +
           noteHtml +
           '</div>' +
-          '<button class="del-btn" title="Apagar registo" onclick="deleteHistory(' + item.id + ')">🗑️</button>' +
+          '<button class="del-btn" title="Apagar registo" onclick="deleteHistory(' + item.id + ')">' + SVG_TRASH + '</button>' +
           '</div>';
       }).join('');
     }
@@ -1629,13 +1824,14 @@
       a.download = 'papparoca-backup-' + todayStr() + '.json';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('Backup exportado!');
+      showToast('Backup exportado.');
     }
 
     function openModal(id) { document.getElementById(id).classList.add('open'); }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
     function renderAll() {
+      applyViewMode();
       applyTheme();
       renderGoals();
       renderControls();
@@ -1646,6 +1842,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('btnViewMode').addEventListener('click', toggleViewMode);
       document.getElementById('btnTheme').addEventListener('click', toggleTheme);
       document.getElementById('btnBackup').addEventListener('click', function () { openModal('backupModal'); });
 
@@ -1656,7 +1853,7 @@
         }
         Notification.requestPermission().then(function (perm) {
           if (perm === 'granted') {
-            showToast('Alertas ativados! Aviso-te quando for hora de beber.');
+            showToast('Alertas ativados.');
           } else {
             showToast('Notificações bloqueadas — os alertas continuam a aparecer dentro da app.');
           }
@@ -1683,10 +1880,11 @@
           try {
             const imported = JSON.parse(ev.target.result);
             state = Object.assign(defaultState(), imported);
+            if (!state.viewMode) state.viewMode = detectDeviceViewMode();
             saveState();
             closeModal('backupModal');
             renderAll();
-            showToast('Backup importado com sucesso!');
+            showToast('Backup importado.');
           } catch (err) {
             showToast('Ficheiro inválido.');
           }
