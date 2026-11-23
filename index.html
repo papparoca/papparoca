@@ -3,535 +3,1686 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Papparoca — Registo de Jejum & Refeições</title>
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="vitals">
+  <title>Papparoca — Registo de Jejum, Hidratação &amp; Refeições</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: #111827;
-      --card-border: #1f2937;
-      --text: #f9fafb;
-      --text-muted: #9ca3af;
-      --accent: #10b981;
-      --accent-glow: rgba(16, 185, 129, 0.2);
-      --accent-blue: #3b82f6;
-      --danger: #ef4444;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color-scheme: light;
+
+      /* 1. Vitals style tokens */
+      --background: #ffffff;
+      --surface-container-low: #f4f7f8;
+      --surface-container: #e3f1f3;
+      --surface-container-high: #d5e9ec;
+
+      --on-surface: #1b2b33;
+      --on-surface-variant: #46585f;
+
+      --outline: #7b9198;
+      --outline-variant: #d5e3e5;
+
+      --primary: #0f7c8a;
+      --primary-hover: #0b6470;
+      --on-primary: #ffffff;
+      --primary-container: #e3f1f3;
+      --on-primary-container: #0a5560;
+      --secondary: #1d5e3a;
+      --tertiary: #2e7d4f;
+      --error: #b3261e;
+      --error-hover: #931d16;
+      --on-error: #ffffff;
+
+      --data-1: #0f7c8a;
+      --data-2: #2e7d4f;
+      --data-3: #b86e00;
+      --data-4: #5c5fb0;
+      --data-context: #b8c7ca;
+
+      --font-headline: 'Figtree', sans-serif;
+      --font-body: 'Atkinson Hyperlegible', sans-serif;
+      --font-label: 'Figtree', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+
+      --rounded: 0.625rem;
+      --rounded-lg: 0.875rem;
+      --rounded-full: 9999px;
+
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
+
+      /* 2. Requested hydration blue & clean off-white canvas */
+      --page-wash: #f4f6f7;
+      --hydration-blue: #0369a1;
+      --hydration-blue-hover: #075985;
+      --hydration-bar: #0284c7;
+      --hydration-track: #e0f2fe;
+      --on-hydration-container: #075985;
+
+      /* 3. Shared tokens */
+      --positive: var(--tertiary);
+      --warning: #b86e00;
+      --focus: var(--primary);
+
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-family);
-      padding: 16px;
-      display: flex;
-      justify-content: center;
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--page-wash);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-shell {
+      border-top: var(--top-bar);
       min-height: 100vh;
     }
-    .container {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    header {
-      text-align: center;
-      padding: 8px 0;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-    header p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 2px;
-    }
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    }
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .svg-icon {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-    
-    /* SECÇÃO JEJUM */
-    .fasting-container {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-    }
-    .vertical-bar-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-    .vertical-bar-track {
-      width: 18px;
-      height: 160px;
-      background: #1f2937;
-      border-radius: 9px;
-      position: relative;
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
       overflow: hidden;
-      border: 1px solid #374151;
     }
-    .vertical-bar-fill {
-      width: 100%;
-      background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border-radius: 8px;
-      transition: height 0.5s ease;
-      box-shadow: 0 0 12px var(--accent-glow);
+
+    .page-grid * {
+      min-width: 0;
     }
-    .vertical-bar-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-    .fasting-info {
-      flex: 1;
+
+    header {
+      position: static !important;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .timer-display {
-      font-size: 2.1rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      color: var(--text);
-      letter-spacing: -0.03em;
-    }
-    .fasting-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-    .stat-row {
-      display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
     }
-    .stat-val {
-      color: var(--text);
-      font-weight: 500;
+
+    .brand-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--display-size);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin: 0;
+      color: var(--on-surface);
     }
-    .btn-group {
+
+    .brand-subtitle {
+      margin: var(--space-xs) 0 0 0;
+      font-size: var(--subhead-size);
+      color: var(--on-surface-variant);
+      max-width: 60ch;
+    }
+
+    .header-meta {
       display: flex;
-      gap: 8px;
-      margin-top: 6px;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
     }
-    button {
-      flex: 1;
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
+
+    .date-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      background: var(--background);
+      border: var(--card-border);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
     }
-    .btn-primary {
-      background: var(--accent);
-      color: #064e3b;
-    }
-    .btn-primary:hover { background: #059669; color: #fff; }
-    .btn-danger {
-      background: #271216;
-      border: 1px solid #7f1d1d;
-      color: #f87171;
-    }
-    .btn-danger:hover { background: var(--danger); color: #fff; }
 
-    /* SECÇÃO HIDRATAÇÃO (LOGO APÓS O JEJUM) */
-    .hydration-container {
+    /* Main 2-column asymmetric workspace */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .section-stack {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    /* Cards with Vitals status accent bar + soft shadow */
+    .status-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--card-lift);
+      padding: var(--space-lg);
+      transition: border-color var(--dur-short) var(--ease-out);
+    }
+
+    .status-card[data-status="ok"] {
+      border-left-color: var(--tertiary);
+    }
+
+    .status-card[data-status="hydration"] {
+      border-left-color: var(--hydration-bar);
+    }
+
+    .status-card[data-status="alert"] {
+      border-left-color: var(--error);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+
+    .kicker {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-xs) 0;
+    }
+
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      margin: 0;
+      color: var(--on-surface);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
+      white-space: nowrap;
+    }
+
+    .chip[data-status="ok"] {
+      background: color-mix(in srgb, var(--tertiary) 14%, var(--background));
+      color: var(--secondary);
+    }
+
+    .chip[data-status="info"] {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .chip[data-status="blue"] {
+      background: var(--hydration-track);
+      color: var(--on-hydration-container);
+    }
+
+    .chip[data-status="alert"] {
+      background: color-mix(in srgb, var(--error) 10%, var(--background));
+      color: var(--error);
+    }
+
+    /* Section 1: Fasting Clock & 24h Vertical Progress Bar */
+    .fasting-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .fasting-main {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      justify-content: space-between;
+      gap: var(--space-md);
     }
-    .hydration-header {
+
+    .clock-display-wrap {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+    }
+
+    .clock-label {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+
+    .clock-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: clamp(2.125rem, 1.6rem + 2vw, 3rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .start-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    .start-info-item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .autophagy-panel {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border: 1px solid var(--outline-variant);
+      transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+    }
+
+    .autophagy-panel[data-active="true"] {
+      background: color-mix(in srgb, var(--tertiary) 12%, var(--background));
+      color: var(--secondary);
+      border-color: color-mix(in srgb, var(--tertiary) 35%, var(--outline-variant));
+    }
+
+    .autophagy-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      margin: 0 0 2px 0;
+    }
+
+    .autophagy-desc {
+      margin: 0;
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+
+    .fasting-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .adjust-start-box {
+      display: none;
+      gap: var(--space-sm);
+      align-items: end;
+      flex-wrap: wrap;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+    }
+
+    .adjust-start-box.is-open {
+      display: flex;
+    }
+
+    /* Vertical 24h Progress Bar */
+    .vertical-meter-panel {
+      display: flex;
+      gap: var(--space-md);
+      align-items: stretch;
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      min-height: 310px;
+    }
+
+    .vertical-track-wrap {
+      position: relative;
+      width: 42px;
+      min-height: 270px;
+      background: var(--background);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Target reference-range band (16h-24h Autophagy Zone) */
+    .autophagy-zone-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 33.3333%;
+      background: color-mix(in srgb, var(--tertiary) 12%, var(--background));
+      border-bottom: 1.5px dashed var(--tertiary);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vertical-fill {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0%;
+      background: var(--primary);
+      transition: height var(--dur-long) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+      z-index: 2;
+    }
+
+    .vertical-fill[data-autophagy="true"] {
+      background: var(--tertiary);
+    }
+
+    .vertical-scale {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 118px;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      padding: 2px 0;
+    }
+
+    .scale-mark {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .scale-mark strong {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+
+    .scale-mark.is-autophagy strong {
+      color: var(--secondary);
+    }
+
+    .scale-mark.is-autophagy span {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* Section 2: Hydration Manager */
+    .hydration-summary {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-    }
-    .hydration-total {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-    }
-    .hydration-target {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-    .progress-track {
-      height: 8px;
-      background: #1f2937;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--accent-blue);
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-    .hydration-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr) auto;
-      gap: 8px;
-    }
-    .btn-water {
-      background: #172554;
-      border: 1px solid #1e3a8a;
-      color: #93c5fd;
-      padding: 8px 6px;
-      font-size: 0.78rem;
-      border-radius: 8px;
-    }
-    .btn-water:hover { background: #1d4ed8; color: #fff; }
-    .btn-reset {
-      background: #1f2937;
-      color: var(--text-muted);
-      border: 1px solid #374151;
-      padding: 8px 10px;
-      border-radius: 8px;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
     }
 
-    /* SECÇÃO REFEIÇÕES */
-    .meal-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .hydration-figure {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      color: var(--on-surface);
+      margin: 0;
     }
-    input[type="text"], input[type="file"] {
+
+    .hydration-goal-text {
+      font-family: var(--font-mono);
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+    }
+
+    .hydration-bar-track {
+      position: relative;
       width: 100%;
-      background: #1f2937;
-      border: 1px solid #374151;
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
+      height: 18px;
+      background: var(--hydration-track);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      border: 1px solid var(--outline-variant);
+      margin-bottom: var(--space-xs);
     }
-    .btn-secondary {
-      background: #374151;
-      color: var(--text);
+
+    .hydration-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--hydration-bar);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-out);
     }
-    .btn-secondary:hover { background: #4b5563; }
-    .meal-list {
+
+    .hydration-subrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-md);
+    }
+
+    .hydration-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quick-add-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    /* Section 3: Meal Log */
+    .meal-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: var(--space-md);
+      align-items: end;
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-lg);
+    }
+
+    .field-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
+      gap: var(--space-xs);
     }
-    .meal-item {
-      display: flex;
-      gap: 12px;
+
+    .field-label {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--on-surface);
+    }
+
+    .text-input,
+    .select-input,
+    .time-input {
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      background: var(--background);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      transition: border-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+
+    .select-input {
+      padding-right: var(--space-xl);
+      width: auto;
+    }
+
+    .text-input:focus-visible,
+    .select-input:focus-visible,
+    .time-input:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .photo-preview-bar {
+      display: none;
       align-items: center;
-      background: #1a2234;
-      border: 1px solid #283548;
-      padding: 8px 12px;
-      border-radius: 10px;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      margin-top: calc(-1 * var(--space-sm));
+      margin-bottom: var(--space-md);
+      background: var(--primary-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
     }
-    .meal-thumb {
-      width: 44px;
-      height: 44px;
-      border-radius: 6px;
+
+    .photo-preview-bar.is-visible {
+      display: flex;
+    }
+
+    .preview-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--rounded);
       object-fit: cover;
-      background: #111827;
-      border: 1px solid #374151;
+      border: 1px solid var(--outline);
+      background: var(--background);
+      flex-shrink: 0;
     }
-    .meal-details {
+
+    .form-feedback {
+      font-size: 0.875rem;
+      min-height: 1.25em;
+      margin: calc(-1 * var(--space-sm)) 0 var(--space-md) 0;
+      color: var(--error);
+    }
+
+    .meal-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .meal-item {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: var(--space-md);
+      align-items: center;
+      padding: var(--space-md);
+      background: var(--background);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .meal-item:hover {
+      background: var(--surface-container-low);
+    }
+
+    .meal-thumb-box {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--on-surface-variant);
+      flex-shrink: 0;
+    }
+
+    .meal-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .meal-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .meal-desc {
+      margin: 0;
+      font-weight: 700;
+      color: var(--on-surface);
+      overflow-wrap: break-word;
+    }
+
+    .meal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    .empty-state {
+      text-align: left;
+      padding: var(--space-lg);
+      background: var(--surface-container-low);
+      border: 1px dashed var(--outline);
+      border-radius: var(--rounded);
+      color: var(--on-surface-variant);
+    }
+
+    .empty-state-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+
+    .hydration-goal-control {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .clinical-note-text {
+      margin: 0;
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+    }
+
+    .preview-info {
       flex: 1;
     }
-    .meal-name {
-      font-size: 0.88rem;
+
+    .preview-name {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .preview-hint {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    .empty-state-desc {
+      margin: 0;
+      font-size: 0.9375rem;
+    }
+
+    .is-hidden {
+      display: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-label);
       font-weight: 600;
-    }
-    .meal-time {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-    .meal-del {
-      background: none;
-      border: none;
-      color: #6b7280;
-      padding: 4px;
+      font-size: 0.9375rem;
+      line-height: 1.2;
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
       cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
     }
-    .meal-del:hover { color: #f87171; }
+
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--background);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container-low);
+    }
+
+    .btn-blue {
+      background: var(--hydration-track);
+      color: var(--hydration-blue);
+      border-color: var(--hydration-bar);
+    }
+
+    .btn-blue:hover:not(:disabled) {
+      background: var(--hydration-blue);
+      color: var(--on-primary);
+    }
+
+    .btn-ghost {
+      background: var(--background);
+      color: var(--on-surface-variant);
+      border-color: var(--outline);
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+
+    .btn-danger-outline {
+      background: var(--background);
+      color: var(--error);
+      border-color: var(--outline-variant);
+    }
+
+    .btn-danger-outline:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--error) 8%, var(--background));
+      border-color: var(--error);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .icon-sm {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .fast-history-note {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+    }
+
+    .footer-note {
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--outline-variant);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    @media (max-width: 900px) {
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
+      .meal-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-md);
+      }
+      .status-card {
+        padding: var(--space-md);
+      }
+      .fasting-layout {
+        grid-template-columns: 1fr;
+      }
+      .vertical-meter-panel {
+        min-height: 220px;
+      }
+      .vertical-track-wrap {
+        min-height: 190px;
+      }
+      .meal-item {
+        grid-template-columns: 56px minmax(0, 1fr);
+      }
+      .meal-item .btn-delete-meal {
+        grid-column: 1 / -1;
+        justify-self: end;
+      }
+      .meal-thumb-box {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Papparoca</h1>
-      <p>Registo de Jejum & Diário Metabólico</p>
-    </header>
+  <div class="page-shell">
+    <main class="page-grid">
+      <header>
+        <div>
+          <h1 class="brand-title">Papparoca</h1>
+          <p class="brand-subtitle">Registo de Jejum, Hidratação &amp; Refeições</p>
+        </div>
+        <div class="header-meta">
+          <span class="date-pill" id="header-date-pill">
+            <i data-lucide="calendar" class="icon-sm" aria-hidden="true"></i>
+            <span id="header-date-text">Hoje</span>
+          </span>
+        </div>
+      </header>
 
-    <!-- SECÇÃO 1: JEJUM COM BARRA VERTICAL 24H -->
-    <div class="card">
-      <div class="card-title">
-        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Registo de Jejum
-      </div>
-      <div class="fasting-container">
-        <div class="vertical-bar-container">
-          <div class="vertical-bar-track">
-            <div class="vertical-bar-fill" id="barFill" style="height: 0%;"></div>
-          </div>
-          <div class="vertical-bar-label">24h</div>
-        </div>
-        <div class="fasting-info">
-          <div class="timer-display" id="timer">00:00:00</div>
-          <div class="fasting-stats">
-            <div class="stat-row">
-              <span>Início:</span>
-              <span class="stat-val" id="startTimeLabel">—</span>
+      <div class="workspace-grid">
+        <!-- SECÇÃO 1: RELÓGIO E REGISTO DE JEJUM -->
+        <section class="status-card" id="fasting-card" data-status="info" aria-labelledby="fasting-heading">
+          <div class="card-header">
+            <div>
+              <p class="kicker">Secção 1 · Metabolismo</p>
+              <h2 class="section-heading" id="fasting-heading">Relógio e Registo de Jejum</h2>
             </div>
-            <div class="stat-row">
-              <span>Autofagia (~16h):</span>
-              <span class="stat-val" id="autophagyStatus">Inativo</span>
-            </div>
+            <span class="chip" id="fasting-status-chip" data-status="info">Em repouso</span>
           </div>
-          <div class="btn-group">
-            <button class="btn-primary" id="startBtn" onclick="startFast()">
-              <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Iniciar
-            </button>
-            <button class="btn-danger" id="stopBtn" onclick="stopFast()" style="display:none;">
-              <svg class="svg-icon" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg>
-              Terminar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- SECÇÃO 2: GESTOR DE HIDRATAÇÃO (IMEDIATAMENTE A SEGUIR AO JEJUM) -->
-    <div class="card">
-      <div class="card-title">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-        Hidratação Diária
+          <div class="fasting-layout">
+            <div class="fasting-main">
+              <div class="clock-display-wrap">
+                <div class="clock-label">Tempo decorrido de jejum</div>
+                <p class="clock-value" id="fasting-timer" aria-live="polite">00:00:00</p>
+                <div class="start-info-row">
+                  <span class="start-info-item">
+                    <i data-lucide="clock" class="icon-sm" aria-hidden="true"></i>
+                    <span id="fasting-start-label">Início: não iniciado</span>
+                  </span>
+                  <span class="start-info-item" id="fasting-pct-label">0% de 24h</span>
+                </div>
+              </div>
+
+              <div class="autophagy-panel" id="autophagy-banner" data-active="false">
+                <i data-lucide="sparkles" class="icon-sm" aria-hidden="true"></i>
+                <div>
+                  <p class="autophagy-title" id="autophagy-title">Marco biológico: Autofagia (16h)</p>
+                  <p class="autophagy-desc" id="autophagy-desc">
+                    Inicie o jejum para acompanhar a transição energética. Após 16 horas, a sinalização de reciclagem celular (autofagia) intensifica-se.
+                  </p>
+                </div>
+              </div>
+
+              <div class="fasting-controls">
+                <button type="button" class="btn btn-primary" id="btn-start-fast" onclick="startFast()">
+                  <i data-lucide="play" class="icon-sm" aria-hidden="true"></i>
+                  Iniciar Jejum
+                </button>
+                <button type="button" class="btn btn-danger-outline" id="btn-end-fast" onclick="endFast()" disabled>
+                  <i data-lucide="square" class="icon-sm" aria-hidden="true"></i>
+                  Terminar Jejum
+                </button>
+                <button type="button" class="btn btn-ghost is-hidden" id="btn-toggle-adjust" onclick="toggleAdjustStart()">
+                  <i data-lucide="sliders-horizontal" class="icon-sm" aria-hidden="true"></i>
+                  Ajustar início
+                </button>
+              </div>
+
+              <div class="adjust-start-box" id="adjust-start-box">
+                <div class="field-group">
+                  <label class="field-label" for="adjust-start-time">Hora de início (hoje/ontem)</label>
+                  <input type="datetime-local" id="adjust-start-time" class="time-input">
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="applyAdjustedStart()">Aplicar hora</button>
+              </div>
+
+              <div class="fast-history-note" id="last-fast-note" aria-live="polite"></div>
+            </div>
+
+            <!-- Barra vertical de progresso de 24 horas (enche de baixo para cima) -->
+            <div class="vertical-meter-panel" aria-label="Progresso vertical de jejum até 24 horas">
+              <div class="vertical-track-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="fasting-progressbar">
+                <div class="autophagy-zone-band" title="Zona de Autofagia (16h – 24h)"></div>
+                <div class="vertical-fill" id="fasting-vertical-fill" data-autophagy="false"></div>
+              </div>
+              <div class="vertical-scale">
+                <div class="scale-mark is-autophagy">
+                  <strong>24h</strong>
+                  <span>Pico de renovação</span>
+                </div>
+                <div class="scale-mark is-autophagy">
+                  <strong>16h · Autofagia</strong>
+                  <span>Marco biológico</span>
+                </div>
+                <div class="scale-mark">
+                  <strong>12h</strong>
+                  <span>Cetose incipiente</span>
+                </div>
+                <div class="scale-mark">
+                  <strong>4h</strong>
+                  <span>Fase pós-absortiva</span>
+                </div>
+                <div class="scale-mark">
+                  <strong>0h</strong>
+                  <span>Início do jejum</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECÇÃO 2: GESTOR DE HIDRATAÇÃO (logo a seguir ao Jejum e antes das Refeições) -->
+        <div class="section-stack">
+          <section class="status-card" id="hydration-card" data-status="hydration" aria-labelledby="hydration-heading">
+            <div class="card-header">
+              <div>
+                <p class="kicker">Secção 2 · Equilíbrio Hídrico</p>
+                <h2 class="section-heading" id="hydration-heading">Gestor de Hidratação</h2>
+              </div>
+              <span class="chip" id="hydration-chip" data-status="blue">0% da meta</span>
+            </div>
+
+            <div class="hydration-summary">
+              <p class="hydration-figure" id="hydration-current">0 ml</p>
+              <span class="hydration-goal-text">Meta: <strong id="hydration-goal-label">2500 ml</strong></span>
+            </div>
+
+            <div class="hydration-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="2500" aria-valuenow="0" id="hydration-progressbar">
+              <div class="hydration-bar-fill" id="hydration-bar-fill"></div>
+            </div>
+
+            <div class="hydration-subrow">
+              <span id="hydration-remaining">Faltam 2500 ml para atingir a meta diária.</span>
+              <div class="field-group hydration-goal-control">
+                <label class="field-label" for="hydration-goal-select">Meta diária</label>
+                <select id="hydration-goal-select" class="select-input" onchange="changeHydrationGoal(this.value)">
+                  <option value="1500">1500 ml</option>
+                  <option value="2000">2000 ml</option>
+                  <option value="2500" selected>2500 ml</option>
+                  <option value="3000">3000 ml</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="hydration-actions">
+              <div class="quick-add-group">
+                <button type="button" class="btn btn-blue" onclick="addWater(200)">
+                  <i data-lucide="droplet" class="icon-sm" aria-hidden="true"></i>
+                  +200 ml
+                </button>
+                <button type="button" class="btn btn-blue" onclick="addWater(300)">
+                  <i data-lucide="droplets" class="icon-sm" aria-hidden="true"></i>
+                  +300 ml
+                </button>
+                <button type="button" class="btn btn-blue" onclick="addWater(500)">
+                  <i data-lucide="glass-water" class="icon-sm" aria-hidden="true"></i>
+                  +500 ml
+                </button>
+              </div>
+              <button type="button" class="btn btn-ghost" id="btn-reset-water" onclick="resetWater()">
+                <i data-lucide="rotate-ccw" class="icon-sm" aria-hidden="true"></i>
+                Repor
+              </button>
+            </div>
+          </section>
+
+          <section class="status-card" data-status="info" aria-label="Nota fisiológica">
+            <p class="kicker">Referência Clínica</p>
+            <p class="clinical-note-text">
+              Durante o jejum, água simples, chá ou café sem açúcar mantêm a hidratação cerebral e celular sem interromper a descida da insulina. Ao quebrar o jejum, privilegie alimentos naturais não processados, sem glúten, caseína ou açúcares refinados.
+            </p>
+          </section>
+        </div>
       </div>
-      <div class="hydration-container">
-        <div class="hydration-header">
-          <div class="hydration-total"><span id="waterTotal">0</span> <span style="font-size:0.85rem; font-weight:normal; color:var(--text-muted);">ml</span></div>
-          <div class="hydration-target">Meta: 2500 ml</div>
+
+      <!-- SECÇÃO 3: DIÁRIO DE REFEIÇÕES -->
+      <section class="status-card" id="meals-card" data-status="info" aria-labelledby="meals-heading">
+        <div class="card-header">
+          <div>
+            <p class="kicker">Secção 3 · Registo Alimentar</p>
+            <h2 class="section-heading" id="meals-heading">Diário de Refeições</h2>
+          </div>
+          <span class="chip" id="meals-count-chip" data-status="info">0 refeições</span>
         </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="waterProgress" style="width: 0%;"></div>
-        </div>
-        <div class="hydration-actions">
-          <button class="btn-water" onclick="addWater(200)">+200 ml</button>
-          <button class="btn-water" onclick="addWater(300)">+300 ml</button>
-          <button class="btn-water" onclick="addWater(500)">+500 ml</button>
-          <button class="btn-reset" onclick="resetWater()" title="Repor contador">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+
+        <form class="meal-form" onsubmit="handleMealSubmit(event)" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="meal-description">Descrição do prato consumido</label>
+            <input type="text" id="meal-description" class="text-input" placeholder="Ex.: Salmão grelhado com brócolos ao vapor e azeite virgem extra" maxlength="180" required>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="meal-photo-input">Fotografia (opcional)</label>
+            <input type="file" id="meal-photo-input" class="sr-only" accept="image/*" capture="environment" onchange="handlePhotoSelected(event)">
+            <label for="meal-photo-input" class="btn btn-secondary" tabindex="0" onkeydown="handlePhotoLabelKey(event)">
+              <i data-lucide="camera" class="icon-sm" aria-hidden="true"></i>
+              <span id="photo-btn-label">Carregar foto</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="plus" class="icon-sm" aria-hidden="true"></i>
+            Registar Refeição
+          </button>
+        </form>
+
+        <div class="photo-preview-bar" id="photo-preview-bar">
+          <img id="photo-preview-img" class="preview-thumb" alt="Pré-visualização da refeição selecionada">
+          <div class="preview-info">
+            <strong id="photo-preview-name" class="preview-name">Foto pronta a registar</strong>
+            <span class="preview-hint">A miniatura será exibida no diário cronológico.</span>
+          </div>
+          <button type="button" class="btn btn-ghost" onclick="clearPendingPhoto()">
+            <i data-lucide="x" class="icon-sm" aria-hidden="true"></i>
+            Remover
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- SECÇÃO 3: REFEIÇÕES -->
-    <div class="card">
-      <div class="card-title">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-        Registo de Refeições
-      </div>
-      <div class="meal-input-group">
-        <input type="text" id="mealDesc" placeholder="Descrição do prato (ex: Ovos, salada...)">
-        <input type="file" id="mealPhoto" accept="image/*" capture="environment">
-        <button class="btn-secondary" onclick="addMeal()">
-          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Registar Prato
-        </button>
-      </div>
-      <div class="meal-list" id="mealList"></div>
-    </div>
+        <div class="form-feedback" id="meal-form-feedback" role="status" aria-live="polite"></div>
+
+        <ul class="meal-list" id="meal-list" aria-label="Lista cronológica das refeições registadas"></ul>
+
+        <div class="empty-state" id="meals-empty-state">
+          <p class="empty-state-title">Sem refeições registadas</p>
+          <p class="empty-state-desc">
+            Introduza a descrição do prato acima e adicione opcionalmente uma fotografia da câmara ou galeria para manter o histórico cronológico das suas refeições.
+          </p>
+        </div>
+      </section>
+
+      <footer class="footer-note">
+        <span>Papparoca · Ferramenta de acompanhamento pessoal de jejum, hidratação e nutrição.</span>
+        <span>Referências: Manuel Pinto Coelho (Chegar Novo a Velho; O Segredo do Sistema Imunitário) e síntese clínica sobre autofagia (NIH / Cleveland Clinic).</span>
+      </footer>
+    </main>
   </div>
 
-  <script>
-    // --- ESTADO & PERSISTÊNCIA ---
-    let fastStartTime = localStorage.getItem('fastStartTime') ? parseInt(localStorage.getItem('fastStartTime')) : null;
-    let waterAmount = localStorage.getItem('waterAmount') ? parseInt(localStorage.getItem('waterAmount')) : 0;
-    let meals = localStorage.getItem('meals') ? JSON.parse(localStorage.getItem('meals')) : [];
+  <api-shim></api-shim>
 
-    function saveState() {
-      if (fastStartTime) localStorage.setItem('fastStartTime', fastStartTime);
-      else localStorage.removeItem('fastStartTime');
-      localStorage.setItem('waterAmount', waterAmount);
-      localStorage.setItem('meals', JSON.stringify(meals));
+  <script>
+    const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+    const AUTOPHAGY_HOURS = 16;
+    const AUTOPHAGY_MS = AUTOPHAGY_HOURS * 60 * 60 * 1000;
+
+    let appState = {
+      fasting: {
+        active: false,
+        startTime: null,
+        lastDurationMs: null,
+        lastEndedAt: null
+      },
+      hydration: {
+        currentMl: 0,
+        goalMl: 2500
+      },
+      meals: []
+    };
+
+    // In-memory session map for live photo ObjectURLs (never persisted as binary blobs)
+    const sessionPhotoUrls = new Map();
+    let pendingPhoto = null;
+    let timerIntervalId = null;
+
+    function pad2(n) {
+      return String(n).padStart(2, '0');
     }
 
-    // --- JEJUM & RELÓGIO VERTICAL 24H ---
-    function updateFast() {
-      if (!fastStartTime) {
-        document.getElementById('timer').innerText = "00:00:00";
-        document.getElementById('barFill').style.height = "0%";
-        document.getElementById('startTimeLabel').innerText = "—";
-        document.getElementById('autophagyStatus').innerText = "Inativo";
-        document.getElementById('autophagyStatus').style.color = "var(--text-muted)";
-        document.getElementById('startBtn').style.display = "inline-flex";
-        document.getElementById('stopBtn').style.display = "none";
-        return;
+    function formatHMS(ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return `${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
+    }
+
+    function formatShortDateTime(timestamp) {
+      const d = new Date(timestamp);
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())} · ${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}`;
+    }
+
+    function formatHeaderDate() {
+      const now = new Date();
+      const months = [
+        `jan`, `fev`, `mar`, `abr`, `mai`, `jun`,
+        `jul`, `ago`, `set`, `out`, `nov`, `dez`
+      ];
+      return `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    function toLocalInputValue(timestamp) {
+      const d = new Date(timestamp);
+      const y = d.getFullYear();
+      const m = pad2(d.getMonth() + 1);
+      const day = pad2(d.getDate());
+      const hh = pad2(d.getHours());
+      const mm = pad2(d.getMinutes());
+      return `${y}-${m}-${day}T${hh}:${mm}`;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        // Ignore persistence errors gracefully in standalone preview
+      }
+    }
+
+    function renderIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    /* ---------------- SECÇÃO 1: JEJUM ---------------- */
+
+    function updateFastingUI() {
+      const timerEl = document.getElementById('fasting-timer');
+      const startLabelEl = document.getElementById('fasting-start-label');
+      const pctLabelEl = document.getElementById('fasting-pct-label');
+      const fillEl = document.getElementById('fasting-vertical-fill');
+      const progressEl = document.getElementById('fasting-progressbar');
+      const chipEl = document.getElementById('fasting-status-chip');
+      const cardEl = document.getElementById('fasting-card');
+      const bannerEl = document.getElementById('autophagy-banner');
+      const autoTitleEl = document.getElementById('autophagy-title');
+      const autoDescEl = document.getElementById('autophagy-desc');
+      const btnStart = document.getElementById('btn-start-fast');
+      const btnEnd = document.getElementById('btn-end-fast');
+      const btnAdjust = document.getElementById('btn-toggle-adjust');
+      const lastFastNoteEl = document.getElementById('last-fast-note');
+
+      if (!timerEl || !fillEl || !cardEl) return;
+
+      if (appState.fasting.active && typeof appState.fasting.startTime === 'number') {
+        const elapsedMs = Math.max(0, Date.now() - appState.fasting.startTime);
+        const elapsedHours = elapsedMs / (60 * 60 * 1000);
+        const pct24 = Math.min(100, (elapsedMs / TWENTY_FOUR_HOURS_MS) * 100);
+        const isAutophagy = elapsedMs >= AUTOPHAGY_MS;
+
+        timerEl.textContent = formatHMS(elapsedMs);
+        if (startLabelEl) startLabelEl.textContent = `Início: ${formatShortDateTime(appState.fasting.startTime)}`;
+        if (pctLabelEl) pctLabelEl.textContent = `${Math.round(pct24)}% de 24h`;
+
+        fillEl.style.height = `${pct24.toFixed(2)}%`;
+        fillEl.dataset.autophagy = isAutophagy ? 'true' : 'false';
+        if (progressEl) progressEl.setAttribute('aria-valuenow', elapsedHours.toFixed(1));
+
+        if (isAutophagy) {
+          cardEl.dataset.status = 'ok';
+          if (chipEl) {
+            chipEl.dataset.status = 'ok';
+            chipEl.textContent = `Autofagia ativa · 16h+`;
+          }
+          if (bannerEl) bannerEl.dataset.active = 'true';
+          if (autoTitleEl) autoTitleEl.textContent = `Autofagia biológica ativada (≥ 16h)`;
+          if (autoDescEl) {
+            autoDescEl.textContent = `Ultrapassou o marco das 16 horas. O organismo acelera a reciclagem celular e a oxidação lipídica.`;
+          }
+        } else {
+          const remainingMs = AUTOPHAGY_MS - elapsedMs;
+          const remHours = Math.floor(remainingMs / 3600000);
+          const remMinutes = Math.floor((remainingMs % 3600000) / 60000);
+          cardEl.dataset.status = 'info';
+          if (chipEl) {
+            chipEl.dataset.status = 'info';
+            chipEl.textContent = `Em jejum`;
+          }
+          if (bannerEl) bannerEl.dataset.active = 'false';
+          if (autoTitleEl) autoTitleEl.textContent = `Marco biológico: Autofagia (16h)`;
+          if (autoDescEl) {
+            autoDescEl.textContent = `Faltam ${remHours}h ${pad2(remMinutes)}m para atingir o marco de 16 horas e ativar a autofagia.`;
+          }
+        }
+
+        if (btnStart) btnStart.disabled = true;
+        if (btnEnd) btnEnd.disabled = false;
+        if (btnAdjust) btnAdjust.classList.remove('is-hidden');
+      } else {
+        timerEl.textContent = `00:00:00`;
+        if (startLabelEl) startLabelEl.textContent = `Início: não iniciado`;
+        if (pctLabelEl) pctLabelEl.textContent = `0% de 24h`;
+        fillEl.style.height = `0%`;
+        fillEl.dataset.autophagy = 'false';
+        if (progressEl) progressEl.setAttribute('aria-valuenow', '0');
+
+        cardEl.dataset.status = 'info';
+        if (chipEl) {
+          chipEl.dataset.status = 'info';
+          chipEl.textContent = `Em repouso`;
+        }
+        if (bannerEl) bannerEl.dataset.active = 'false';
+        if (autoTitleEl) autoTitleEl.textContent = `Marco biológico: Autofagia (16h)`;
+        if (autoDescEl) {
+          autoDescEl.textContent = `Inicie o jejum para acompanhar a transição energética. Após 16 horas, a sinalização de reciclagem celular (autofagia) intensifica-se.`;
+        }
+
+        if (btnStart) btnStart.disabled = false;
+        if (btnEnd) btnEnd.disabled = true;
+        if (btnAdjust) btnAdjust.classList.add('is-hidden');
+        const adjustBox = document.getElementById('adjust-start-box');
+        if (adjustBox) adjustBox.classList.remove('is-open');
       }
 
-      document.getElementById('startBtn').style.display = "none";
-      document.getElementById('stopBtn').style.display = "inline-flex";
+      if (lastFastNoteEl) {
+        if (appState.fasting.lastDurationMs && appState.fasting.lastEndedAt) {
+          lastFastNoteEl.textContent = `Último jejum concluído: ${formatHMS(appState.fasting.lastDurationMs)} (terminado às ${formatShortDateTime(appState.fasting.lastEndedAt)}).`;
+        } else {
+          lastFastNoteEl.textContent = ``;
+        }
+      }
+    }
 
-      const now = Date.now();
-      const elapsedMs = now - fastStartTime;
-      const totalSec = Math.floor(elapsedMs / 1000);
-
-      const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-      const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-      const s = String(totalSec % 60).padStart(2, '0');
-      document.getElementById('timer').innerText = `${h}:${m}:${s}`;
-
-      // Data de Início
-      const d = new Date(fastStartTime);
-      document.getElementById('startTimeLabel').innerText = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-
-      // Barra vertical de 24 horas (86400 segundos)
-      const pct24 = Math.min(100, (totalSec / 86400) * 100);
-      document.getElementById('barFill').style.height = `${pct24}%`;
-
-      // Alerta de Autofagia (16h = 57600 segundos)
-      const statusEl = document.getElementById('autophagyStatus');
-      if (totalSec >= 57600) {
-        statusEl.innerText = "Ativa (Zona Otimizada)";
-        statusEl.style.color = "var(--accent)";
-      } else {
-        const remainingH = Math.ceil((57600 - totalSec) / 3600);
-        statusEl.innerText = `Em ~${remainingH}h`;
-        statusEl.style.color = "var(--text-muted)";
+    function startFastingTicker() {
+      if (timerIntervalId) clearInterval(timerIntervalId);
+      if (appState.fasting.active) {
+        timerIntervalId = setInterval(updateFastingUI, 1000);
       }
     }
 
     function startFast() {
-      fastStartTime = Date.now();
-      saveState();
-      updateFast();
+      appState.fasting.active = true;
+      appState.fasting.startTime = Date.now();
+      updateFastingUI();
+      startFastingTicker();
+      persistState();
     }
 
-    function stopFast() {
-      if (confirm("Deseja terminar o período de jejum atual?")) {
-        fastStartTime = null;
-        saveState();
-        updateFast();
+    function endFast() {
+      if (!appState.fasting.active) return;
+      const now = Date.now();
+      const duration = Math.max(0, now - (appState.fasting.startTime || now));
+      appState.fasting.active = false;
+      appState.fasting.startTime = null;
+      appState.fasting.lastDurationMs = duration;
+      appState.fasting.lastEndedAt = now;
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+        timerIntervalId = null;
+      }
+      updateFastingUI();
+      persistState();
+    }
+
+    function toggleAdjustStart() {
+      const box = document.getElementById('adjust-start-box');
+      const input = document.getElementById('adjust-start-time');
+      if (!box || !input) return;
+      const isOpen = box.classList.toggle('is-open');
+      if (isOpen && appState.fasting.startTime) {
+        input.value = toLocalInputValue(appState.fasting.startTime);
+        input.max = toLocalInputValue(Date.now());
       }
     }
 
-    setInterval(updateFast, 1000);
-
-    // --- HIDRATAÇÃO ---
-    function renderWater() {
-      document.getElementById('waterTotal').innerText = waterAmount;
-      const pct = Math.min(100, (waterAmount / 2500) * 100);
-      document.getElementById('waterProgress').style.width = `${pct}%`;
+    function applyAdjustedStart() {
+      const input = document.getElementById('adjust-start-time');
+      const box = document.getElementById('adjust-start-box');
+      if (!input || !input.value) return;
+      const parsed = new Date(input.value).getTime();
+      if (!Number.isNaN(parsed) && parsed <= Date.now()) {
+        appState.fasting.startTime = parsed;
+        updateFastingUI();
+        persistState();
+        if (box) box.classList.remove('is-open');
+      }
     }
 
-    function addWater(ml) {
-      waterAmount += ml;
-      saveState();
-      renderWater();
+    /* ---------------- SECÇÃO 2: HIDRATAÇÃO ---------------- */
+
+    function updateHydrationUI() {
+      const currentEl = document.getElementById('hydration-current');
+      const goalLabelEl = document.getElementById('hydration-goal-label');
+      const fillEl = document.getElementById('hydration-bar-fill');
+      const progressEl = document.getElementById('hydration-progressbar');
+      const chipEl = document.getElementById('hydration-chip');
+      const remEl = document.getElementById('hydration-remaining');
+      const cardEl = document.getElementById('hydration-card');
+      const selectEl = document.getElementById('hydration-goal-select');
+
+      const current = appState.hydration.currentMl || 0;
+      const goal = appState.hydration.goalMl || 2500;
+      const pct = Math.min(100, Math.round((current / goal) * 100));
+      const remaining = Math.max(0, goal - current);
+
+      if (currentEl) currentEl.textContent = `${current} ml`;
+      if (goalLabelEl) goalLabelEl.textContent = `${goal} ml`;
+      if (selectEl) selectEl.value = String(goal);
+      if (fillEl) fillEl.style.width = `${pct}%`;
+      if (progressEl) {
+        progressEl.setAttribute('aria-valuemax', String(goal));
+        progressEl.setAttribute('aria-valuenow', String(current));
+      }
+
+      if (current >= goal) {
+        if (cardEl) cardEl.dataset.status = 'ok';
+        if (chipEl) {
+          chipEl.dataset.status = 'ok';
+          chipEl.textContent = `Meta atingida · ${pct}%`;
+        }
+        if (remEl) remEl.textContent = `Objetivo diário de ${goal} ml alcançado.`;
+      } else {
+        if (cardEl) cardEl.dataset.status = 'hydration';
+        if (chipEl) {
+          chipEl.dataset.status = 'blue';
+          chipEl.textContent = `${pct}% da meta`;
+        }
+        if (remEl) remEl.textContent = `Faltam ${remaining} ml para atingir a meta diária.`;
+      }
+    }
+
+    function addWater(amountMl) {
+      appState.hydration.currentMl = (appState.hydration.currentMl || 0) + amountMl;
+      updateHydrationUI();
+      persistState();
     }
 
     function resetWater() {
-      if (confirm("Repor contador de água a zero?")) {
-        waterAmount = 0;
-        saveState();
-        renderWater();
+      appState.hydration.currentMl = 0;
+      updateHydrationUI();
+      persistState();
+    }
+
+    function changeHydrationGoal(newGoal) {
+      const parsed = parseInt(newGoal, 10);
+      if (!Number.isNaN(parsed) && parsed >= 500) {
+        appState.hydration.goalMl = parsed;
+        updateHydrationUI();
+        persistState();
       }
     }
 
-    // --- REFEIÇÕES ---
-    function renderMeals() {
-      const list = document.getElementById('mealList');
-      list.innerHTML = "";
-      meals.forEach((m, idx) => {
-        const item = document.createElement('div');
-        item.className = "meal-item";
-        item.innerHTML = `
-          ${m.photo ? `<img src="${m.photo}" class="meal-thumb">` : `<div class="meal-thumb" style="display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:0.7rem;">S/ foto</div>`}
-          <div class="meal-details">
-            <div class="meal-name">${m.desc}</div>
-            <div class="meal-time">${m.time}</div>
-          </div>
-          <button class="meal-del" onclick="deleteMeal(${idx})" title="Eliminar">
-            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        `;
-        list.appendChild(item);
+    /* ---------------- SECÇÃO 3: DIÁRIO DE REFEIÇÕES ---------------- */
+
+    function processMealPhoto(file) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const tempUrl = URL.createObjectURL(file);
+        img.onload = function () {
+          try {
+            const maxDim = 144;
+            const scale = Math.min(1, maxDim / Math.max(img.width || 1, img.height || 1));
+            const w = Math.max(1, Math.round((img.width || maxDim) * scale));
+            const h = Math.max(1, Math.round((img.height || maxDim) * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            let thumbUrl = '';
+            if (ctx) {
+              ctx.drawImage(img, 0, 0, w, h);
+              thumbUrl = canvas.toDataURL('image/jpeg', 0.72);
+            }
+            resolve({ thumbUrl });
+          } catch (e) {
+            resolve({ thumbUrl: '' });
+          } finally {
+            URL.revokeObjectURL(tempUrl);
+          }
+        };
+        img.onerror = function () {
+          URL.revokeObjectURL(tempUrl);
+          resolve({ thumbUrl: '' });
+        };
+        img.src = tempUrl;
       });
     }
 
-    function addMeal() {
-      const descInput = document.getElementById('mealDesc');
-      const fileInput = document.getElementById('mealPhoto');
-      const desc = descInput.value.trim();
-      if (!desc) { alert("Introduza a descrição da refeição."); return; }
-
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          meals.unshift({ desc: desc, photo: e.target.result, time: timeStr });
-          descInput.value = "";
-          fileInput.value = "";
-          saveState();
-          renderMeals();
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      } else {
-        meals.unshift({ desc: desc, photo: null, time: timeStr });
-        descInput.value = "";
-        saveState();
-        renderMeals();
+    function handlePhotoLabelKey(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        const input = document.getElementById('meal-photo-input');
+        if (input) input.click();
       }
     }
 
-    function deleteMeal(idx) {
-      meals.splice(idx, 1);
-      saveState();
-      renderMeals();
+    async function handlePhotoSelected(event) {
+      const input = event.target;
+      const file = input && input.files ? input.files[0] : null;
+      if (!file) return;
+
+      if (pendingPhoto && pendingPhoto.objectUrl) {
+        URL.revokeObjectURL(pendingPhoto.objectUrl);
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      const processed = await processMealPhoto(file);
+      pendingPhoto = {
+        objectUrl,
+        name: file.name || `Fotografia`,
+        thumbUrl: processed.thumbUrl
+      };
+
+      const previewBar = document.getElementById('photo-preview-bar');
+      const previewImg = document.getElementById('photo-preview-img');
+      const previewName = document.getElementById('photo-preview-name');
+      const btnLabel = document.getElementById('photo-btn-label');
+
+      if (previewImg) previewImg.src = objectUrl;
+      if (previewName) previewName.textContent = pendingPhoto.name;
+      if (previewBar) previewBar.classList.add('is-visible');
+      if (btnLabel) btnLabel.textContent = `Foto selecionada`;
     }
 
-    // Inicialização
-    updateFast();
-    renderWater();
-    renderMeals();
+    function clearPendingPhoto() {
+      const input = document.getElementById('meal-photo-input');
+      const previewBar = document.getElementById('photo-preview-bar');
+      const previewImg = document.getElementById('photo-preview-img');
+      const btnLabel = document.getElementById('photo-btn-label');
+
+      if (pendingPhoto && pendingPhoto.objectUrl) {
+        URL.revokeObjectURL(pendingPhoto.objectUrl);
+      }
+      pendingPhoto = null;
+      if (input) input.value = '';
+      if (previewImg) previewImg.removeAttribute('src');
+      if (previewBar) previewBar.classList.remove('is-visible');
+      if (btnLabel) btnLabel.textContent = `Carregar foto`;
+    }
+
+    function handleMealSubmit(event) {
+      event.preventDefault();
+      const descInput = document.getElementById('meal-description');
+      const feedbackEl = document.getElementById('meal-form-feedback');
+      if (!descInput) return;
+
+      const description = descInput.value.trim();
+      if (!description) {
+        if (feedbackEl) feedbackEl.textContent = `Escreva uma breve descrição do prato antes de registar.`;
+        descInput.focus();
+        return;
+      }
+
+      if (feedbackEl) feedbackEl.textContent = ``;
+
+      const id = `meal-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+      const mealEntry = {
+        id,
+        description,
+        timestamp: Date.now(),
+        hasPhoto: Boolean(pendingPhoto),
+        photoName: pendingPhoto ? pendingPhoto.name : '',
+        photoThumb: pendingPhoto ? pendingPhoto.thumbUrl : ''
+      };
+
+      if (pendingPhoto && pendingPhoto.objectUrl) {
+        sessionPhotoUrls.set(id, pendingPhoto.objectUrl);
+        pendingPhoto = null;
+      }
+
+      appState.meals.push(mealEntry);
+      descInput.value = '';
+
+      const inputEl = document.getElementById('meal-photo-input');
+      const previewBar = document.getElementById('photo-preview-bar');
+      const previewImg = document.getElementById('photo-preview-img');
+      const btnLabel = document.getElementById('photo-btn-label');
+      if (inputEl) inputEl.value = '';
+      if (previewImg) previewImg.removeAttribute('src');
+      if (previewBar) previewBar.classList.remove('is-visible');
+      if (btnLabel) btnLabel.textContent = `Carregar foto`;
+
+      renderMeals();
+      persistState();
+    }
+
+    function deleteMeal(mealId) {
+      const url = sessionPhotoUrls.get(mealId);
+      if (url) {
+        URL.revokeObjectURL(url);
+        sessionPhotoUrls.delete(mealId);
+      }
+      appState.meals = appState.meals.filter((m) => m.id !== mealId);
+      renderMeals();
+      persistState();
+    }
+
+    function renderMeals() {
+      const listEl = document.getElementById('meal-list');
+      const emptyEl = document.getElementById('meals-empty-state');
+      const countChipEl = document.getElementById('meals-count-chip');
+      if (!listEl || !emptyEl) return;
+
+      const meals = Array.isArray(appState.meals) ? [...appState.meals] : [];
+      meals.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+      if (countChipEl) {
+        countChipEl.textContent = meals.length === 1 ? `1 refeição` : `${meals.length} refeições`;
+      }
+
+      if (meals.length === 0) {
+        listEl.innerHTML = ``;
+        emptyEl.classList.remove('is-hidden');
+        return;
+      }
+
+      emptyEl.classList.add('is-hidden');
+
+      listEl.innerHTML = meals.map((meal) => {
+        const liveUrl = sessionPhotoUrls.get(meal.id);
+        const imgSrc = liveUrl || meal.photoThumb || '';
+        let thumbHtml = `<i data-lucide="utensils" class="icon-sm" aria-hidden="true"></i>`;
+        if (imgSrc) {
+          thumbHtml = `<img src="${imgSrc}" alt="${escapeHtml(meal.description)}" class="meal-thumb-img">`;
+        } else if (meal.hasPhoto) {
+          thumbHtml = `<i data-lucide="image" class="icon-sm" aria-hidden="true"></i>`;
+        }
+
+        const photoTag = meal.hasPhoto
+          ? `<span>· Fotografia associada</span>`
+          : ``;
+
+        return `
+          <li class="meal-item">
+            <div class="meal-thumb-box" title="${meal.hasPhoto ? escapeHtml(meal.photoName || 'Fotografia da refeição') : 'Sem fotografia'}">
+              ${thumbHtml}
+            </div>
+            <div class="meal-body">
+              <p class="meal-desc">${escapeHtml(meal.description)}</p>
+              <div class="meal-meta">
+                <span>${formatShortDateTime(meal.timestamp)}</span>
+                ${photoTag}
+              </div>
+            </div>
+            <button type="button" class="btn btn-danger-outline btn-delete-meal" onclick="deleteMeal('${meal.id}')" aria-label="Eliminar refeição">
+              <i data-lucide="trash-2" class="icon-sm" aria-hidden="true"></i>
+              Eliminar
+            </button>
+          </li>
+        `;
+      }).join('');
+
+      renderIcons();
+    }
+
+    async function initApp() {
+      const dateTextEl = document.getElementById('header-date-text');
+      if (dateTextEl) dateTextEl.textContent = formatHeaderDate();
+
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            if (saved.fasting && typeof saved.fasting === 'object') {
+              appState.fasting = Object.assign({}, appState.fasting, saved.fasting);
+            }
+            if (saved.hydration && typeof saved.hydration === 'object') {
+              appState.hydration = Object.assign({}, appState.hydration, saved.hydration);
+            }
+            if (Array.isArray(saved.meals)) {
+              appState.meals = saved.meals;
+            }
+          }
+        }
+      } catch (err) {
+        // Fallback to clean empty state
+      }
+
+      updateFastingUI();
+      startFastingTicker();
+      updateHydrationUI();
+      renderMeals();
+      renderIcons();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
