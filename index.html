@@ -8,7 +8,7 @@
   <style>
     :root, [data-theme="light"] {
       --bg: #f4f6fa;
-      --header-bg: rgba(255, 255, 255, 0.92);
+      --header-bg: rgba(255, 255, 255, 0.94);
       --card: #ffffff;
       --card-2: #f1f5f9;
       --border: #e2e8f0;
@@ -38,7 +38,7 @@
 
     [data-theme="dark"] {
       --bg: #0f1117;
-      --header-bg: rgba(15, 17, 23, 0.88);
+      --header-bg: rgba(15, 17, 23, 0.92);
       --card: #171a23;
       --card-2: #1f2430;
       --border: #2a3040;
@@ -78,7 +78,6 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -151,7 +150,6 @@
 
     .icon-btn:hover { border-color: var(--accent); }
 
-    /* Alert Banner */
     .alert-banner {
       max-width: 1120px;
       margin: 14px auto 0;
@@ -197,7 +195,6 @@
       gap: 8px;
     }
 
-    /* Main Grid */
     main {
       max-width: 1120px;
       margin: 18px auto 0;
@@ -229,7 +226,6 @@
       .hide-sm { display: none; }
     }
 
-    /* Cards */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -238,3 +234,1482 @@
     }
 
     .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .pill.fasting { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(245, 158, 11, 0.35); }
+    .pill.eating { background: var(--green-soft); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.35); }
+    .pill.water { background: var(--water-soft); color: var(--water); border: 1px solid rgba(56, 189, 248, 0.35); }
+
+    .timer-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0 12px;
+    }
+
+    .ring-container {
+      position: relative;
+      width: 230px;
+      height: 230px;
+      display: grid;
+      place-items: center;
+    }
+
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--card-2);
+      stroke-width: 13;
+    }
+
+    .ring-progress {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 13;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+    }
+
+    .ring-center {
+      position: absolute;
+      text-align: center;
+      padding: 0 14px;
+    }
+
+    .timer-label {
+      font-size: 0.74rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .timer-digits {
+      font-size: 2.15rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    .timer-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .goal-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin: 14px 0 16px;
+    }
+
+    .goal-chip {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .goal-chip.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 13px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.1s ease, opacity 0.15s ease;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-photo {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-water {
+      background: var(--water-soft);
+      border: 1px solid rgba(2, 132, 199, 0.28);
+      color: var(--water);
+      padding: 10px 8px;
+      font-size: 0.8rem;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .btn-water small {
+      font-size: 0.68rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .btn-water:hover { opacity: 0.85; }
+
+    .btn-ghost {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 12px;
+      font-size: 0.83rem;
+    }
+
+    .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .action-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .meta-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .meta-box {
+      background: var(--card-2);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .meta-box small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .meta-box strong {
+      font-size: 0.9rem;
+    }
+
+    .phase-highlight {
+      background: var(--accent-soft);
+      border: 1px solid rgba(245, 158, 11, 0.32);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .phase-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .phase-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin: 4px 0 6px;
+    }
+
+    .phase-desc {
+      font-size: 0.86rem;
+      color: var(--desc-text);
+      margin-bottom: 10px;
+    }
+
+    .phase-tip {
+      background: var(--tip-bg);
+      border-left: 3px solid var(--accent);
+      padding: 9px 11px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.81rem;
+      color: var(--text);
+    }
+
+    .source-tag {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .phase-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .phase-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      background: var(--card-2);
+      border: 1px solid transparent;
+      font-size: 0.81rem;
+      opacity: 0.72;
+      transition: 0.2s;
+    }
+
+    .phase-item.reached { opacity: 0.92; }
+    .phase-item.current {
+      opacity: 1;
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .phase-hours {
+      min-width: 52px;
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 0.78rem;
+      padding-top: 2px;
+    }
+
+    .water-stats {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .water-big {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--water);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .water-goal {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 11px;
+      background: var(--card-2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .water-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 13px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .water-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 480px) {
+      .water-buttons { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .water-recipe {
+      background: var(--water-soft);
+      border: 1px dashed rgba(2, 132, 199, 0.35);
+      border-radius: 11px;
+      padding: 9px 11px;
+      font-size: 0.76rem;
+      color: var(--recipe-text);
+      margin-bottom: 12px;
+    }
+
+    .water-recipe strong { color: var(--water); }
+
+    .reminder-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--card-2);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .reminder-bar select {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 0.8rem;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .history-empty {
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      background: var(--card-2);
+      border-radius: 12px;
+    }
+
+    .history-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 10px;
+    }
+
+    .history-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: var(--card);
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    .history-no-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      border: 1px dashed var(--border);
+    }
+
+    .history-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-duration {
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: var(--accent);
+    }
+
+    .history-dates {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .history-note {
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .del-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+    .del-btn:hover { color: var(--danger); background: var(--danger-soft); }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 12, 0.72);
+      backdrop-filter: blur(5px);
+      display: none;
+      place-items: center;
+      padding: 16px;
+      z-index: 60;
+    }
+
+    .modal-backdrop.open { display: grid; }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      max-width: 470px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal h3 {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+    }
+
+    .modal label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .modal input[type="datetime-local"],
+    .modal input[type="text"],
+    .modal input[type="number"] {
+      width: 100%;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.92rem;
+      margin-bottom: 14px;
+    }
+
+    .modal-preview {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .break-guide {
+      background: var(--guide-bg);
+      border-left: 3px solid var(--green);
+      padding: 9px 11px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.78rem;
+      color: var(--guide-text);
+      margin-bottom: 10px;
+    }
+
+    .break-guide ul {
+      margin: 5px 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .break-guide .source-tag { color: var(--guide-source); }
+
+    .break-guide.alt {
+      background: var(--guide2-bg);
+      border-left-color: var(--accent);
+      color: var(--guide2-text);
+    }
+
+    .break-guide.alt .source-tag { color: var(--guide2-source); }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-actions .btn { width: auto; padding: 10px 16px; }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+      transition: transform 0.25s ease;
+      z-index: 80;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    input[type="file"].hidden-input { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">🍽️</div>
+        <div>
+          <h1>Papparoca</h1>
+          <span>Jejum, ciência &amp; hidratação • Pinto Coelho &amp; Deusa da Glicose</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btnTheme" title="Alternar modo dia / noite">🌙 <span class="hide-sm">Noite</span></button>
+        <button class="icon-btn" id="btnNotif" title="Ativar notificações do dispositivo">🔔 <span class="hide-sm">Alertas</span></button>
+        <button class="icon-btn" id="btnBackup" title="Exportar ou importar dados">💾</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="alert-banner" id="hydrationAlert">
+    <div class="alert-box">
+      <div class="alert-text">
+        <span>💧</span>
+        <div>
+          <span id="hydrationAlertMsg">Não bebes nada há 2 horas, vamos lá bebericar qualquer coisa!</span>
+          <span class="alert-source" id="hydrationAlertSource"></span>
+        </div>
+      </div>
+      <div class="alert-actions">
+        <button class="icon-btn" style="border-color: var(--water); color: var(--water);" onclick="addDrink(250, 'Água Alcalina')">+250 ml já</button>
+        <button class="icon-btn" onclick="snoozeHydrationAlert()">Adiar 30m</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="col-left">
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">⏱️ Estado do Jejum</div>
+          <span class="pill eating" id="statusPill">Janela Alimentar</span>
+        </div>
+
+        <div class="timer-wrap">
+          <div class="ring-container">
+            <svg class="ring-svg" viewBox="0 0 220 220">
+              <circle class="ring-bg" cx="110" cy="110" r="96"></circle>
+              <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="96" stroke-dasharray="603.19" stroke-dashoffset="603.19"></circle>
+            </svg>
+            <div class="ring-center">
+              <div class="timer-label" id="timerLabel">Em pausa</div>
+              <div class="timer-digits" id="timerDigits">00:00:00</div>
+              <div class="timer-sub" id="timerSub">Objetivo: 16h</div>
+            </div>
+          </div>
+
+          <div class="goal-row" id="goalChips">
+            <button class="goal-chip" data-hours="12">12h</button>
+            <button class="goal-chip active" data-hours="16">16h</button>
+            <button class="goal-chip" data-hours="18">18h</button>
+            <button class="goal-chip" data-hours="20">20h</button>
+            <button class="goal-chip" data-hours="24">24h</button>
+            <button class="goal-chip" data-hours="36">36h</button>
+            <button class="goal-chip" data-hours="48">48h</button>
+          </div>
+
+          <input type="file" accept="image/*" capture="environment" id="mealPhotoInput" class="hidden-input" />
+
+          <div class="action-stack" id="fastingControls">
+            <button class="btn btn-primary" onclick="startFast()">🚀 Iniciar Jejum Agora</button>
+          </div>
+
+          <div class="meta-bar">
+            <div class="meta-box">
+              <small>Início</small>
+              <strong id="metaStart">—</strong>
+            </div>
+            <div class="meta-box">
+              <small>Previsão de meta</small>
+              <strong id="metaEnd">—</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">🧬 O que se passa no teu corpo</div>
+          <span class="pill fasting" id="phasePill">Janela Alimentar</span>
+        </div>
+
+        <div class="phase-highlight" id="currentPhaseBox">
+          <div class="phase-tag" id="phaseTag">PREPARAÇÃO &amp; REFEIÇÕES</div>
+          <div class="phase-name" id="phaseName">Estás na janela alimentar</div>
+          <div class="phase-desc" id="phaseDesc">A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).</div>
+          <div class="phase-tip" id="phaseTip">
+            💡 <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.
+            <span class="source-tag">📖 Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>
+          </div>
+        </div>
+
+        <div class="phase-list" id="phaseTimeline"></div>
+      </section>
+
+    </div>
+
+    <div class="col-right">
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">💧 Hidratação de Hoje</div>
+          <span class="pill water" id="waterPercentPill">0%</span>
+        </div>
+
+        <div class="water-stats">
+          <div class="water-big" id="waterTotal">0 ml</div>
+          <div class="water-goal">Meta: <strong id="waterGoalLabel">2500 ml</strong> <button class="del-btn" onclick="openWaterGoalModal()" title="Alterar meta">✏️</button></div>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="waterFill" style="width: 0%"></div>
+        </div>
+
+        <div class="water-meta">
+          <span id="lastDrinkText">Ainda sem registo hoje</span>
+          <button class="del-btn" style="font-size: 0.78rem;" onclick="undoLastDrink()">↩ Desfazer</button>
+        </div>
+
+        <div class="water-buttons">
+          <button class="btn btn-water" onclick="addDrink(250, 'Água Alcalina')">💧 +250 ml<small>Água (pH &gt; 7,4)</small></button>
+          <button class="btn btn-water" onclick="addDrink(500, 'Água')">🫗 +500 ml<small>Água</small></button>
+          <button class="btn btn-water" onclick="addDrink(250, 'Água Isotónica')">🌊 +250 ml<small>Isotónica/Sal</small></button>
+          <button class="btn btn-water" onclick="addDrink(200, 'Chá/Café')">☕ +200 ml<small>Chá/Café s/ aç.</small></button>
+        </div>
+
+        <div class="water-recipe">
+          <strong>🌊 Fórmula Isotónica (Plasma de Quinton):</strong> 1,5 L de água do mar + 3,5 L de água mineral (ou 2 colheres de sobremesa de flor de sal / sal dos Himalaias em 5 L de água). Bebe em pequenos goles — nutre as células com 118 minerais e acalma o apetite.
+          <span class="source-tag">📖 Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!</span>
+        </div>
+
+        <div class="reminder-bar">
+          <span>⏰ Alertar se ficar sem beber há:</span>
+          <select id="reminderIntervalSelect" onchange="updateReminderInterval(this.value)">
+            <option value="60">1 hora</option>
+            <option value="90">1h 30m</option>
+            <option value="120" selected>2 horas</option>
+            <option value="180">3 horas</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">📸 Registo de Quebras de Jejum</div>
+          <span style="font-size: 0.78rem; color: var(--muted);" id="historyCount">0 registos</span>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="editStartModal">
+    <div class="modal">
+      <h3>⏰ Ajustar início do jejum</h3>
+      <label for="editStartInput">Quando fizeste a última refeição?</label>
+      <input type="datetime-local" id="editStartInput" />
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('editStartModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveEditedStart()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="breakFastModal">
+    <div class="modal">
+      <h3>🍽️ Quebrar jejum — Bom apetite!</h3>
+      <img id="breakPhotoPreview" class="modal-preview" alt="Foto da refeição" />
+      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 10px;" id="breakSummaryText"></p>
+
+      <div class="break-guide">
+        <strong>✨ Truques para evitar pico de glicose na quebra:</strong>
+        <ul>
+          <li><strong>1.º Vinagre:</strong> 1 colher de sopa de vinagre (ex.: sidra) num copo de água antes de comer.</li>
+          <li><strong>2.º Ordem certa:</strong> começa pelos vegetais (fibra), depois proteínas e gorduras, e hidratos/fruta inteira por último.</li>
+          <li><strong>3.º Quebra salgada:</strong> base de proteína + gorduras boas (ovos, peixe, abacate, azeite), sem doces nem sumos.</li>
+          <li><strong>4.º Mexe-te depois:</strong> 10 a 20 min de caminhada leve após a refeição.</li>
+        </ul>
+        <span class="source-tag">📖 Fonte: Jessie Inchauspé (Deusa da Glicose) — A Revolução da Glicose / O Método Glucose Goddess</span>
+      </div>
+
+      <div class="break-guide alt">
+        <strong>🛡️ Proteger o intestino:</strong> evita glúten, caseína e açúcar refinado; privilegia caldo de carne, vegetais verdes/brócolos e mastiga devagar.
+        <span class="source-tag">📖 Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / O Segredo do Sistema Imunitário</span>
+      </div>
+
+      <label for="breakNoteInput">Nota opcional (ex: salada, ovos, abacate, caldo...)</label>
+      <input type="text" id="breakNoteInput" placeholder="O que vais paparocar?" />
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="cancelBreakFast()">Cancelar</button>
+        <button class="btn btn-photo" onclick="confirmBreakFast()">Confirmar quebra</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="lightboxModal" onclick="closeModal('lightboxModal')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <h3 id="lightboxTitle">Refeição</h3>
+      <img id="lightboxImg" class="modal-preview" style="max-height: 65vh;" alt="Refeição" />
+      <p id="lightboxDesc" style="font-size: 0.85rem; color: var(--muted); margin-bottom: 14px;"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('lightboxModal')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="waterGoalModal">
+    <div class="modal">
+      <h3>💧 Meta diária de hidratação</h3>
+      <label for="waterGoalInput">Objetivo em mililitros (ml) — Recomendado: 2000 a 2500 ml</label>
+      <input type="number" id="waterGoalInput" min="500" max="6000" step="100" />
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('waterGoalModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveWaterGoal()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="backupModal">
+    <div class="modal">
+      <h3>💾 Backup dos teus dados</h3>
+      <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 14px;">
+        Os teus dados ficam guardados localmente neste dispositivo. Podes exportar um ficheiro para levar para o PC/telemóvel ou restaurar um backup.
+      </p>
+      <input type="file" accept="application/json" id="importJsonInput" class="hidden-input" />
+      <div class="action-stack" style="margin-bottom: 14px;">
+        <button class="btn btn-primary" onclick="exportBackup()">⬇️ Exportar backup (.json)</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('importJsonInput').click()">⬆️ Importar backup (.json)</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('backupModal')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = 'papparoca_v1_state';
+    const RING_CIRCUMFERENCE = 2 * Math.PI * 96;
+
+    const PHASES = [
+      {
+        min: 0, max: 4,
+        range: '0h – 4h',
+        name: 'Digestão & Gestão da Glicose',
+        desc: 'O organismo transforma os hidratos em glicose e o pâncreas liberta insulina para a transportar para as células e armazenar glicogénio no fígado e músculos.',
+        tip: 'Se acabaste de comer, faz uma caminhada leve de 10 a 20 minutos: a contração muscular absorve glicose diretamente e reduz o pico pós-refeição. Evita petiscar para não disparar a grelina.',
+        source: 'Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) & Dr. Manuel Pinto Coelho (Chegar Novo a Velho)'
+      },
+      {
+        min: 4, max: 12,
+        range: '4h – 12h',
+        name: 'Queda da Insulina & Glicogénio',
+        desc: 'A glicemia estabiliza e a insulina desce gradualmente. O corpo passa a recorrer às reservas de glicogénio guardadas no fígado enquanto o intestino descansa.',
+        tip: 'Podes beber água (idealmente alcalina, pH > 7,4), chá verde/preto/ervas e café à discrição, sempre sem açúcar nem adoçantes artificiais. Ao acordar, água morna com limão ajuda a alcalinizar.',
+        source: 'Dr. Manuel Pinto Coelho — O Segredo do Sistema Imunitário / Seja um Super-Humano!'
+      },
+      {
+        min: 12, max: 16,
+        range: '12h – 16h',
+        name: 'Lipólise & Ativação da Leptina',
+        desc: 'Sem glicose disponível no sangue, o corpo recorre à sua segunda fonte de energia: as células adiposas (gordura visceral), para energizar as mitocôndrias. Sobe a leptina (hormona da saciedade).',
+        tip: 'Se sentires fome, bebe uns goles de água isotónica (água do mar diluída ou pitada de flor de sal/sal dos Himalaias): nutre as células com minerais e acalma o apetite.',
+        source: 'Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!'
+      },
+      {
+        min: 16, max: 24,
+        range: '16h – 24h',
+        name: 'Cetose, Autofagia & Hormona de Crescimento',
+        desc: 'O organismo entra em cetose — os corpos cetónicos alimentam melhor os neurónios e mitocôndrias —, ativa a autofagia (reciclagem de células velhas/danificadas), regula a glutationa e eleva a hormona de crescimento (GH).',
+        tip: 'Excelente altura para uma caminhada ao ar livre e 20–30 min de sol (síntese de vitamina D3), sem exagerar na intensidade para não disparar o cortisol.',
+        source: 'Dr. Manuel Pinto Coelho — O Segredo do Sistema Imunitário / Seja um Super-Humano!'
+      },
+      {
+        min: 24, max: 36,
+        range: '24h – 36h',
+        name: 'Regeneração do Sistema Imunitário',
+        desc: 'Tal como demonstrou Valter Longo, em jejum o organismo dá indicações às células-mãe para produzirem novos glóbulos brancos, promovendo uma verdadeira renovação imunitária e menor inflamação.',
+        tip: 'Mantém a hidratação constante (2 a 2,5 L/dia) com apoio de minerais (magnésio, potássio, sódio da água isotónica). O teu paladar fica mais apurado para alimentos simples e naturais.',
+        source: 'Dr. Manuel Pinto Coelho — Chegar Novo a Velho / O Segredo do Sistema Imunitário'
+      },
+      {
+        min: 36, max: 999,
+        range: '36h+',
+        name: 'Renovação Profunda & Longevidade',
+        desc: 'Redução marcada de radicais livres, da glicação das proteínas e da inflamação silenciosa — os principais motores do envelhecimento — com otimização neurocognitiva (Mark Mattson).',
+        tip: 'Para quebrar um jejum longo sem picos: 1 colher de vinagre diluído em água, depois caldo de carne ou vegetais verdes (fibra), seguido de proteína e gorduras boas. Zero glúten, caseína ou açúcar.',
+        source: 'Dr. Manuel Pinto Coelho (Chegar Novo a Velho) & Jessie Inchauspé (Deusa da Glicose — O Método Glucose Goddess)'
+      }
+    ];
+
+    const HYDRATION_NUDGES = [
+      {
+        text: 'Não bebes nada há {tempo}, vamos lá bebericar qualquer coisa!',
+        source: 'Dr. Manuel Pinto Coelho — Seja um Super-Humano!'
+      },
+      {
+        text: 'Já passaram {tempo} sem líquidos — o teu sistema linfático é 96% água, dá-lhe uma ajuda!',
+        source: 'Dr. Manuel Pinto Coelho — Seja um Super-Humano!'
+      },
+      {
+        text: 'Há {tempo} sem beber: a sede nem sempre avisa a tempo. Que tal um copo de água alcalina ou isotónica?',
+        source: 'Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!'
+      },
+      {
+        text: '{tempo} sem hidratação! Uma boa hidratação ajuda o corpo a gerir melhor os níveis de glicose e evita fadiga.',
+        source: 'Jessie Inchauspé (Deusa da Glicose) & Dr. Manuel Pinto Coelho'
+      }
+    ];
+
+    function todayStr() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function defaultState() {
+      return {
+        theme: 'light',
+        isFasting: false,
+        fastStart: null,
+        goalHours: 16,
+        waterGoalMl: 2500,
+        hydrationDate: todayStr(),
+        drinksToday: [],
+        lastDrinkAt: Date.now(),
+        reminderMinutes: 120,
+        snoozeUntil: 0,
+        lastNotifAt: 0,
+        history: []
+      };
+    }
+
+    let state = loadState();
+    let pendingPhotoDataUrl = null;
+    let pendingBreakEndTs = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        const merged = Object.assign(defaultState(), parsed);
+        if (merged.hydrationDate !== todayStr()) {
+          merged.hydrationDate = todayStr();
+          merged.drinksToday = [];
+        }
+        return merged;
+      } catch (e) {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        showToast('Memória cheia — exporta um backup ou apaga registos antigos.');
+      }
+    }
+
+    function applyTheme() {
+      const theme = state.theme === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      const meta = document.getElementById('themeColorMeta');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1117' : '#f4f6fa');
+      const btn = document.getElementById('btnTheme');
+      if (btn) {
+        btn.innerHTML = theme === 'dark'
+          ? '☀️ <span class="hide-sm">Dia</span>'
+          : '🌙 <span class="hide-sm">Noite</span>';
+      }
+    }
+
+    function toggleTheme() {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      saveState();
+      applyTheme();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3200);
+    }
+
+    function formatDuration(ms) {
+      const totalSec = Math.max(0, Math.floor(ms / 1000));
+      const h = Math.floor(totalSec / 3600);
+      const m = Math.floor((totalSec % 3600) / 60);
+      const s = totalSec % 60;
+      const pad = function (n) { return String(n).padStart(2, '0'); };
+      return pad(h) + ':' + pad(m) + ':' + pad(s);
+    }
+
+    function formatShortDate(ts) {
+      if (!ts) return '—';
+      return new Date(ts).toLocaleString('pt-PT', {
+        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    function toDatetimeLocalValue(ts) {
+      const d = new Date(ts);
+      const offset = d.getTimezoneOffset() * 60000;
+      return new Date(d.getTime() - offset).toISOString().slice(0, 16);
+    }
+
+    function startFast() {
+      state.isFasting = true;
+      state.fastStart = Date.now();
+      saveState();
+      renderAll();
+      showToast('Jejum iniciado! Boa jornada.');
+    }
+
+    function triggerMealPhoto() {
+      const input = document.getElementById('mealPhotoInput');
+      input.value = '';
+      input.click();
+    }
+
+    function compressImage(file, maxWidth, quality) {
+      return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = function (ev) {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = function () {
+            const scale = Math.min(1, maxWidth / img.width);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function openBreakFastModal() {
+      const durationMs = pendingBreakEndTs - state.fastStart;
+      document.getElementById('breakPhotoPreview').src = pendingPhotoDataUrl;
+      document.getElementById('breakSummaryText').textContent =
+        'Jejum concluído com ' + formatDuration(durationMs) + ' (foto tirada às ' + formatShortDate(pendingBreakEndTs) + ').';
+      document.getElementById('breakNoteInput').value = '';
+      openModal('breakFastModal');
+    }
+
+    function cancelBreakFast() {
+      pendingPhotoDataUrl = null;
+      pendingBreakEndTs = null;
+      closeModal('breakFastModal');
+    }
+
+    function confirmBreakFast() {
+      const endTs = pendingBreakEndTs || Date.now();
+      const note = document.getElementById('breakNoteInput').value.trim();
+      finalizeFast(endTs, pendingPhotoDataUrl, note);
+      pendingPhotoDataUrl = null;
+      pendingBreakEndTs = null;
+      closeModal('breakFastModal');
+    }
+
+    function endFastWithoutPhoto() {
+      if (!confirm('Queres mesmo terminar o jejum sem fotografar a refeição?')) return;
+      finalizeFast(Date.now(), null, 'Sem foto');
+    }
+
+    function finalizeFast(endTs, photo, note) {
+      const durationMs = Math.max(0, endTs - state.fastStart);
+      state.history.unshift({
+        id: Date.now(),
+        start: state.fastStart,
+        end: endTs,
+        durationMs: durationMs,
+        goalHours: state.goalHours,
+        photo: photo,
+        note: note
+      });
+      if (state.history.length > 40) state.history = state.history.slice(0, 40);
+      state.isFasting = false;
+      state.fastStart = null;
+      saveState();
+      renderAll();
+      showToast('Jejum terminado (' + formatDuration(durationMs) + '). Bom apetite!');
+    }
+
+    function openEditStartModal() {
+      if (!state.isFasting) return;
+      document.getElementById('editStartInput').value = toDatetimeLocalValue(state.fastStart);
+      openModal('editStartModal');
+    }
+
+    function saveEditedStart() {
+      const val = document.getElementById('editStartInput').value;
+      if (!val) return;
+      const newTs = new Date(val).getTime();
+      if (isNaN(newTs) || newTs > Date.now()) {
+        showToast('A hora de início não pode ser no futuro.');
+        return;
+      }
+      state.fastStart = newTs;
+      saveState();
+      closeModal('editStartModal');
+      renderAll();
+      showToast('Hora de início atualizada.');
+    }
+
+    function checkDayRollover() {
+      if (state.hydrationDate !== todayStr()) {
+        state.hydrationDate = todayStr();
+        state.drinksToday = [];
+        saveState();
+      }
+    }
+
+    function addDrink(ml, label) {
+      checkDayRollover();
+      state.drinksToday.push({ ml: ml, label: label, at: Date.now() });
+      state.lastDrinkAt = Date.now();
+      state.snoozeUntil = 0;
+      saveState();
+      renderHydration();
+      checkHydrationAlert();
+      showToast('+' + ml + ' ml (' + label + ') registados!');
+    }
+
+    function undoLastDrink() {
+      checkDayRollover();
+      if (!state.drinksToday.length) return;
+      state.drinksToday.pop();
+      if (state.drinksToday.length) {
+        state.lastDrinkAt = state.drinksToday[state.drinksToday.length - 1].at;
+      }
+      saveState();
+      renderHydration();
+      showToast('Último registo removido.');
+    }
+
+    function updateReminderInterval(mins) {
+      state.reminderMinutes = Number(mins);
+      saveState();
+      checkHydrationAlert();
+      showToast('Alerta definido para cada ' + (mins >= 60 ? (mins / 60) + 'h' : mins + 'm') + '.');
+    }
+
+    function snoozeHydrationAlert() {
+      state.snoozeUntil = Date.now() + 30 * 60 * 1000;
+      saveState();
+      document.getElementById('hydrationAlert').classList.remove('show');
+      showToast('Alerta adiado por 30 minutos.');
+    }
+
+    function openWaterGoalModal() {
+      document.getElementById('waterGoalInput').value = state.waterGoalMl;
+      openModal('waterGoalModal');
+    }
+
+    function saveWaterGoal() {
+      const val = parseInt(document.getElementById('waterGoalInput').value, 10);
+      if (!val || val < 500) return;
+      state.waterGoalMl = val;
+      saveState();
+      closeModal('waterGoalModal');
+      renderHydration();
+      showToast('Meta atualizada para ' + val + ' ml.');
+    }
+
+    function checkHydrationAlert() {
+      const now = Date.now();
+      const elapsedMs = now - (state.lastDrinkAt || now);
+      const thresholdMs = state.reminderMinutes * 60 * 1000;
+      const banner = document.getElementById('hydrationAlert');
+
+      if (elapsedMs >= thresholdMs && now >= (state.snoozeUntil || 0)) {
+        const hrs = Math.floor(elapsedMs / 3600000);
+        const mins = Math.floor((elapsedMs % 3600000) / 60000);
+        const tempoStr = hrs > 0 ? (hrs + 'h' + (mins > 0 ? ' ' + mins + 'm' : '')) : (mins + ' minutos');
+        const idx = Math.floor(now / 600000) % HYDRATION_NUDGES.length;
+        const nudge = HYDRATION_NUDGES[idx];
+        const msg = nudge.text.replace('{tempo}', tempoStr);
+
+        document.getElementById('hydrationAlertMsg').textContent = msg;
+        document.getElementById('hydrationAlertSource').textContent = '📖 Fonte: ' + nudge.source;
+        banner.classList.add('show');
+
+        if ('Notification' in window && Notification.permission === 'granted' && (now - (state.lastNotifAt || 0) > 30 * 60 * 1000)) {
+          new Notification('Papparoca 💧', { body: msg + ' (' + nudge.source + ')' });
+          state.lastNotifAt = now;
+          saveState();
+        }
+      } else {
+        banner.classList.remove('show');
+      }
+    }
+
+    function renderGoals() {
+      document.querySelectorAll('.goal-chip').forEach(function (btn) {
+        const h = Number(btn.dataset.hours);
+        btn.classList.toggle('active', h === state.goalHours);
+      });
+    }
+
+    function renderControls() {
+      const wrap = document.getElementById('fastingControls');
+      if (!state.isFasting) {
+        wrap.innerHTML = '<button class="btn btn-primary" onclick="startFast()">🚀 Iniciar Jejum Agora</button>';
+      } else {
+        wrap.innerHTML =
+          '<button class="btn btn-photo" onclick="triggerMealPhoto()">📸 Fotografar Refeição &amp; Quebrar Jejum</button>' +
+          '<div class="action-row-2">' +
+          '<button class="btn btn-ghost" onclick="openEditStartModal()">⏰ Ajustar início</button>' +
+          '<button class="btn btn-ghost" onclick="endFastWithoutPhoto()">Terminar sem foto</button>' +
+          '</div>';
+      }
+    }
+
+    function renderTimerAndPhases() {
+      const pill = document.getElementById('statusPill');
+      const ring = document.getElementById('ringProgress');
+      const label = document.getElementById('timerLabel');
+      const digits = document.getElementById('timerDigits');
+      const sub = document.getElementById('timerSub');
+      const metaStart = document.getElementById('metaStart');
+      const metaEnd = document.getElementById('metaEnd');
+
+      if (!state.isFasting) {
+        pill.textContent = 'Janela Alimentar';
+        pill.className = 'pill eating';
+        label.textContent = 'Em pausa';
+        digits.textContent = '00:00:00';
+        sub.textContent = 'Objetivo selecionado: ' + state.goalHours + 'h';
+        ring.style.strokeDashoffset = RING_CIRCUMFERENCE;
+        ring.style.stroke = '#10b981';
+        metaStart.textContent = '—';
+        metaEnd.textContent = '—';
+        renderPhases(-1);
+        return;
+      }
+
+      const elapsedMs = Date.now() - state.fastStart;
+      const elapsedHours = elapsedMs / 3600000;
+      const goalMs = state.goalHours * 3600000;
+      const pct = Math.min(1, elapsedMs / goalMs);
+
+      pill.textContent = pct >= 1 ? 'Meta Atingida!' : 'Em Jejum';
+      pill.className = pct >= 1 ? 'pill eating' : 'pill fasting';
+      label.textContent = pct >= 1 ? 'Bónus de jejum' : Math.round(pct * 100) + '% do objetivo';
+      digits.textContent = formatDuration(elapsedMs);
+      sub.textContent = pct >= 1
+        ? 'Superaste as ' + state.goalHours + 'h!'
+        : 'Faltam ' + formatDuration(goalMs - elapsedMs);
+
+      ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
+      ring.style.stroke = pct >= 1 ? '#10b981' : '#f59e0b';
+
+      metaStart.textContent = formatShortDate(state.fastStart);
+      metaEnd.textContent = formatShortDate(state.fastStart + goalMs);
+
+      renderPhases(elapsedHours);
+    }
+
+    function renderPhases(hours) {
+      const phasePill = document.getElementById('phasePill');
+      const timeline = document.getElementById('phaseTimeline');
+      const tipBox = document.getElementById('phaseTip');
+
+      let current = null;
+      if (hours >= 0) {
+        current = PHASES.find(function (p) { return hours >= p.min && hours < p.max; }) || PHASES[PHASES.length - 1];
+        phasePill.textContent = current.range;
+        document.getElementById('phaseTag').textContent = 'FASE ATUAL • ' + current.range;
+        document.getElementById('phaseName').textContent = current.name;
+        document.getElementById('phaseDesc').textContent = current.desc;
+        tipBox.innerHTML = '💡 <strong>Dica:</strong> ' + current.tip + '<span class="source-tag">📖 Fonte: ' + current.source + '</span>';
+      } else {
+        phasePill.textContent = 'Janela Alimentar';
+        document.getElementById('phaseTag').textContent = 'PREPARAÇÃO & REFEIÇÕES';
+        document.getElementById('phaseName').textContent = 'Estás na janela alimentar';
+        document.getElementById('phaseDesc').textContent = 'A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).';
+        tipBox.innerHTML =
+          '💡 <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.' +
+          '<span class="source-tag">📖 Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>';
+      }
+
+      timeline.innerHTML = PHASES.map(function (p) {
+        const isCurrent = current && current.name === p.name;
+        const isReached = hours >= p.min;
+        return '<div class="phase-item ' + (isReached ? 'reached' : '') + ' ' + (isCurrent ? 'current' : '') + '">' +
+          '<div class="phase-hours">' + p.range + '</div>' +
+          '<div>' +
+          '<strong style="display:block; margin-bottom:2px;">' + p.name + '</strong>' +
+          '<span style="color: var(--muted);">' + p.desc + '</span>' +
+          '<span class="source-tag">📖 ' + p.source + '</span>' +
+          '</div></div>';
+      }).join('');
+    }
+
+    function renderHydration() {
+      checkDayRollover();
+      const total = state.drinksToday.reduce(function (acc, d) { return acc + d.ml; }, 0);
+      const pct = Math.min(100, Math.round((total / state.waterGoalMl) * 100));
+
+      document.getElementById('waterTotal').textContent = total + ' ml';
+      document.getElementById('waterGoalLabel').textContent = state.waterGoalMl + ' ml';
+      document.getElementById('waterPercentPill').textContent = pct + '%';
+      document.getElementById('waterFill').style.width = pct + '%';
+      document.getElementById('reminderIntervalSelect').value = String(state.reminderMinutes);
+
+      const lastText = document.getElementById('lastDrinkText');
+      if (!state.lastDrinkAt) {
+        lastText.textContent = 'Ainda sem registo';
+      } else {
+        const diffMin = Math.floor((Date.now() - state.lastDrinkAt) / 60000);
+        if (diffMin < 1) lastText.textContent = 'Última bebida: agora mesmo';
+        else if (diffMin < 60) lastText.textContent = 'Última bebida há ' + diffMin + ' min';
+        else {
+          const h = Math.floor(diffMin / 60);
+          const m = diffMin % 60;
+          lastText.textContent = 'Última bebida há ' + h + 'h ' + m + 'm';
+        }
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+      });
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      document.getElementById('historyCount').textContent = state.history.length + ' registo' + (state.history.length === 1 ? '' : 's');
+
+      if (!state.history.length) {
+        list.innerHTML = '<div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>';
+        return;
+      }
+
+      list.innerHTML = state.history.map(function (item) {
+        const media = item.photo
+          ? '<img class="history-thumb" src="' + item.photo + '" alt="Refeição" onclick="openLightbox(' + item.id + ')" />'
+          : '<div class="history-no-photo">🍽️</div>';
+        const noteHtml = item.note ? '<div class="history-note">' + escapeHtml(item.note) + '</div>' : '';
+        return '<div class="history-item">' +
+          media +
+          '<div class="history-info">' +
+          '<div class="history-duration">' + formatDuration(item.durationMs) + ' <span style="font-size:0.74rem; color:var(--muted); font-weight:600;">(meta ' + item.goalHours + 'h)</span></div>' +
+          '<div class="history-dates">' + formatShortDate(item.start) + ' → ' + formatShortDate(item.end) + '</div>' +
+          noteHtml +
+          '</div>' +
+          '<button class="del-btn" title="Apagar registo" onclick="deleteHistory(' + item.id + ')">🗑️</button>' +
+          '</div>';
+      }).join('');
+    }
+
+    function openLightbox(id) {
+      const item = state.history.find(function (h) { return h.id === id; });
+      if (!item || !item.photo) return;
+      document.getElementById('lightboxTitle').textContent = 'Quebra de jejum • ' + formatDuration(item.durationMs);
+      document.getElementById('lightboxImg').src = item.photo;
+      document.getElementById('lightboxDesc').textContent =
+        formatShortDate(item.end) + (item.note ? ' — ' + item.note : '');
+      openModal('lightboxModal');
+    }
+
+    function deleteHistory(id) {
+      if (!confirm('Apagar este registo do histórico?')) return;
+      state.history = state.history.filter(function (h) { return h.id !== id; });
+      saveState();
+      renderHistory();
+      showToast('Registo apagado.');
+    }
+
+    function exportBackup() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'papparoca-backup-' + todayStr() + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Backup exportado!');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function renderAll() {
+      applyTheme();
+      renderGoals();
+      renderControls();
+      renderTimerAndPhases();
+      renderHydration();
+      renderHistory();
+      checkHydrationAlert();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('btnTheme').addEventListener('click', toggleTheme);
+      document.getElementById('btnBackup').addEventListener('click', function () { openModal('backupModal'); });
+
+      document.getElementById('btnNotif').addEventListener('click', function () {
+        if (!('Notification' in window)) {
+          showToast('Este browser não suporta notificações nativas.');
+          return;
+        }
+        Notification.requestPermission().then(function (perm) {
+          if (perm === 'granted') {
+            showToast('Alertas ativados! Aviso-te quando for hora de beber.');
+          } else {
+            showToast('Notificações bloqueadas — os alertas continuam a aparecer dentro da app.');
+          }
+        });
+      });
+
+      document.getElementById('mealPhotoInput').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        pendingBreakEndTs = Date.now();
+        compressImage(file, 720, 0.72).then(function (dataUrl) {
+          pendingPhotoDataUrl = dataUrl;
+          openBreakFastModal();
+        }).catch(function () {
+          showToast('Não consegui ler essa imagem. Tenta novamente.');
+        });
+      });
+
+      document.getElementById('importJsonInput').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const imported = JSON.parse(ev.target.result);
+            state = Object.assign(defaultState(), imported);
+            saveState();
+            closeModal('backupModal');
+            renderAll();
+            showToast('Backup importado com sucesso!');
+          } catch (err) {
+            showToast('Ficheiro inválido.');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      document.querySelectorAll('.goal-chip').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.goalHours = Number(btn.dataset.hours);
+          saveState();
+          renderGoals();
+          renderTimerAndPhases();
+        });
+      });
+
+      renderAll();
+      setInterval(renderTimerAndPhases, 1000);
+      setInterval(function () {
+        renderHydration();
+        checkHydrationAlert();
+      }, 30000);
+    });
+  </script>
+</body>
+</html>
