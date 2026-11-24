@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-PT" data-theme="light">
+<html lang="pt-PT" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#f4f6fa" id="themeColorMeta" />
+  <meta name="theme-color" content="#0f1117" id="themeColorMeta" />
   <title>Papparoca — Jejum &amp; Hidratação</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M36 16 C40 9, 49 7, 52 13 C46 17, 40 18, 36 16 Z' fill='%2315803d'/%3E%3Cpath d='M20 12 C20 16, 23 18, 28 18 L28 56' stroke='%23166534' stroke-width='6.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M28 19 C41 16, 52 24, 52 35 C52 46, 41 52, 28 49 Z' fill='%23166534'/%3E%3Cpath d='M28 22 C37 20, 44 26, 44 35 C44 44, 37 47, 28 46 Z' fill='%2384cc16'/%3E%3Cpath d='M28 24 C23 24, 21 28, 21 35 C21 42, 23 45, 28 45 Z' fill='%23f7fee7'/%3E%3C/svg%3E" />
   <style>
     :root, [data-theme="light"] {
       --bg: #f4f6fa;
@@ -22,6 +23,8 @@
       --water-soft: rgba(2, 132, 199, 0.09);
       --green: #059669;
       --green-soft: rgba(5, 150, 105, 0.11);
+      --brand-dark: #166534;
+      --brand-light: #65a30d;
       --danger: #dc2626;
       --danger-soft: rgba(220, 38, 38, 0.10);
       --guide-bg: #ecfdf5;
@@ -52,6 +55,8 @@
       --water-soft: rgba(56, 189, 248, 0.13);
       --green: #10b981;
       --green-soft: rgba(16, 185, 129, 0.14);
+      --brand-dark: #22c55e;
+      --brand-light: #a3e635;
       --danger: #ef4444;
       --danger-soft: rgba(239, 68, 68, 0.15);
       --guide-bg: rgba(16, 185, 129, 0.09);
@@ -78,7 +83,6 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    /* SVG sober icons */
     .ico {
       width: 15px;
       height: 15px;
@@ -138,22 +142,28 @@
       gap: 10px;
     }
 
-    .brand-logo {
-      width: 34px;
-      height: 34px;
+    .brand-logo-wrap {
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(217, 119, 6, 0.35);
-      color: var(--accent);
+      background: var(--card-2);
+      border: 1px solid var(--border);
       display: grid;
       place-items: center;
       flex-shrink: 0;
     }
 
     .brand h1 {
-      font-size: 1.12rem;
+      font-size: 1.18rem;
       font-weight: 800;
       letter-spacing: -0.02em;
+      color: var(--brand-dark);
+      display: flex;
+      align-items: center;
+    }
+
+    .brand h1 .app-hl {
+      color: var(--brand-light);
     }
 
     .brand span {
@@ -233,7 +243,7 @@
       gap: 8px;
     }
 
-    /* Layout Container + Explicit Mobile / PC View Switcher */
+    /* Layout Container + Mobile / PC View */
     .app-shell {
       max-width: 1140px;
       margin: 18px auto 0;
@@ -315,20 +325,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 6px 0 10px;
+      padding: 6px 0 8px;
+      width: 100%;
     }
 
     .ring-container {
       position: relative;
-      width: 224px;
-      height: 224px;
+      width: 216px;
+      height: 216px;
       display: grid;
       place-items: center;
     }
 
     .mobile-view .ring-container {
-      width: 196px;
-      height: 196px;
+      width: 190px;
+      height: 190px;
     }
 
     .ring-svg {
@@ -340,13 +351,13 @@
     .ring-bg {
       fill: none;
       stroke: var(--card-2);
-      stroke-width: 13;
+      stroke-width: 12;
     }
 
     .ring-progress {
       fill: none;
       stroke: var(--accent);
-      stroke-width: 13;
+      stroke-width: 12;
       stroke-linecap: round;
       transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
     }
@@ -366,18 +377,90 @@
     }
 
     .timer-digits {
-      font-size: 2.1rem;
+      font-size: 2.05rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
 
-    .mobile-view .timer-digits { font-size: 1.8rem; }
+    .mobile-view .timer-digits { font-size: 1.75rem; }
 
     .timer-sub {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
       margin-top: 4px;
+    }
+
+    /* 24 Vertical Bars Under Timer */
+    .bars-section {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+    }
+
+    .bars-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .bars-zones {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 6px;
+    }
+
+    .zone-seg {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 3px 2px;
+      border-radius: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #ffffff;
+    }
+
+    .bars-grid-24 {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
+      height: 36px;
+      align-items: stretch;
+    }
+
+    .vbar-slot {
+      position: relative;
+      border-radius: 3px;
+      background: rgba(148, 163, 184, 0.22);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .vbar-fill {
+      width: 100%;
+      height: 0%;
+      transition: height 0.35s ease;
+    }
+
+    .bars-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* Goal Chips */
@@ -386,7 +469,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 7px;
-      margin: 14px 0 16px;
+      margin: 14px 0 14px;
     }
 
     .goal-chip {
@@ -511,32 +594,87 @@
       font-size: 0.9rem;
     }
 
-    .phase-highlight {
+    /* Collapsible Phases */
+    .phase-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .phase-card-item {
+      border-radius: 12px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .phase-card-item.current {
+      border-color: var(--accent);
       background: var(--accent-soft);
-      border: 1px solid rgba(217, 119, 6, 0.32);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 14px;
     }
 
-    .phase-tag {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .phase-toggle {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 11px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      text-align: left;
     }
 
-    .phase-name {
-      font-size: 1.05rem;
+    .phase-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .phase-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .phase-hours {
+      min-width: 54px;
       font-weight: 800;
-      margin: 4px 0 6px;
+      color: var(--accent);
+      font-size: 0.78rem;
     }
 
-    .phase-desc {
-      font-size: 0.86rem;
+    .phase-title-text {
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .phase-chevron {
+      transition: transform 0.2s ease;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .phase-card-item.open .phase-chevron {
+      transform: rotate(180deg);
+    }
+
+    .phase-body {
+      display: none;
+      padding: 0 13px 13px 13px;
+      font-size: 0.82rem;
       color: var(--desc-text);
-      margin-bottom: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      padding-top: 10px;
+    }
+
+    .phase-card-item.open .phase-body {
+      display: block;
     }
 
     .phase-tip {
@@ -544,8 +682,9 @@
       border-left: 3px solid var(--accent);
       padding: 9px 11px;
       border-radius: 0 8px 8px 0;
-      font-size: 0.81rem;
+      font-size: 0.8rem;
       color: var(--text);
+      margin-top: 9px;
     }
 
     .source-tag {
@@ -556,40 +695,7 @@
       font-style: italic;
     }
 
-    .phase-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .phase-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 9px 11px;
-      border-radius: 11px;
-      background: var(--card-2);
-      border: 1px solid transparent;
-      font-size: 0.81rem;
-      opacity: 0.74;
-      transition: 0.2s;
-    }
-
-    .phase-item.reached { opacity: 0.92; }
-    .phase-item.current {
-      opacity: 1;
-      border-color: var(--accent);
-      background: var(--accent-soft);
-    }
-
-    .phase-hours {
-      min-width: 52px;
-      font-weight: 800;
-      color: var(--accent);
-      font-size: 0.78rem;
-      padding-top: 2px;
-    }
-
+    /* Hydration */
     .water-stats {
       display: flex;
       align-items: baseline;
@@ -689,11 +795,28 @@
       font-size: 0.8rem;
     }
 
+    /* Long-term pattern box */
+    .pattern-box {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 13px;
+      margin-bottom: 12px;
+      font-size: 0.81rem;
+    }
+
+    .pattern-box strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--accent);
+    }
+
+    /* History & Meal Gallery */
     .history-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 420px;
+      gap: 12px;
+      max-height: 520px;
       overflow-y: auto;
       padding-right: 2px;
     }
@@ -708,18 +831,41 @@
     }
 
     .history-item {
-      display: flex;
-      gap: 12px;
-      align-items: center;
       background: var(--card-2);
       border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 10px;
+      padding: 12px;
+    }
+
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .history-duration {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .history-dates {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .photo-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .history-thumb {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       border-radius: 10px;
       object-fit: cover;
       background: var(--card);
@@ -728,42 +874,46 @@
       border: 1px solid var(--border);
     }
 
-    .history-no-photo {
-      width: 64px;
-      height: 64px;
+    .add-photo-mini {
+      width: 68px;
+      height: 68px;
       border-radius: 10px;
       background: var(--card);
       color: var(--muted);
+      border: 1px dashed var(--border);
       display: grid;
       place-items: center;
-      flex-shrink: 0;
-      border: 1px dashed var(--border);
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 600;
     }
 
-    .history-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .history-duration {
-      font-weight: 800;
-      font-size: 0.98rem;
-      color: var(--accent);
-    }
-
-    .history-dates {
-      font-size: 0.76rem;
-      color: var(--muted);
-      margin-top: 2px;
+    .add-photo-mini:hover {
+      border-color: var(--green);
+      color: var(--green);
     }
 
     .history-note {
-      font-size: 0.8rem;
+      font-size: 0.81rem;
       color: var(--text);
-      margin-top: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-top: 9px;
+      line-height: 1.4;
+    }
+
+    .nutri-comment {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 0.77rem;
+      color: var(--desc-text);
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
     }
 
     .del-btn {
@@ -772,14 +922,16 @@
       color: var(--muted);
       cursor: pointer;
       padding: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       border-radius: 8px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
     .del-btn:hover { color: var(--danger); background: var(--danger-soft); }
+    .edit-btn:hover { color: var(--accent); background: var(--accent-soft); }
 
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -822,23 +974,25 @@
 
     .modal input[type="datetime-local"],
     .modal input[type="text"],
-    .modal input[type="number"] {
+    .modal input[type="number"],
+    .modal textarea {
       width: 100%;
       background: var(--card-2);
       border: 1px solid var(--border);
       color: var(--text);
       border-radius: 10px;
       padding: 11px 12px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       margin-bottom: 14px;
+      font-family: inherit;
     }
 
     .modal-preview {
       width: 100%;
-      max-height: 240px;
+      max-height: 220px;
       object-fit: cover;
       border-radius: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 1px solid var(--border);
     }
 
@@ -873,6 +1027,7 @@
       display: flex;
       gap: 10px;
       justify-content: flex-end;
+      flex-wrap: wrap;
     }
 
     .modal-actions .btn { width: auto; padding: 10px 16px; }
@@ -911,11 +1066,17 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <div class="brand-logo" aria-hidden="true">
-          <svg class="ico-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <div class="brand-logo-wrap" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M36 16 C40 9, 49 7, 52 13 C46 17, 40 18, 36 16 Z" fill="#15803d"/>
+            <path d="M20 12 C20 16, 23 18, 28 18 L28 56" stroke="#166534" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M28 19 C41 16, 52 24, 52 35 C52 46, 41 52, 28 49 Z" fill="#166534"/>
+            <path d="M28 22 C37 20, 44 26, 44 35 C44 44, 37 47, 28 46 Z" fill="#84cc16"/>
+            <path d="M28 24 C23 24, 21 28, 21 35 C21 42, 23 45, 28 45 Z" fill="#f7fee7"/>
+          </svg>
         </div>
         <div>
-          <h1>Papparoca</h1>
+          <h1>P<span class="app-hl">app</span>aroca</h1>
           <span>Jejum, ciência &amp; hidratação • Pinto Coelho &amp; Deusa da Glicose</span>
         </div>
       </div>
@@ -926,7 +1087,7 @@
         </button>
         <button class="icon-btn" id="btnTheme" title="Alternar modo dia / noite">
           <span id="themeIcon"></span>
-          <span class="hide-sm" id="themeLabel">Noite</span>
+          <span class="hide-sm" id="themeLabel">Dia</span>
         </button>
         <button class="icon-btn" id="btnNotif" title="Ativar notificações do dispositivo">
           <svg class="ico" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
@@ -965,7 +1126,7 @@
               <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
               Estado do Jejum
             </div>
-            <span class="pill eating" id="statusPill">Janela Alimentar</span>
+            <span class="pill fasting" id="statusPill">Em Jejum</span>
           </div>
 
           <div class="timer-wrap">
@@ -975,9 +1136,26 @@
                 <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="96" stroke-dasharray="603.19" stroke-dashoffset="603.19"></circle>
               </svg>
               <div class="ring-center">
-                <div class="timer-label" id="timerLabel">Em pausa</div>
+                <div class="timer-label" id="timerLabel">Em curso</div>
                 <div class="timer-digits" id="timerDigits">00:00:00</div>
                 <div class="timer-sub" id="timerSub">Objetivo: 16h</div>
+              </div>
+            </div>
+
+            <!-- 24 Vertical Bars (1h each; 30m = half bar) -->
+            <div class="bars-section">
+              <div class="bars-top-row">
+                <strong id="barsCurrentPhaseLabel">0h–24h • 30m = meia barra</strong>
+                <span id="barsProgressText">0.0h / 24h</span>
+              </div>
+              <div class="bars-zones" id="barsZones"></div>
+              <div class="bars-grid-24" id="barsGrid24"></div>
+              <div class="bars-scale">
+                <span>0h</span>
+                <span>6h</span>
+                <span>12h</span>
+                <span>18h</span>
+                <span>24h</span>
               </div>
             </div>
 
@@ -991,14 +1169,10 @@
               <button class="goal-chip" data-hours="48">48h</button>
             </div>
 
-            <input type="file" accept="image/*" capture="environment" id="mealPhotoInput" class="hidden-input" />
+            <input type="file" accept="image/*" capture="environment" multiple id="mealPhotoInput" class="hidden-input" />
+            <input type="file" accept="image/*" capture="environment" multiple id="appendPhotoInput" class="hidden-input" />
 
-            <div class="action-stack" id="fastingControls">
-              <button class="btn btn-primary" onclick="startFast()">
-                <svg class="ico" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-                Iniciar Jejum Agora
-              </button>
-            </div>
+            <div class="action-stack" id="fastingControls"></div>
 
             <div class="meta-bar">
               <div class="meta-box">
@@ -1017,19 +1191,9 @@
           <div class="card-header">
             <div class="card-title">
               <svg class="ico" viewBox="0 0 24 24"><path d="M2 12h4l3-7 6 14 3-7h4"/></svg>
-              O que se passa no teu corpo
+              Fases Metabólicas (Clica para expandir)
             </div>
-            <span class="pill fasting" id="phasePill">Janela Alimentar</span>
-          </div>
-
-          <div class="phase-highlight" id="currentPhaseBox">
-            <div class="phase-tag" id="phaseTag">PREPARAÇÃO &amp; REFEIÇÕES</div>
-            <div class="phase-name" id="phaseName">Estás na janela alimentar</div>
-            <div class="phase-desc" id="phaseDesc">A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).</div>
-            <div class="phase-tip" id="phaseTip">
-              <strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.
-              <span class="source-tag">Fonte: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>
-            </div>
+            <span class="pill fasting" id="phasePill">0h–4h</span>
           </div>
 
           <div class="phase-list" id="phaseTimeline"></div>
@@ -1112,27 +1276,28 @@
           <div class="card-header">
             <div class="card-title">
               <svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              Registo de Quebras de Jejum
+              Galeria de Refeições &amp; Padrões
             </div>
             <span style="font-size: 0.78rem; color: var(--muted);" id="historyCount">0 registos</span>
           </div>
 
-          <div class="history-list" id="historyList">
-            <div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>
-          </div>
+          <div class="pattern-box" id="patternInsightBox"></div>
+
+          <div class="history-list" id="historyList"></div>
         </section>
 
       </div>
     </main>
   </div>
 
+  <!-- Modal: Ajustar Hora de Início -->
   <div class="modal-backdrop" id="editStartModal">
     <div class="modal">
       <h3>
         <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
         Ajustar início do jejum
       </h3>
-      <label for="editStartInput">Quando fizeste a última refeição?</label>
+      <label for="editStartInput">Quando iniciou o jejum?</label>
       <input type="datetime-local" id="editStartInput" />
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('editStartModal')">Cancelar</button>
@@ -1141,14 +1306,16 @@
     </div>
   </div>
 
-  <div class="modal-backdrop" id="breakFastModal">
+  <!-- Modal: Refeição em Pausa (Janela Alimentar) -->
+  <div class="modal-backdrop" id="eatingModal">
     <div class="modal">
       <h3>
         <svg class="ico" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/></svg>
-        Quebrar jejum — Bom apetite!
+        Janela alimentar em curso — Cronómetro suspenso
       </h3>
-      <img id="breakPhotoPreview" class="modal-preview" alt="Foto da refeição" />
-      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 10px;" id="breakSummaryText"></p>
+      <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 10px;" id="eatingSummaryText"></p>
+
+      <div id="eatingPhotosPreview" class="photo-strip" style="margin-bottom: 12px;"></div>
 
       <div class="break-guide">
         <strong>Truques para evitar pico de glicose na quebra:</strong>
@@ -1166,15 +1333,33 @@
         <span class="source-tag">Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / O Segredo do Sistema Imunitário</span>
       </div>
 
-      <label for="breakNoteInput">Nota opcional (ex: salada, ovos, abacate, caldo...)</label>
-      <input type="text" id="breakNoteInput" placeholder="O que vais paparocar?" />
-      <div class="modal-actions">
-        <button class="btn btn-ghost" onclick="cancelBreakFast()">Cancelar</button>
-        <button class="btn btn-photo" onclick="confirmBreakFast()">Confirmar quebra</button>
+      <label for="eatingNoteInput">Sugestão / descrição (podes editar agora ou mais tarde):</label>
+      <textarea id="eatingNoteInput" rows="2" placeholder="O que está no prato?"></textarea>
+
+      <div class="modal-actions" style="justify-content: space-between;">
+        <button class="btn btn-ghost" onclick="triggerAppendPhoto()">+ Mais foto</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-ghost" onclick="closeModal('eatingModal')">Fechar</button>
+          <button class="btn btn-primary" onclick="finishMealAndRestartFast()">Acabei — Iniciar novo jejum</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Modal: Editar Refeição Existente -->
+  <div class="modal-backdrop" id="editMealModal">
+    <div class="modal">
+      <h3>Editar refeição</h3>
+      <label for="editMealNoteInput">Itens e notas da refeição</label>
+      <textarea id="editMealNoteInput" rows="3"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('editMealModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveEditedMeal()">Guardar alterações</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Lightbox Foto -->
   <div class="modal-backdrop" id="lightboxModal" onclick="closeModal('lightboxModal')">
     <div class="modal" onclick="event.stopPropagation()">
       <h3 id="lightboxTitle">Refeição</h3>
@@ -1186,6 +1371,7 @@
     </div>
   </div>
 
+  <!-- Modal: Meta de Água -->
   <div class="modal-backdrop" id="waterGoalModal">
     <div class="modal">
       <h3>
@@ -1201,6 +1387,7 @@
     </div>
   </div>
 
+  <!-- Modal: Backup JSON -->
   <div class="modal-backdrop" id="backupModal">
     <div class="modal">
       <h3>
@@ -1224,7 +1411,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const STORAGE_KEY = 'papparoca_v1_state';
+    const STORAGE_KEY = 'papparoca_v2_state';
     const RING_CIRCUMFERENCE = 2 * Math.PI * 96;
 
     const SVG_MOBILE = '<svg class="ico" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
@@ -1233,11 +1420,14 @@
     const SVG_SUN = '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
     const SVG_CAMERA = '<svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
     const SVG_TRASH = '<svg class="ico-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
+    const SVG_EDIT = '<svg class="ico-sm" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+    const SVG_CHEVRON = '<svg class="ico phase-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
 
     const PHASES = [
       {
         min: 0, max: 4,
         range: '0h – 4h',
+        color: '#f59e0b',
         name: 'Digestão & Gestão da Glicose',
         desc: 'O organismo transforma os hidratos em glicose e o pâncreas liberta insulina para a transportar para as células e armazenar glicogénio no fígado e músculos.',
         tip: 'Se acabaste de comer, faz uma caminhada leve de 10 a 20 minutos: a contração muscular absorve glicose diretamente e reduz o pico pós-refeição. Evita petiscar para não disparar a grelina.',
@@ -1246,6 +1436,7 @@
       {
         min: 4, max: 12,
         range: '4h – 12h',
+        color: '#38bdf8',
         name: 'Queda da Insulina & Glicogénio',
         desc: 'A glicemia estabiliza e a insulina desce gradualmente. O corpo passa a recorrer às reservas de glicogénio guardadas no fígado enquanto o intestino descansa.',
         tip: 'Podes beber água (idealmente alcalina, pH > 7,4), chá verde/preto/ervas e café à discrição, sempre sem açúcar nem adoçantes artificiais. Ao acordar, água morna com limão ajuda a alcalinizar.',
@@ -1254,6 +1445,7 @@
       {
         min: 12, max: 16,
         range: '12h – 16h',
+        color: '#10b981',
         name: 'Lipólise & Ativação da Leptina',
         desc: 'Sem glicose disponível no sangue, o corpo recorre à sua segunda fonte de energia: as células adiposas (gordura visceral), para energizar as mitocôndrias. Sobe a leptina (hormona da saciedade).',
         tip: 'Se sentires fome, bebe uns goles de água isotónica (água do mar diluída ou pitada de flor de sal/sal dos Himalaias): nutre as células com minerais e acalma o apetite.',
@@ -1262,6 +1454,7 @@
       {
         min: 16, max: 24,
         range: '16h – 24h',
+        color: '#a855f7',
         name: 'Cetose, Autofagia & Hormona de Crescimento',
         desc: 'O organismo entra em cetose — os corpos cetónicos alimentam melhor os neurónios e mitocôndrias —, ativa a autofagia (reciclagem de células velhas/danificadas), regula a glutationa e eleva a hormona de crescimento (GH).',
         tip: 'Excelente altura para uma caminhada ao ar livre e 20–30 min de sol (síntese de vitamina D3), sem exagerar na intensidade para não disparar o cortisol.',
@@ -1270,6 +1463,7 @@
       {
         min: 24, max: 36,
         range: '24h – 36h',
+        color: '#ec4899',
         name: 'Regeneração do Sistema Imunitário',
         desc: 'Tal como demonstrou Valter Longo, em jejum o organismo dá indicações às células-mãe para produzirem novos glóbulos brancos, promovendo uma verdadeira renovação imunitária e menor inflamação.',
         tip: 'Mantém a hidratação constante (2 a 2,5 L/dia) com apoio de minerais (magnésio, potássio, sódio da água isotónica). O teu paladar fica mais apurado para alimentos simples e naturais.',
@@ -1278,6 +1472,7 @@
       {
         min: 36, max: 999,
         range: '36h+',
+        color: '#ef4444',
         name: 'Renovação Profunda & Longevidade',
         desc: 'Redução marcada de radicais livres, da glicação das proteínas e da inflamação silenciosa — os principais motores do envelhecimento — com otimização neurocognitiva (Mark Mattson).',
         tip: 'Para quebrar um jejum longo sem picos: 1 colher de vinagre diluído em água, depois caldo de carne ou vegetais verdes (fibra), seguido de proteína e gorduras boas. Zero glúten, caseína ou açúcar.',
@@ -1315,13 +1510,45 @@
       return new Date().toISOString().slice(0, 10);
     }
 
+    // Monday 14:35 in current week context
+    function getDefaultMonday1435() {
+      const now = new Date();
+      const day = now.getDay(); // 0=Sun, 1=Mon
+      const diffToMon = (day === 0) ? -6 : (1 - day);
+      const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMon, 14, 35, 0, 0);
+      if (mon.getTime() > now.getTime()) {
+        mon.setDate(mon.getDate() - 7);
+      }
+      return mon.getTime();
+    }
+
+    function buildSeedMeals() {
+      const fastStartTs = getDefaultMonday1435();
+      const mealEndTs = fastStartTs;
+      const mealStartTs = mealEndTs - (35 * 60 * 1000);
+      return [
+        {
+          id: 1001,
+          start: mealStartTs,
+          end: mealEndTs,
+          durationMs: 16 * 3600000,
+          goalHours: 16,
+          photos: [],
+          autoSuggested: true,
+          note: 'OMAD Segunda: 2 ovos estrelados com colorau e cebolinho, hash browns/croquetes, presunto, punhado de sementes de abóbora, taça de arroz branco, lata de atum em azeite e salame de chocolate.'
+        }
+      ];
+    }
+
     function defaultState() {
       return {
-        theme: 'light',
+        theme: 'dark',
         viewMode: detectDeviceViewMode(),
-        isFasting: false,
-        fastStart: null,
+        isFasting: true,
+        fastStart: getDefaultMonday1435(),
+        activeMeal: null,
         goalHours: 16,
+        openPhaseIdx: 0,
         waterGoalMl: 2500,
         hydrationDate: todayStr(),
         drinksToday: [],
@@ -1329,13 +1556,12 @@
         reminderMinutes: 120,
         snoozeUntil: 0,
         lastNotifAt: 0,
-        history: []
+        history: buildSeedMeals()
       };
     }
 
     let state = loadState();
-    let pendingPhotoDataUrl = null;
-    let pendingBreakEndTs = null;
+    let editingMealId = null;
 
     function loadState() {
       try {
@@ -1343,9 +1569,7 @@
         if (!raw) return defaultState();
         const parsed = JSON.parse(raw);
         const merged = Object.assign(defaultState(), parsed);
-        if (!merged.viewMode) {
-          merged.viewMode = detectDeviceViewMode();
-        }
+        if (!merged.viewMode) merged.viewMode = detectDeviceViewMode();
         if (merged.hydrationDate !== todayStr()) {
           merged.hydrationDate = todayStr();
           merged.drinksToday = [];
@@ -1369,16 +1593,9 @@
       const iconEl = document.getElementById('viewModeIcon');
       const labelEl = document.getElementById('viewModeLabel');
       const isMobile = state.viewMode === 'mobile';
-
-      if (mainEl) {
-        mainEl.className = isMobile ? 'mobile-view' : 'grid-view';
-      }
-      if (iconEl) {
-        iconEl.innerHTML = isMobile ? SVG_PC : SVG_MOBILE;
-      }
-      if (labelEl) {
-        labelEl.textContent = isMobile ? 'Modo PC' : 'Modo Mobile';
-      }
+      if (mainEl) mainEl.className = isMobile ? 'mobile-view' : 'grid-view';
+      if (iconEl) iconEl.innerHTML = isMobile ? SVG_PC : SVG_MOBILE;
+      if (labelEl) labelEl.textContent = isMobile ? 'Modo PC' : 'Modo Mobile';
     }
 
     function toggleViewMode() {
@@ -1389,18 +1606,14 @@
     }
 
     function applyTheme() {
-      const theme = state.theme === 'dark' ? 'dark' : 'light';
+      const theme = state.theme === 'light' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', theme);
       const meta = document.getElementById('themeColorMeta');
       if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1117' : '#f4f6fa');
       const iconEl = document.getElementById('themeIcon');
       const labelEl = document.getElementById('themeLabel');
-      if (iconEl) {
-        iconEl.innerHTML = theme === 'dark' ? SVG_SUN : SVG_MOON;
-      }
-      if (labelEl) {
-        labelEl.textContent = theme === 'dark' ? 'Dia' : 'Noite';
-      }
+      if (iconEl) iconEl.innerHTML = theme === 'dark' ? SVG_SUN : SVG_MOON;
+      if (labelEl) labelEl.textContent = theme === 'dark' ? 'Dia' : 'Noite';
     }
 
     function toggleTheme() {
@@ -1440,20 +1653,6 @@
       return new Date(d.getTime() - offset).toISOString().slice(0, 16);
     }
 
-    function startFast() {
-      state.isFasting = true;
-      state.fastStart = Date.now();
-      saveState();
-      renderAll();
-      showToast('Jejum iniciado.');
-    }
-
-    function triggerMealPhoto() {
-      const input = document.getElementById('mealPhotoInput');
-      input.value = '';
-      input.click();
-    }
-
     function compressImage(file, maxWidth, quality) {
       return new Promise(function (resolve, reject) {
         const reader = new FileReader();
@@ -1476,56 +1675,94 @@
       });
     }
 
-    function openBreakFastModal() {
-      const durationMs = pendingBreakEndTs - state.fastStart;
-      document.getElementById('breakPhotoPreview').src = pendingPhotoDataUrl;
-      document.getElementById('breakSummaryText').textContent =
-        'Jejum concluído com ' + formatDuration(durationMs) + ' (foto tirada às ' + formatShortDate(pendingBreakEndTs) + ').';
-      document.getElementById('breakNoteInput').value = '';
-      openModal('breakFastModal');
-    }
-
-    function cancelBreakFast() {
-      pendingPhotoDataUrl = null;
-      pendingBreakEndTs = null;
-      closeModal('breakFastModal');
-    }
-
-    function confirmBreakFast() {
-      const endTs = pendingBreakEndTs || Date.now();
-      const note = document.getElementById('breakNoteInput').value.trim();
-      finalizeFast(endTs, pendingPhotoDataUrl, note);
-      pendingPhotoDataUrl = null;
-      pendingBreakEndTs = null;
-      closeModal('breakFastModal');
-    }
-
-    function endFastWithoutPhoto() {
-      if (!confirm('Queres mesmo terminar o jejum sem fotografar a refeição?')) return;
-      finalizeFast(Date.now(), null, 'Sem foto');
-    }
-
-    function finalizeFast(endTs, photo, note) {
-      const durationMs = Math.max(0, endTs - state.fastStart);
-      state.history.unshift({
-        id: Date.now(),
-        start: state.fastStart,
-        end: endTs,
-        durationMs: durationMs,
-        goalHours: state.goalHours,
-        photo: photo,
-        note: note
-      });
-      if (state.history.length > 40) state.history = state.history.slice(0, 40);
-      state.isFasting = false;
-      state.fastStart = null;
+    function startFast() {
+      state.isFasting = true;
+      state.fastStart = Date.now();
+      state.activeMeal = null;
       saveState();
       renderAll();
-      showToast('Jejum terminado (' + formatDuration(durationMs) + ').');
+      showToast('Novo jejum iniciado.');
+    }
+
+    function triggerMealPhoto() {
+      const input = document.getElementById('mealPhotoInput');
+      input.value = '';
+      input.click();
+    }
+
+    function triggerAppendPhoto() {
+      const input = document.getElementById('appendPhotoInput');
+      input.value = '';
+      input.click();
+    }
+
+    function suspendFastingWithPhotos(dataUrls) {
+      const now = Date.now();
+      const prevFastDuration = state.fastStart ? Math.max(0, now - state.fastStart) : 0;
+      if (!state.activeMeal) {
+        state.activeMeal = {
+          id: now,
+          start: now,
+          end: null,
+          fastBeforeMs: prevFastDuration,
+          goalHours: state.goalHours,
+          photos: [],
+          note: 'Refeição em curso (podes editar depois)'
+        };
+      }
+      dataUrls.forEach(function (url) {
+        state.activeMeal.photos.push(url);
+      });
+      state.isFasting = false;
+      saveState();
+      renderAll();
+      openEatingModal();
+      showToast('Cronómetro suspenso — bom apetite.');
+    }
+
+    function openEatingModal() {
+      if (!state.activeMeal) return;
+      document.getElementById('eatingSummaryText').textContent =
+        'Início da refeição: ' + formatShortDate(state.activeMeal.start) +
+        ' • ' + state.activeMeal.photos.length + ' foto(s) anexada(s).';
+      document.getElementById('eatingNoteInput').value = state.activeMeal.note || '';
+      const strip = document.getElementById('eatingPhotosPreview');
+      strip.innerHTML = state.activeMeal.photos.map(function (src) {
+        return '<img class="history-thumb" src="' + src + '" alt="Prato" />';
+      }).join('');
+      openModal('eatingModal');
+    }
+
+    function finishMealAndRestartFast() {
+      if (!state.activeMeal) {
+        startFast();
+        closeModal('eatingModal');
+        return;
+      }
+      const endTs = Date.now();
+      const noteVal = document.getElementById('eatingNoteInput').value.trim();
+      const completedMeal = {
+        id: state.activeMeal.id,
+        start: state.activeMeal.start,
+        end: endTs,
+        durationMs: state.activeMeal.fastBeforeMs || 0,
+        goalHours: state.goalHours,
+        photos: state.activeMeal.photos || [],
+        note: noteVal || 'Sem descrição'
+      };
+      state.history.unshift(completedMeal);
+      if (state.history.length > 40) state.history = state.history.slice(0, 40);
+      state.activeMeal = null;
+      state.isFasting = true;
+      state.fastStart = endTs;
+      saveState();
+      closeModal('eatingModal');
+      renderAll();
+      showToast('Refeição fechada às ' + formatShortDate(endTs) + ' — novo jejum a contar!');
     }
 
     function openEditStartModal() {
-      if (!state.isFasting) return;
+      if (!state.fastStart) return;
       document.getElementById('editStartInput').value = toDatetimeLocalValue(state.fastStart);
       openModal('editStartModal');
     }
@@ -1539,12 +1776,14 @@
         return;
       }
       state.fastStart = newTs;
+      state.isFasting = true;
       saveState();
       closeModal('editStartModal');
       renderAll();
-      showToast('Hora de início atualizada.');
+      showToast('Início do jejum atualizado.');
     }
 
+    // Hydration
     function checkDayRollover() {
       if (state.hydrationDate !== todayStr()) {
         state.hydrationDate = todayStr();
@@ -1633,6 +1872,56 @@
       }
     }
 
+    // 24 Bars Renderer (30 mins = half bar)
+    function render24Bars(hours) {
+      const grid = document.getElementById('barsGrid24');
+      const zonesEl = document.getElementById('barsZones');
+      const labelEl = document.getElementById('barsCurrentPhaseLabel');
+      const progEl = document.getElementById('barsProgressText');
+      if (!grid || !zonesEl) return;
+
+      const clampedH = Math.max(0, hours);
+      progEl.textContent = clampedH.toFixed(1) + 'h / 24h';
+
+      const curPhase = PHASES.find(function (p) { return clampedH >= p.min && clampedH < p.max; }) || PHASES[3];
+      labelEl.textContent = 'Fase: ' + curPhase.range + ' ' + curPhase.name;
+
+      // Zones across 24h: 0-4 (4h), 4-12 (8h), 12-16 (4h), 16-24 (8h)
+      const zoneDefs = [
+        { label: '0–4h Digestão', span: 4, color: '#d97706' },
+        { label: '4–12h Insulina', span: 8, color: '#0284c7' },
+        { label: '12–16h Lipólise', span: 4, color: '#059669' },
+        { label: '16–24h Cetose/Autofagia', span: 8, color: '#7e22ce' }
+      ];
+
+      zonesEl.innerHTML = zoneDefs.map(function (z) {
+        return '<div class="zone-seg" style="flex:' + z.span + '; background:' + z.color + ';" title="' + z.label + '">' + z.label + '</div>';
+      }).join('');
+
+      let barsHtml = '';
+      for (let i = 0; i < 24; i++) {
+        const barStart = i;
+        const barEnd = i + 1;
+        let fillRatio = 0;
+        if (clampedH >= barEnd) {
+          fillRatio = 1;
+        } else if (clampedH > barStart) {
+          // Snap to 0.5h (30m) steps smoothly + fractional
+          const frac = clampedH - barStart;
+          fillRatio = Math.min(1, frac);
+        }
+        const z = zoneDefs.find(function (zd, idx) {
+          const prevSpans = zoneDefs.slice(0, idx).reduce(function (a, b) { return a + b.span; }, 0);
+          return i >= prevSpans && i < prevSpans + zd.span;
+        }) || zoneDefs[0];
+
+        barsHtml += '<div class="vbar-slot" title="' + i + 'h–' + (i + 1) + 'h">' +
+          '<div class="vbar-fill" style="height:' + Math.round(fillRatio * 100) + '%; background:' + z.color + ';"></div>' +
+          '</div>';
+      }
+      grid.innerHTML = barsHtml;
+    }
+
     function renderGoals() {
       document.querySelectorAll('.goal-chip').forEach(function (btn) {
         const h = Number(btn.dataset.hours);
@@ -1642,21 +1931,55 @@
 
     function renderControls() {
       const wrap = document.getElementById('fastingControls');
+      if (state.activeMeal) {
+        wrap.innerHTML =
+          '<button class="btn btn-photo" onclick="openEatingModal()">' +
+          SVG_CAMERA +
+          'Ver / Editar Refeição em Pausa</button>' +
+          '<button class="btn btn-primary" onclick="finishMealAndRestartFast()">Acabei de comer — Iniciar novo jejum</button>';
+        return;
+      }
       if (!state.isFasting) {
         wrap.innerHTML =
-          '<button class="btn btn-primary" onclick="startFast()">' +
-          '<svg class="ico" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>' +
-          'Iniciar Jejum Agora</button>';
+          '<button class="btn btn-primary" onclick="startFast()">Iniciar Jejum Agora</button>';
       } else {
         wrap.innerHTML =
           '<button class="btn btn-photo" onclick="triggerMealPhoto()">' +
           SVG_CAMERA +
-          'Fotografar Refeição &amp; Quebrar Jejum</button>' +
+          'Fotografar Refeição (Pausa Cronómetro)</button>' +
           '<div class="action-row-2">' +
           '<button class="btn btn-ghost" onclick="openEditStartModal()">Ajustar início</button>' +
-          '<button class="btn btn-ghost" onclick="endFastWithoutPhoto()">Terminar sem foto</button>' +
+          '<button class="btn btn-ghost" onclick="endFastManual()">Fechar jejum agora</button>' +
           '</div>';
       }
+    }
+
+    function endFastManual() {
+      if (!confirm('Terminar este jejum sem foto e entrar em janela alimentar?')) return;
+      const now = Date.now();
+      const dur = state.fastStart ? Math.max(0, now - state.fastStart) : 0;
+      state.history.unshift({
+        id: now,
+        start: state.fastStart || now,
+        end: now,
+        durationMs: dur,
+        goalHours: state.goalHours,
+        photos: [],
+        note: 'Quebra manual sem foto'
+      });
+      state.isFasting = false;
+      state.activeMeal = {
+        id: now + 1,
+        start: now,
+        end: null,
+        fastBeforeMs: 0,
+        goalHours: state.goalHours,
+        photos: [],
+        note: ''
+      };
+      saveState();
+      renderAll();
+      openEatingModal();
     }
 
     function renderTimerAndPhases() {
@@ -1669,20 +1992,22 @@
       const metaEnd = document.getElementById('metaEnd');
 
       if (!state.isFasting) {
+        const pausedHours = state.fastStart ? Math.max(0, (Date.now() - state.fastStart) / 3600000) : 0;
         pill.textContent = 'Janela Alimentar';
         pill.className = 'pill eating';
-        label.textContent = 'Em pausa';
-        digits.textContent = '00:00:00';
-        sub.textContent = 'Objetivo selecionado: ' + state.goalHours + 'h';
-        ring.style.strokeDashoffset = RING_CIRCUMFERENCE;
-        ring.style.stroke = '#059669';
-        metaStart.textContent = '—';
-        metaEnd.textContent = '—';
-        renderPhases(-1);
+        label.textContent = 'Cronómetro suspenso';
+        digits.textContent = state.fastStart ? formatDuration(Date.now() - state.fastStart) : '00:00:00';
+        sub.textContent = 'A aguardar fim da refeição';
+        ring.style.strokeDashoffset = RING_CIRCUMFERENCE * 0.75;
+        ring.style.stroke = '#10b981';
+        metaStart.textContent = formatShortDate(state.fastStart);
+        metaEnd.textContent = 'Em pausa';
+        render24Bars(pausedHours);
+        renderPhases(pausedHours);
         return;
       }
 
-      const elapsedMs = Date.now() - state.fastStart;
+      const elapsedMs = Math.max(0, Date.now() - (state.fastStart || Date.now()));
       const elapsedHours = elapsedMs / 3600000;
       const goalMs = state.goalHours * 3600000;
       const pct = Math.min(1, elapsedMs / goalMs);
@@ -1696,47 +2021,46 @@
         : 'Faltam ' + formatDuration(goalMs - elapsedMs);
 
       ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
-      ring.style.stroke = pct >= 1 ? '#059669' : '#d97706';
+      ring.style.stroke = pct >= 1 ? '#10b981' : '#f59e0b';
 
       metaStart.textContent = formatShortDate(state.fastStart);
-      metaEnd.textContent = formatShortDate(state.fastStart + goalMs);
+      metaEnd.textContent = formatShortDate((state.fastStart || Date.now()) + goalMs);
 
+      render24Bars(elapsedHours);
       renderPhases(elapsedHours);
+    }
+
+    function togglePhaseAccordion(idx) {
+      state.openPhaseIdx = (state.openPhaseIdx === idx) ? -1 : idx;
+      saveState();
+      const curHours = state.fastStart ? Math.max(0, (Date.now() - state.fastStart) / 3600000) : 0;
+      renderPhases(curHours);
     }
 
     function renderPhases(hours) {
       const phasePill = document.getElementById('phasePill');
       const timeline = document.getElementById('phaseTimeline');
-      const tipBox = document.getElementById('phaseTip');
+      const current = PHASES.find(function (p) { return hours >= p.min && hours < p.max; }) || PHASES[PHASES.length - 1];
+      if (phasePill) phasePill.textContent = current.range;
 
-      let current = null;
-      if (hours >= 0) {
-        current = PHASES.find(function (p) { return hours >= p.min && hours < p.max; }) || PHASES[PHASES.length - 1];
-        phasePill.textContent = current.range;
-        document.getElementById('phaseTag').textContent = 'FASE ATUAL • ' + current.range;
-        document.getElementById('phaseName').textContent = current.name;
-        document.getElementById('phaseDesc').textContent = current.desc;
-        tipBox.innerHTML = '<strong>Dica:</strong> ' + current.tip + '<span class="source-tag">Fonte: ' + current.source + '</span>';
-      } else {
-        phasePill.textContent = 'Janela Alimentar';
-        document.getElementById('phaseTag').textContent = 'PREPARAÇÃO & REFEIÇÕES';
-        document.getElementById('phaseName').textContent = 'Estás na janela alimentar';
-        document.getElementById('phaseDesc').textContent = 'A forma como comes agora define o quão fácil será o próximo jejum (sem picos de glicose nem desejos).';
-        tipBox.innerHTML =
-          '<strong>Dica:</strong> Come pela ordem certa (vegetais → proteína/gordura → hidratos), "veste" sempre os hidratos com proteína ou gordura boa, e dorme com o estômago vazio há pelo menos 3 horas.' +
-          '<span class="source-tag">Fontes: Jessie Inchauspé (Deusa da Glicose — A Revolução da Glicose) &amp; Dr. Manuel Pinto Coelho (Seja um Super-Humano!)</span>';
-      }
-
-      timeline.innerHTML = PHASES.map(function (p) {
-        const isCurrent = current && current.name === p.name;
-        const isReached = hours >= p.min;
-        return '<div class="phase-item ' + (isReached ? 'reached' : '') + ' ' + (isCurrent ? 'current' : '') + '">' +
-          '<div class="phase-hours">' + p.range + '</div>' +
-          '<div>' +
-          '<strong style="display:block; margin-bottom:2px;">' + p.name + '</strong>' +
-          '<span style="color: var(--muted);">' + p.desc + '</span>' +
+      timeline.innerHTML = PHASES.map(function (p, idx) {
+        const isCurrent = current.name === p.name;
+        const isOpen = state.openPhaseIdx === idx;
+        return '<div class="phase-card-item ' + (isCurrent ? 'current' : '') + ' ' + (isOpen ? 'open' : '') + '">' +
+          '<button class="phase-toggle" type="button" onclick="togglePhaseAccordion(' + idx + ')">' +
+          '<span class="phase-toggle-left">' +
+          '<span class="phase-dot" style="background:' + p.color + ';"></span>' +
+          '<span class="phase-hours">' + p.range + '</span>' +
+          '<span class="phase-title-text">' + p.name + '</span>' +
+          '</span>' +
+          SVG_CHEVRON +
+          '</button>' +
+          '<div class="phase-body">' +
+          '<p>' + p.desc + '</p>' +
+          '<div class="phase-tip"><strong>Dica:</strong> ' + p.tip + '</div>' +
           '<span class="source-tag">Fonte: ' + p.source + '</span>' +
-          '</div></div>';
+          '</div>' +
+          '</div>';
       }).join('');
     }
 
@@ -1772,44 +2096,116 @@
       });
     }
 
+    function buildMealNutritionComment(note) {
+      const lower = (note || '').toLowerCase();
+      const positives = [];
+      const cautions = [];
+
+      if (lower.includes('ovo')) positives.push('ovos: proteína completa, colina e gorduras');
+      if (lower.includes('atum') || lower.includes('salmão') || lower.includes('sardinha') || lower.includes('peixe')) {
+        positives.push('peixe: proteína e ómega-3');
+      }
+      if (lower.includes('abóbora') || lower.includes('sementes')) {
+        positives.push('sementes de abóbora: magnésio e zinco');
+      }
+      if (lower.includes('azeite')) positives.push('azeite: gordura monoinsaturada');
+      if (lower.includes('arroz branco')) cautions.push('arroz branco: hidrato refinado (evitar pico glicémico com fibra/vinagre)');
+      if (lower.includes('salame') || lower.includes('chocolate') || lower.includes('doce')) {
+        cautions.push('salame de chocolate/açúcar: pico de glicose e insulina');
+      }
+      if (lower.includes('presunto') || lower.includes('fiambre') || lower.includes('enchido')) {
+        cautions.push('carnes curadas/processadas: atenção ao sódio e aditivos');
+      }
+
+      const parts = [];
+      if (positives.length) parts.push('Rico em / ajuda: ' + positives.join('; ') + '.');
+      if (cautions.length) parts.push('Atenção: ' + cautions.join('; ') + '.');
+      if (!parts.length) parts.push('Podes editar os itens desta refeição para leitura nutricional.');
+      return parts.join(' ') + ' (Fontes: Dr. Manuel Pinto Coelho & Jessie Inchauspé — Deusa da Glicose)';
+    }
+
+    function renderPatternInsight() {
+      const box = document.getElementById('patternInsightBox');
+      if (!box) return;
+      const allText = state.history.map(function (h) { return (h.note || '').toLowerCase(); }).join(' ');
+      const hasFish = /atum|salmão|salmao|sardinha|cavala|pescada|bacalhau|peixe/.test(allText);
+      const fishLine = hasFish
+        ? 'Peixe detetado nos registos recentes (ex.: atum). Garante variedade semanal com salmão, sardinha ou cavala para ómega-3.'
+        : 'Nesta semana estás a comer pouco peixe — pensa num salmão ou numa sardinha em breve.';
+      box.innerHTML =
+        '<strong>Análise de padrões (longo prazo)</strong>' +
+        '<div>' + escapeHtml(fishLine) + '</div>' +
+        '<span class="source-tag">Fontes: Dr. Manuel Pinto Coelho (Chegar Novo a Velho / Seja um Super-Humano!) &amp; Jessie Inchauspé</span>';
+    }
+
     function renderHistory() {
+      renderPatternInsight();
       const list = document.getElementById('historyList');
       document.getElementById('historyCount').textContent = state.history.length + ' registo' + (state.history.length === 1 ? '' : 's');
 
       if (!state.history.length) {
-        list.innerHTML = '<div class="history-empty">Ainda não tens jejuns concluídos.<br>Quando quebrares o próximo com uma foto, aparece aqui!</div>';
+        list.innerHTML = '<div class="history-empty">Ainda não tens refeições registadas.</div>';
         return;
       }
 
       list.innerHTML = state.history.map(function (item) {
-        const media = item.photo
-          ? '<img class="history-thumb" src="' + item.photo + '" alt="Refeição" onclick="openLightbox(' + item.id + ')" />'
-          : '<div class="history-no-photo">' + SVG_CAMERA + '</div>';
-        const noteHtml = item.note ? '<div class="history-note">' + escapeHtml(item.note) + '</div>' : '';
+        const photos = Array.isArray(item.photos) ? item.photos : (item.photo ? [item.photo] : []);
+        const thumbsHtml = photos.map(function (src, idx) {
+          return '<img class="history-thumb" src="' + src + '" alt="Foto ' + (idx + 1) + '" onclick="openLightbox(' + item.id + ',' + idx + ')" />';
+        }).join('');
+
         return '<div class="history-item">' +
-          media +
-          '<div class="history-info">' +
-          '<div class="history-duration">' + formatDuration(item.durationMs) + ' <span style="font-size:0.74rem; color:var(--muted); font-weight:600;">(meta ' + item.goalHours + 'h)</span></div>' +
-          '<div class="history-dates">' + formatShortDate(item.start) + ' → ' + formatShortDate(item.end) + '</div>' +
-          noteHtml +
+          '<div class="history-top">' +
+          '<div>' +
+          '<div class="history-duration">Jejum prévio: ' + formatDuration(item.durationMs || 0) + '</div>' +
+          '<div class="history-dates">Janela: ' + formatShortDate(item.start) + (item.end ? ' → ' + formatShortDate(item.end) : '') + '</div>' +
           '</div>' +
+          '<div class="item-actions">' +
+          '<button class="del-btn edit-btn" title="Editar refeição" onclick="openEditMealModal(' + item.id + ')">' + SVG_EDIT + '</button>' +
           '<button class="del-btn" title="Apagar registo" onclick="deleteHistory(' + item.id + ')">' + SVG_TRASH + '</button>' +
+          '</div>' +
+          '</div>' +
+          (thumbsHtml ? '<div class="photo-strip">' + thumbsHtml + '</div>' : '') +
+          (item.note ? '<div class="history-note">' + escapeHtml(item.note) + '</div>' : '') +
+          '<div class="nutri-comment">' + escapeHtml(buildMealNutritionComment(item.note)) + '</div>' +
           '</div>';
       }).join('');
     }
 
-    function openLightbox(id) {
+    function openEditMealModal(id) {
       const item = state.history.find(function (h) { return h.id === id; });
-      if (!item || !item.photo) return;
-      document.getElementById('lightboxTitle').textContent = 'Quebra de jejum • ' + formatDuration(item.durationMs);
-      document.getElementById('lightboxImg').src = item.photo;
-      document.getElementById('lightboxDesc').textContent =
-        formatShortDate(item.end) + (item.note ? ' — ' + item.note : '');
+      if (!item) return;
+      editingMealId = id;
+      document.getElementById('editMealNoteInput').value = item.note || '';
+      openModal('editMealModal');
+    }
+
+    function saveEditedMeal() {
+      if (!editingMealId) return;
+      const item = state.history.find(function (h) { return h.id === editingMealId; });
+      if (item) {
+        item.note = document.getElementById('editMealNoteInput').value.trim();
+        saveState();
+        renderHistory();
+        showToast('Refeição atualizada.');
+      }
+      editingMealId = null;
+      closeModal('editMealModal');
+    }
+
+    function openLightbox(id, photoIdx) {
+      const item = state.history.find(function (h) { return h.id === id; });
+      const photos = item && (Array.isArray(item.photos) ? item.photos : (item.photo ? [item.photo] : []));
+      if (!item || !photos.length) return;
+      const src = photos[photoIdx || 0];
+      document.getElementById('lightboxTitle').textContent = 'Refeição • ' + formatShortDate(item.start);
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxDesc').textContent = item.note || '';
       openModal('lightboxModal');
     }
 
     function deleteHistory(id) {
-      if (!confirm('Apagar este registo do histórico?')) return;
+      if (!confirm('Apagar este registo?')) return;
       state.history = state.history.filter(function (h) { return h.id !== id; });
       saveState();
       renderHistory();
@@ -1861,15 +2257,24 @@
       });
 
       document.getElementById('mealPhotoInput').addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        pendingBreakEndTs = Date.now();
-        compressImage(file, 720, 0.72).then(function (dataUrl) {
-          pendingPhotoDataUrl = dataUrl;
-          openBreakFastModal();
-        }).catch(function () {
-          showToast('Não consegui ler essa imagem. Tenta novamente.');
-        });
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+        Promise.all(files.map(function (f) { return compressImage(f, 720, 0.72); }))
+          .then(function (urls) { suspendFastingWithPhotos(urls); })
+          .catch(function () { showToast('Não consegui ler a imagem.'); });
+      });
+
+      document.getElementById('appendPhotoInput').addEventListener('change', function (e) {
+        const files = Array.from(e.target.files || []);
+        if (!files.length || !state.activeMeal) return;
+        Promise.all(files.map(function (f) { return compressImage(f, 720, 0.72); }))
+          .then(function (urls) {
+            state.activeMeal.photos = state.activeMeal.photos.concat(urls);
+            saveState();
+            openEatingModal();
+            showToast('Foto adicionada à refeição.');
+          })
+          .catch(function () { showToast('Não consegui ler a imagem.'); });
       });
 
       document.getElementById('importJsonInput').addEventListener('change', function (e) {
