@@ -1412,6 +1412,83 @@
       padding: 0 12px;
       display: flex;
       justify-content: center;
+      gap: 8px;
+    }
+
+    /* === Sincronização (ntfy.sh) === */
+    .pill-btn.sync-off { color: var(--muted); }
+    .pill-btn.sync-on  { border-color: var(--green); color: var(--green); }
+    .pill-btn.sync-pending { border-color: var(--accent); color: var(--accent); }
+    .pill-btn.sync-error { border-color: var(--danger); color: var(--danger); }
+
+    .sync-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: currentColor;
+      display: inline-block;
+      box-shadow: 0 0 0 0 currentColor;
+      animation: none;
+    }
+    .pill-btn.sync-on .sync-dot { animation: syncPulse 2.4s ease-out infinite; }
+    @keyframes syncPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.55); }
+      70%  { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+      100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+    }
+
+    .sync-room-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px; border-radius: 12px;
+      background: var(--card-2); border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .sync-room-code {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 1.25rem; font-weight: 700; letter-spacing: 3px;
+      color: var(--accent);
+      flex: 1; text-align: center; user-select: all;
+    }
+    .sync-status {
+      font-size: 0.8rem; color: var(--muted);
+      margin: 0 0 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sync-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .sync-status.ok   .dot { background: var(--green); }
+    .sync-status.err .dot { background: var(--danger); }
+    .sync-status.pending .dot { background: var(--accent); }
+
+    .sync-tab-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .sync-tab {
+      flex: 1; padding: 10px 8px; text-align: center;
+      background: var(--card-2); border: 1px solid var(--border);
+      border-radius: 10px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      transition: .15s ease;
+    }
+    .sync-tab.active {
+      background: var(--accent-soft); border-color: var(--accent); color: var(--accent);
+    }
+    .sync-pane { display: none; }
+    .sync-pane.active { display: block; }
+
+    .sync-input {
+      width: 100%; padding: 12px 14px;
+      background: var(--card-2); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text);
+      font-size: 1rem; font-family: ui-monospace, monospace;
+      letter-spacing: 3px; text-align: center; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .sync-input:focus { outline: none; border-color: var(--accent); }
+    .sync-hint {
+      font-size: 0.78rem; color: var(--muted);
+      line-height: 1.5; margin: 8px 0 12px;
+    }
+    .sync-detail {
+      font-size: 0.74rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 10px; margin-top: 12px;
+      line-height: 1.55;
     }
 
     /* Modal */
@@ -2084,6 +2161,9 @@
 
   <div class="footer-bar">
     <button class="pill-btn" onclick="openModal('backupModal')">Backup (.json)</button>
+    <button class="pill-btn sync-off" id="btnSync" onclick="openModal('syncModal')">
+      <span class="sync-dot"></span><span id="syncBtnLabel">Sincronizar</span>
+    </button>
   </div>
 
   <!-- Modal: Escolher como Quebrar Jejum (2 opções) -->
@@ -2215,6 +2295,64 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('backupModal')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Sincronização entre dispositivos (ntfy.sh) -->
+  <div class="modal-backdrop" id="syncModal">
+    <div class="modal">
+      <h3>Sincronizar telefone ↔ PC</h3>
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 14px;">
+        Cria uma “sala” num dispositivo e entra nela no outro com o mesmo código. As alterações passam de um para o outro automaticamente, sem contas nem servidores.
+      </p>
+
+      <!-- Estado: já dentro de uma sala -->
+      <div id="syncActivePane" style="display:none;">
+        <div class="sync-room-row">
+          <div class="sync-room-code" id="syncActiveCode">------</div>
+          <button class="btn btn-ghost" style="width:auto;padding:8px 10px;font-size:.78rem;" onclick="copySyncCode()">Copiar</button>
+        </div>
+        <div class="sync-status ok" id="syncStatus">
+          <span class="dot"></span>
+          <span id="syncStatusText">Ligado · à espera de alterações</span>
+        </div>
+        <div class="action-stack" style="margin-bottom: 12px;">
+          <button class="btn btn-primary" onclick="syncPushNow()">Enviar este dispositivo agora</button>
+          <button class="btn btn-ghost" onclick="syncPullNow()">Buscar alterações do outro</button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" style="color:var(--danger);border-color:var(--danger);" onclick="leaveSyncRoom()">Sair da sala</button>
+          <button class="btn btn-ghost" onclick="closeModal('syncModal')">Fechar</button>
+        </div>
+      </div>
+
+      <!-- Estado: ainda sem sala -->
+      <div id="syncSetupPane">
+        <div class="sync-tab-row">
+          <div class="sync-tab active" data-tab="create" onclick="switchSyncTab('create')">Criar sala</div>
+          <div class="sync-tab" data-tab="join" onclick="switchSyncTab('join')">Entrar numa sala</div>
+        </div>
+
+        <div class="sync-pane active" id="syncPaneCreate">
+          <div class="sync-hint">
+            Gera um código novo e exclusivo. Abre a app no outro dispositivo, vai a <b>Entrar numa sala</b> e cola esse código.
+          </div>
+          <div class="sync-input" id="syncNewCodePreview" style="margin-bottom:14px;">------</div>
+          <button class="btn btn-primary" style="width:100%;" onclick="createSyncRoom()">Criar sala e ligar</button>
+        </div>
+
+        <div class="sync-pane" id="syncPaneJoin">
+          <div class="sync-hint">
+            Escreve o código de 6 letras que apareceu no outro dispositivo quando criaste a sala.
+          </div>
+          <input type="text" id="syncJoinInput" class="sync-input" maxlength="6" placeholder="ABC123" />
+          <button class="btn btn-primary" style="width:100%;" onclick="joinSyncRoom()">Entrar e ligar</button>
+        </div>
+
+        <div class="sync-detail">
+          <b>Como funciona:</b> o estado da app (jejum, peso, hidratação, definições) é trocado pelo serviço público <code>ntfy.sh</code> usando o teu código como identificador privado. Ninguém precisa de conta — só quem tem o código consegue ler/escrever. Quando sais da sala, o código é esquecido neste dispositivo.
+        </div>
       </div>
     </div>
   </div>
@@ -2438,6 +2576,348 @@
 
     let state = loadState();
     let editingMealId = null;
+
+    /* ============================================================
+     *  Sincronização entre dispositivos (ntfy.sh)
+     *  Sem contas, sem tokens. Cria-se uma "sala" (código de 6 chars)
+     *  e ambos os dispositivos subscrevem a mesma sala. Quando um
+     *  grava, publica o estado; o outro recebe e funde por timestamp.
+     * ============================================================ */
+    const SYNC_BASE     = 'https://ntfy.sh';
+    const SYNC_META_KEY = 'papparoca_sync_meta'; // { room, joinedAt }
+    const SYNC_PUB_DEBOUNCE_MS = 1200;           // evita rajadas no saveState
+    const SYNC_IGNORE_TAG = 'sync';             // tag usada para evitar loops
+
+    let syncRoom = null;            // código da sala atual, ou null
+    let syncES = null;              // EventSource ativo
+    let syncPublishTimer = null;   // debounce de publish
+    let syncLastSeenTs = 0;        // último _updatedAt recebido (anti-loop)
+    let syncPublishing = false;    // flag durante publicação local
+
+    /* ---------- helpers utilitários ---------- */
+    function randCode(len) {
+      const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sem 0/O/1/I
+      let out = '';
+      const buf = new Uint32Array(len);
+      crypto.getRandomValues(buf);
+      for (let i = 0; i < len; i++) out += alphabet[buf[i] % alphabet.length];
+      return out;
+    }
+    function syncNowTs() { return Date.now(); }
+    function syncSetStatus(kind, text) {
+      const el = document.getElementById('syncStatus');
+      const tx = document.getElementById('syncStatusText');
+      if (el) el.className = 'sync-status ' + (kind || '');
+      if (tx) tx.textContent = text || '';
+    }
+    function syncUpdateBtn() {
+      const btn = document.getElementById('btnSync');
+      const lab = document.getElementById('syncBtnLabel');
+      if (!btn || !lab) return;
+      btn.className = 'pill-btn';
+      if (!syncRoom) {
+        lab.textContent = 'Sincronizar';
+        btn.classList.add('sync-off');
+      } else if (syncES && syncES.readyState === 1) {
+        lab.textContent = 'Sinc ' + syncRoom;
+        btn.classList.add('sync-on');
+      } else if (syncES && syncES.readyState === 0) {
+        lab.textContent = 'A ligar…';
+        btn.classList.add('sync-pending');
+      } else {
+        lab.textContent = 'Sinc (offline)';
+        btn.classList.add('sync-error');
+      }
+    }
+    function loadSyncMeta() {
+      try { return JSON.parse(localStorage.getItem(SYNC_META_KEY) || 'null'); }
+      catch (e) { return null; }
+    }
+    function saveSyncMeta(meta) {
+      try {
+        if (meta) localStorage.setItem(SYNC_META_KEY, JSON.stringify(meta));
+        else localStorage.removeItem(SYNC_META_KEY);
+      } catch (e) {}
+    }
+
+    /* ---------- publicação (POST) ---------- */
+    function syncPublish(reason) {
+      if (!syncRoom) return;
+      if (syncPublishing) return;             // já a enviar neste turno
+      if (syncPublishTimer) clearTimeout(syncPublishTimer);
+      syncPublishTimer = setTimeout(_doPublish, SYNC_PUB_DEBOUNCE_MS);
+    }
+    function _doPublish() {
+      if (!syncRoom) return;
+      syncPublishing = true;
+      try {
+        state._updatedAt = syncNowTs();
+        syncLastSeenTs = state._updatedAt;
+        const payload = JSON.stringify(state);
+        // Tentamos first fire-and-forget; em falha mostramos erro no botão.
+        fetch(SYNC_BASE + '/' + syncRoom, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Tag': SYNC_IGNORE_TAG,
+            'X-Priority': '4'
+          },
+          body: payload
+        }).then(function (r) {
+          if (!r.ok) syncSetStatus('err', 'Erro ao enviar (HTTP ' + r.status + ')');
+          else syncSetStatus('ok', 'Ligado · à espera de alterações');
+          syncUpdateBtn();
+        }).catch(function (e) {
+          syncSetStatus('err', 'Sem rede — vou tentar de novo na próxima alteração');
+          syncUpdateBtn();
+        }).finally(function () {
+          syncPublishing = false;
+        });
+      } catch (e) {
+        syncPublishing = false;
+      }
+    }
+
+    /* ---------- receção (EventSource) ---------- */
+    function syncSubscribe(room) {
+      if (syncES) { try { syncES.close(); } catch (e) {} syncES = null; }
+      if (!room) return;
+      syncRoom = room;
+      syncUpdateBtn();
+      try {
+        const url = SYNC_BASE + '/' + room + '/sse?since=all';
+        syncES = new EventSource(url, { withCredentials: false });
+        syncES.onopen = function () {
+          syncSetStatus('ok', 'Ligado · à espera de alterações');
+          syncUpdateBtn();
+        };
+        syncES.onmessage = function (ev) {
+          try {
+            const env = JSON.parse(ev.data);
+            // env.event = 'message', env.message = JSON-string do estado
+            if (env.event === 'open' || env.event === 'keepalive') return;
+            const raw = env.message;
+            if (!raw) return;
+            const incoming = JSON.parse(raw);
+            syncHandleIncoming(incoming);
+          } catch (e) {
+            // payload não-JSON, ignorar
+          }
+        };
+        syncES.onerror = function () {
+          syncSetStatus('pending', 'A reanexar ligação…');
+          syncUpdateBtn();
+          // EventSource reconecta automaticamente; se falhar 5x seguidas,
+          // fechamos e voltamos a abrir depois de 3s.
+        };
+      } catch (e) {
+        syncSetStatus('err', 'Este navegador não suporta SSE.');
+        syncUpdateBtn();
+      }
+    }
+
+    /* ---------- resolução de conflitos + fundição ---------- */
+    function syncMergeIncoming(local, incoming) {
+      // incoming é mais recente? usamos _updatedAt; se em falta, comparamos
+      // com now (assumindo que incoming é sempre "novo").
+      const incTs = incoming._updatedAt || 0;
+      const locTs = local._updatedAt  || 0;
+      if (incTs <= locTs) return null; // nada a fazer
+      // Para preservar array history (refeições) e weightLogs (pesos),
+      // fazemos união por id com "o mais recente ganha".
+      const merged = Object.assign({}, local, incoming);
+      merged.history   = mergeByIdArray(local.history,   incoming.history);
+      merged.weightLogs = mergeByIdArray(local.weightLogs, incoming.weightLogs);
+      merged.drinksToday = Array.isArray(incoming.drinksToday)
+        ? incoming.drinksToday
+        : (Array.isArray(local.drinksToday) ? local.drinksToday : []);
+      // Respeita o "hoje" da hidratação
+      if (merged.hydrationDate !== todayStr()) {
+        merged.hydrationDate = todayStr();
+        merged.drinksToday = [];
+      }
+      merged._updatedAt = incTs;
+      return merged;
+    }
+    function mergeByIdArray(a, b) {
+      a = Array.isArray(a) ? a : [];
+      b = Array.isArray(b) ? b : [];
+      const map = {};
+      a.forEach(function (x) { if (x && x.id != null) map[x.id] = x; });
+      b.forEach(function (x) {
+        if (x && x.id == null) return;
+        const prev = map[x.id];
+        if (!prev) { map[x.id] = x; return; }
+        // mais recente ganha (por campo 'at' ou por timestamp de edição)
+        const pT = prev.at || prev._ts || 0;
+        const nT = x.at   || x._ts   || 0;
+        map[x.id] = (nT >= pT) ? x : prev;
+      });
+      // ordena por 'at' se existir
+      return Object.values(map).sort(function (u, v) {
+        const a = u.at || u.start || 0;
+        const b = v.at || v.start || 0;
+        return a - b;
+      });
+    }
+    function syncHandleIncoming(incoming) {
+      // anti-loop: ignorar o nosso próprio eco
+      const incTs = incoming._updatedAt || 0;
+      if (incTs && incTs === syncLastSeenTs) return;
+      const merged = syncMergeIncoming(state, incoming);
+      if (!merged) return;
+      // aplicar e re-renderizar
+      state = merged;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+      // atualiza "vi" para refletir imediatamente
+      if (typeof renderAll === 'function') renderAll();
+      syncSetStatus('ok', 'Atualizado a partir do outro dispositivo');
+      syncUpdateBtn();
+    }
+
+    /* ---------- ações do modal ---------- */
+    function refreshSyncModalView() {
+      const setup = document.getElementById('syncSetupPane');
+      const active = document.getElementById('syncActivePane');
+      const codeEl = document.getElementById('syncActiveCode');
+      const previewEl = document.getElementById('syncNewCodePreview');
+      if (syncRoom) {
+        if (setup) setup.style.display = 'none';
+        if (active) active.style.display = 'block';
+        if (codeEl) codeEl.textContent = syncRoom;
+        // estado atual
+        if (syncES && syncES.readyState === 1) syncSetStatus('ok', 'Ligado · à espera de alterações');
+        else if (syncES && syncES.readyState === 0) syncSetStatus('pending', 'A ligar…');
+        else syncSetStatus('err', 'Desligado');
+      } else {
+        if (setup) setup.style.display = 'block';
+        if (active) active.style.display = 'none';
+        // novo código sugerido para o painel "Criar sala"
+        if (previewEl && !previewEl.dataset.generated) {
+          previewEl.textContent = randCode(6);
+          previewEl.dataset.generated = '1';
+        }
+      }
+    }
+    function switchSyncTab(tab) {
+      document.querySelectorAll('.sync-tab').forEach(function (t) {
+        t.classList.toggle('active', t.dataset.tab === tab);
+      });
+      document.querySelectorAll('.sync-pane').forEach(function (p) { p.classList.remove('active'); });
+      const el = (tab === 'create') ? document.getElementById('syncPaneCreate') : document.getElementById('syncPaneJoin');
+      if (el) el.classList.add('active');
+    }
+    function createSyncRoom() {
+      const previewEl = document.getElementById('syncNewCodePreview');
+      const code = (previewEl && previewEl.textContent) || randCode(6);
+      const clean = String(code).toUpperCase().trim();
+      if (clean.length < 6) { showToast('Código inválido.'); return; }
+      syncRoom = clean;
+      saveSyncMeta({ room: syncRoom, joinedAt: syncNowTs() });
+      syncSubscribe(syncRoom);
+      refreshSyncModalView();
+      // envia o estado atual para o outro dispositivo
+      syncPublish('create');
+      showToast('Sala criada: ' + syncRoom);
+    }
+    function joinSyncRoom() {
+      const inp = document.getElementById('syncJoinInput');
+      const raw = (inp && inp.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (raw.length < 6) { showToast('Escreve o código de 6 letras.'); return; }
+      syncRoom = raw;
+      saveSyncMeta({ room: syncRoom, joinedAt: syncNowTs() });
+      syncSubscribe(syncRoom);
+      refreshSyncModalView();
+      // pede o estado atual ao outro dispositivo
+      try {
+        fetch(SYNC_BASE + '/' + syncRoom, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain', 'X-Tag': 'sync-req', 'X-Priority': '4' },
+          body: 'NEED_STATE'
+        });
+      } catch (e) {}
+      showToast('A ligar à sala ' + syncRoom + '…');
+    }
+    function leaveSyncRoom() {
+      if (syncES) { try { syncES.close(); } catch (e) {} syncES = null; }
+      syncRoom = null;
+      saveSyncMeta(null);
+      syncUpdateBtn();
+      refreshSyncModalView();
+      showToast('Saíste da sala. Os dados continuam guardados neste dispositivo.');
+    }
+    function copySyncCode() {
+      if (!syncRoom) return;
+      try {
+        navigator.clipboard.writeText(syncRoom).then(function () {
+          showToast('Código copiado: ' + syncRoom);
+        }, function () {
+          // fallback sem clipboard API
+          const ta = document.createElement('textarea');
+          ta.value = syncRoom;
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); showToast('Código copiado: ' + syncRoom); }
+          catch (e) { showToast('Copia à mão: ' + syncRoom); }
+          document.body.removeChild(ta);
+        });
+      } catch (e) { showToast('Copia à mão: ' + syncRoom); }
+    }
+    function syncPushNow() {
+      if (!syncRoom) return;
+      // força publicação imediata (sem debounce)
+      if (syncPublishTimer) { clearTimeout(syncPublishTimer); syncPublishTimer = null; }
+      _doPublish();
+      showToast('Enviado para a sala.');
+    }
+    function syncPullNow() {
+      if (!syncRoom) return;
+      // pede explicitamente o estado ao outro dispositivo
+      try {
+        fetch(SYNC_BASE + '/' + syncRoom, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain', 'X-Tag': 'sync-req', 'X-Priority': '4' },
+          body: 'NEED_STATE'
+        }).then(function () { showToast('Pedido enviado. Se o outro dispositivo estiver ligado, vai responder.'); })
+          .catch(function () { showToast('Sem rede para enviar o pedido.'); });
+      } catch (e) { showToast('Sem rede para enviar o pedido.'); }
+    }
+
+    /* ---------- hook ao saveState ---------- */
+    // Wrap da função saveState original para que cada gravação local
+    // seja também publicada para a sala (se ativa). O debounce evita
+    // rajadas quando o utilizador arrasta um slider. Feito em initSync
+    // (no DOMContentLoaded), depois de saveState estar definida.
+    let __syncSaveWrapped = false;
+    function wrapSaveState() {
+      if (__syncSaveWrapped) return;
+      __syncSaveWrapped = true;
+      const originalSave = saveState;
+      saveState = function () {
+        const r = originalSave.apply(this, arguments);
+        if (syncRoom) syncPublish('save');
+        return r;
+      };
+    }
+
+    /* ---------- arranque ---------- */
+    function initSync() {
+      const meta = loadSyncMeta();
+      if (meta && meta.room) {
+        syncRoom = meta.room;
+        syncSubscribe(syncRoom);
+      }
+      wrapSaveState();
+      syncUpdateBtn();
+      // liga a abertura do modal à atualização da vista
+      const origOpen = window.openModal;
+      if (typeof origOpen === 'function') {
+        window.openModal = function (id) {
+          const r = origOpen.apply(this, arguments);
+          if (id === 'syncModal') refreshSyncModalView();
+          return r;
+        };
+      }
+    }
 
     function loadState() {
       try {
@@ -3609,6 +4089,8 @@
       document.getElementById('btnTheme').addEventListener('click', toggleTheme);
       document.getElementById('btnNotif').addEventListener('click', toggleAlerts);
       startHydrationTipRotation();
+      // Arranque da sincronização entre dispositivos
+      try { initSync(); } catch (e) { console && console.warn && console.warn('sync init', e); }
       document.addEventListener('visibilitychange', function () {
         if (document.hidden) stopHydrationTipRotation();
         else startHydrationTipRotation();
