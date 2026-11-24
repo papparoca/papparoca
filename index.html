@@ -151,7 +151,7 @@
       background: var(--header-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 10px 14px;
+      padding: 8px 12px;
       width: 100%;
     }
 
@@ -161,7 +161,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
     }
 
@@ -174,7 +174,7 @@
 
     .brand h1 {
       font-family: inherit;
-      font-size: 1.42rem;
+      font-size: clamp(1.18rem, 4.4vw, 1.45rem);
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -185,11 +185,11 @@
     }
 
     .brand h1 .p-glyph {
-      height: 1.32em;
+      height: 1.3em;
       width: auto;
       display: inline-block;
       vertical-align: baseline;
-      transform: translateY(0.24em);
+      transform: translateY(0.23em);
       margin-right: 1px;
       flex-shrink: 0;
     }
@@ -215,13 +215,14 @@
       border: 1px solid var(--border);
       color: var(--text);
       border-radius: 10px;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       padding: 0;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
       transition: 0.15s ease;
     }
 
@@ -420,14 +421,15 @@
 
     .ring-center {
       position: absolute;
-      inset: 18px;
+      inset: 16px;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       text-align: center;
-      padding: 16px 8px 8px;
+      padding: 12px 10px 6px;
+      gap: 4px;
       pointer-events: none;
     }
 
@@ -438,37 +440,37 @@
       justify-content: center;
       gap: 1px;
       width: 100%;
-      margin-top: 4px;
+      margin-bottom: 2px;
     }
 
     .timer-label {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.06em;
     }
 
     .timer-digits {
-      font-size: 1.85rem;
+      font-size: 1.72rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
-      line-height: 1.05;
+      line-height: 1.04;
     }
 
-    .mobile-view .timer-digits { font-size: 1.72rem; }
+    .mobile-view .timer-digits { font-size: 1.58rem; }
 
     .timer-sub {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted);
-      margin-top: 1px;
+      line-height: 1.15;
     }
 
     .gomo-btn {
       pointer-events: auto;
       position: relative;
-      width: 192px;
-      height: 112px;
+      width: 186px;
+      height: 104px;
       background: transparent;
       border: none;
       padding: 0;
@@ -476,14 +478,14 @@
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      margin-bottom: -2px;
+      margin-bottom: -4px;
       transition: transform 0.12s ease, filter 0.15s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
     .mobile-view .gomo-btn {
-      width: 178px;
-      height: 104px;
+      width: 170px;
+      height: 96px;
     }
 
     .gomo-btn:hover { filter: brightness(1.06); }
@@ -508,16 +510,16 @@
       position: relative;
       z-index: 1;
       color: #ffffff;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 800;
       letter-spacing: 0.01em;
-      padding-top: 14px;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.72), 0 0 8px rgba(0, 0, 0, 0.45);
+      padding-top: 12px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.78), 0 0 8px rgba(0, 0, 0, 0.5);
       white-space: nowrap;
     }
 
     .mobile-view .gomo-label {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
     }
 
     /* 24 Vertical Bars with Continuous Pale Background Zones */
@@ -2464,24 +2466,7 @@
       if (!parts.length) parts.push('Clica no lápis para editar os itens desta refeição.');
       return parts.join(' ') + ' <em>(Fontes: Dr. Manuel Pinto Coelho &amp; Jessie Inchauspé — Deusa da Glicose)</em>';
     }
-      if (lower.includes('abóbora') || lower.includes('sementes')) {
-        positives.push('sementes de abóbora: magnésio e zinco');
-      }
-      if (lower.includes('azeite')) positives.push('azeite: gordura monoinsaturada');
-      if (lower.includes('arroz branco')) cautions.push('arroz branco: hidrato refinado (evitar pico glicémico com fibra/vinagre)');
-      if (lower.includes('salame') || lower.includes('chocolate') || lower.includes('doce')) {
-        cautions.push('salame de chocolate/açúcar: pico de glicose e insulina');
-      }
-      if (lower.includes('presunto') || lower.includes('fiambre') || lower.includes('enchido')) {
-        cautions.push('carnes curadas/processadas: atenção ao sódio e aditivos');
-      }
 
-      const parts = [];
-      if (positives.length) parts.push('Rico em / ajuda: ' + positives.join('; ') + '.');
-      if (cautions.length) parts.push('Atenção: ' + cautions.join('; ') + '.');
-      if (!parts.length) parts.push('Clica no lápis para editar os itens desta refeição.');
-      return parts.join(' ') + ' (Fontes: Dr. Manuel Pinto Coelho & Jessie Inchauspé — Deusa da Glicose)';
-    }
 
     function renderPatternInsight() {
       const box = document.getElementById('patternInsightBox');
