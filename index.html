@@ -376,7 +376,7 @@
     .pill.eating { background: var(--green-soft); color: var(--green); border: 1px solid rgba(5, 150, 105, 0.32); }
     .pill.water { background: var(--water-soft); color: var(--water); border: 1px solid rgba(2, 132, 199, 0.32); }
 
-    /* Fasting Ring with bottom inner button */
+    /* Fasting Ring with floating orange-wedge ("gomo") button */
     .timer-wrap {
       display: flex;
       flex-direction: column;
@@ -387,15 +387,15 @@
 
     .ring-container {
       position: relative;
-      width: 244px;
-      height: 244px;
+      width: 260px;
+      height: 260px;
       display: grid;
       place-items: center;
     }
 
     .mobile-view .ring-container {
-      width: 226px;
-      height: 226px;
+      width: 244px;
+      height: 244px;
     }
 
     .ring-svg {
@@ -420,24 +420,22 @@
 
     .ring-center {
       position: absolute;
-      inset: 17px;
+      inset: 22px;
       border-radius: 50%;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       text-align: center;
+      padding: 22px 10px 10px;
       pointer-events: none;
     }
 
     .ring-readout {
-      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px 10px 4px;
       gap: 2px;
       width: 100%;
     }
@@ -450,14 +448,14 @@
     }
 
     .timer-digits {
-      font-size: 1.94rem;
+      font-size: 1.92rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
       line-height: 1.08;
     }
 
-    .mobile-view .timer-digits { font-size: 1.78rem; }
+    .mobile-view .timer-digits { font-size: 1.76rem; }
 
     .timer-sub {
       font-size: 0.72rem;
@@ -465,51 +463,57 @@
       margin-top: 2px;
     }
 
-    .ring-inner-btn {
+    .gomo-btn {
       pointer-events: auto;
-      width: 100%;
+      position: relative;
+      width: 162px;
       height: 62px;
+      background: transparent;
       border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 50% 50% 0 0 / 10px 10px 0 0;
-      background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+      padding: 0;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-bottom: 4px;
+      transition: transform 0.12s ease, filter 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-view .gomo-btn {
+      width: 150px;
+      height: 58px;
+    }
+
+    .gomo-btn:hover { filter: brightness(1.07); }
+    .gomo-btn:active { transform: scale(0.96); }
+
+    .gomo-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.22));
+    }
+
+    .gomo-label {
+      position: relative;
+      z-index: 1;
       color: #ffffff;
-      padding: 6px 16px 14px;
-      font-size: 0.84rem;
+      font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.01em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: filter 0.15s ease, transform 0.1s ease;
+      padding-top: 8px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+      white-space: nowrap;
     }
 
-    .mobile-view .ring-inner-btn {
-      height: 56px;
-      font-size: 0.8rem;
-      padding: 5px 14px 12px;
+    .mobile-view .gomo-label {
+      font-size: 0.74rem;
     }
 
-    .ring-inner-btn:hover {
-      filter: brightness(1.08);
-    }
-
-    .ring-inner-btn:active {
-      filter: brightness(0.95);
-    }
-
-    .ring-inner-btn.eating-btn {
-      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-      color: #ffffff;
-    }
-
-    .ring-inner-btn.eating-btn:hover {
-      filter: brightness(1.08);
-    }
-
-    /* 24 Vertical Bars with Pale Background Zones + Collapsible Trigger per Zone */
+    /* 24 Vertical Bars with Continuous Pale Background Zones */
     .bars-section {
       width: 100%;
       margin-top: 14px;
@@ -527,27 +531,30 @@
 
     .zones-board {
       display: flex;
-      gap: 4px;
+      gap: 0;
       width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
 
     .zone-col {
       display: flex;
       flex-direction: column;
-      border-radius: 10px;
-      padding: 6px 4px 6px 4px;
-      border: 1px solid transparent;
+      border: none;
+      border-radius: 0;
+      padding: 5px 2px 6px 2px;
       min-width: 0;
-      transition: box-shadow 0.15s ease;
+      transition: filter 0.15s ease;
     }
 
-    .zone-col.z0 { flex: 4; background: var(--zone-0); border-color: var(--zone-0-bd); }
-    .zone-col.z1 { flex: 8; background: var(--zone-1); border-color: var(--zone-1-bd); }
-    .zone-col.z2 { flex: 4; background: var(--zone-2); border-color: var(--zone-2-bd); }
-    .zone-col.z3 { flex: 8; background: var(--zone-3); border-color: var(--zone-3-bd); }
+    .zone-col.z0 { flex: 4; background: var(--zone-0); }
+    .zone-col.z1 { flex: 8; background: var(--zone-1); }
+    .zone-col.z2 { flex: 4; background: var(--zone-2); }
+    .zone-col.z3 { flex: 8; background: var(--zone-3); }
 
     .zone-col.open {
-      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.35);
+      box-shadow: inset 0 0 0 2px rgba(15, 23, 42, 0.35);
     }
 
     .zone-trigger {
@@ -555,23 +562,30 @@
       background: transparent;
       border: none;
       color: var(--zone-text);
-      font-size: 0.67rem;
+      font-size: 0.64rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 1px;
       cursor: pointer;
-      padding: 0 1px 6px 1px;
-      line-height: 1.1;
+      padding: 1px 0 4px 0;
+      line-height: 1.05;
       white-space: nowrap;
     }
 
+    .mobile-view .zone-trigger {
+      font-size: 0.61rem;
+    }
+
     .zone-trigger svg {
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       transition: transform 0.2s ease;
       flex-shrink: 0;
+      opacity: 0.7;
     }
 
     .zone-col.open .zone-trigger svg {
@@ -580,9 +594,10 @@
 
     .zone-bars {
       display: grid;
-      gap: 2px;
+      gap: 1.5px;
       height: 36px;
       align-items: stretch;
+      padding: 0 1px;
     }
 
     .zone-bars.c4 { grid-template-columns: repeat(4, 1fr); }
@@ -590,7 +605,7 @@
 
     .vbar-slot {
       position: relative;
-      border-radius: 2.5px;
+      border-radius: 2px;
       background: var(--bar-track);
       overflow: hidden;
       display: flex;
@@ -633,8 +648,8 @@
       display: none;
       margin-top: 8px;
       border-radius: 12px;
-      padding: 12px 13px;
-      font-size: 0.81rem;
+      padding: 4px 13px 13px 13px;
+      font-size: var(--drawer-fs, 13px);
       color: var(--zone-text);
       border: 1px solid transparent;
       animation: slideDown 0.2s ease;
@@ -646,27 +661,66 @@
     .zone-drawer.z2 { background: var(--zone-2); border-color: var(--zone-2-bd); }
     .zone-drawer.z3 { background: var(--zone-3); border-color: var(--zone-3-bd); }
 
+    .drawer-collapse-top {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--zone-text);
+      opacity: 0.72;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 0 6px;
+    }
+
+    .drawer-collapse-top:hover { opacity: 1; }
+
     .zone-drawer-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .zone-drawer-head strong {
-      font-size: 0.86rem;
+      font-size: 1.05em;
+      line-height: 1.25;
+      flex: 1;
+      min-width: 140px;
     }
 
-    .zone-drawer-close {
-      background: transparent;
-      border: none;
-      color: var(--zone-text);
-      opacity: 0.7;
-      cursor: pointer;
-      font-size: 0.78rem;
+    .drawer-font-ctrl {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 999px;
+      padding: 3px 8px;
+      flex-shrink: 0;
+    }
+
+    .drawer-font-ctrl span {
+      color: #111827;
       font-weight: 700;
-      padding: 2px 6px;
+      user-select: none;
+    }
+
+    .drawer-font-ctrl .a-sm { font-size: 10px; }
+    .drawer-font-ctrl .a-lg { font-size: 14px; }
+
+    .drawer-font-ctrl input[type="range"] {
+      width: 66px;
+      accent-color: #111827;
+      cursor: pointer;
+      height: 4px;
+    }
+
+    .zone-drawer p {
+      font-size: 1em;
+      line-height: 1.48;
     }
 
     .zone-drawer-tip {
@@ -674,13 +728,14 @@
       border-left: 3px solid #111827;
       padding: 8px 10px;
       border-radius: 0 8px 8px 0;
-      font-size: 0.78rem;
+      font-size: 0.96em;
       margin-top: 8px;
       color: #111827;
     }
 
     .zone-drawer .source-tag {
       color: #334155;
+      font-size: 0.86em;
     }
 
     .extended-phases-toggle {
@@ -705,8 +760,8 @@
       background: var(--card-2);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.78rem;
+      padding: 4px 12px 12px;
+      font-size: var(--drawer-fs, 13px);
       color: var(--desc-text);
       flex-direction: column;
       gap: 10px;
@@ -722,31 +777,83 @@
       font-style: italic;
     }
 
-    /* Goal Chips */
-    .goal-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
+    /* Touch-friendly Range Sliders (Goal & Hydration Alert) */
+    .slider-control-box {
+      width: 100%;
       margin: 14px 0 10px;
-    }
-
-    .goal-chip {
       background: var(--card-2);
       border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 5px 11px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.15s;
+      border-radius: 12px;
+      padding: 10px 12px;
     }
 
-    .goal-chip.active {
-      background: var(--accent-soft);
-      border-color: var(--accent);
+    .slider-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .slider-head strong {
+      font-size: 0.88rem;
       color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .slider-head strong.water-val {
+      color: var(--water);
+    }
+
+    .touch-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--border);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .touch-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+      cursor: pointer;
+    }
+
+    .touch-range::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+      cursor: pointer;
+    }
+
+    .touch-range.water-range::-webkit-slider-thumb { background: var(--water); }
+    .touch-range.water-range::-moz-range-thumb { background: var(--water); }
+
+    .slider-bounds {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.66rem;
+      color: var(--muted);
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .icon-btn.muted-off {
+      opacity: 0.5;
+      color: var(--muted);
     }
 
     /* Buttons */
@@ -1219,8 +1326,8 @@
         <button class="icon-btn" id="btnTheme" title="Alternar modo Dia / Noite" aria-label="Alternar tema">
           <span id="themeIcon"></span>
         </button>
-        <button class="icon-btn" id="btnNotif" title="Ativar alertas" aria-label="Ativar alertas">
-          <svg class="ico" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <button class="icon-btn" id="btnNotif" title="Ativar / desativar alertas" aria-label="Ativar ou desativar alertas">
+          <span id="notifIcon"></span>
         </button>
       </div>
     </div>
@@ -1264,9 +1371,27 @@
                   <div class="timer-digits" id="timerDigits">00:00:00</div>
                   <div class="timer-sub" id="timerSub">Objetivo: 16h</div>
                 </div>
-                <button class="ring-inner-btn" id="ringActionBtn" onclick="handleRingAction()">Quebrar jejum</button>
+                <button class="gomo-btn" id="ringActionBtn" onclick="handleRingAction()" aria-label="Quebrar jejum">
+                  <svg class="gomo-svg" viewBox="0 0 180 72" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="gomoGradOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ffb347"/>
+                        <stop offset="45%" stop-color="#f97316"/>
+                        <stop offset="100%" stop-color="#ea580c"/>
+                      </linearGradient>
+                      <linearGradient id="gomoGradGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#34d399"/>
+                        <stop offset="50%" stop-color="#10b981"/>
+                        <stop offset="100%" stop-color="#059669"/>
+                      </linearGradient>
+                    </defs>
+                    <path id="gomoPath" d="M 16 14 C 52 29, 128 29, 164 14 C 175 10, 178 26, 166 42 C 146 65, 118 70, 90 70 C 62 70, 34 65, 14 42 C 2 26, 5 10, 16 14 Z" fill="url(#gomoGradOrange)"/>
+                  </svg>
+                  <span class="gomo-label" id="ringActionLabel">Quebrar jejum</span>
+                </button>
               </div>
             </div>
+
 
             <!-- 24 Vertical Black Bars on Pale Color Zones + Collapsible Detail per Zone -->
             <div class="bars-section">
@@ -1290,14 +1415,18 @@
               <div class="extended-phases-box" id="extendedPhasesBox"></div>
             </div>
 
-            <div class="goal-row" id="goalChips">
-              <button class="goal-chip" data-hours="12">12h</button>
-              <button class="goal-chip active" data-hours="16">16h</button>
-              <button class="goal-chip" data-hours="18">18h</button>
-              <button class="goal-chip" data-hours="20">20h</button>
-              <button class="goal-chip" data-hours="24">24h</button>
-              <button class="goal-chip" data-hours="36">36h</button>
-              <button class="goal-chip" data-hours="48">48h</button>
+            <div class="slider-control-box">
+              <div class="slider-head">
+                <span>Objetivo de jejum</span>
+                <strong id="goalSliderVal">16h</strong>
+              </div>
+              <input type="range" class="touch-range" id="goalSlider" min="12" max="48" step="1" value="16" aria-label="Horas de jejum" />
+              <div class="slider-bounds">
+                <span>12h</span>
+                <span>24h</span>
+                <span>36h</span>
+                <span>48h</span>
+              </div>
             </div>
 
             <input type="file" accept="image/*" capture="environment" multiple id="mealPhotoInput" class="hidden-input" />
@@ -1378,17 +1507,21 @@
             <span class="source-tag">Fonte: Dr. Manuel Pinto Coelho — Chegar Novo a Velho / Seja um Super-Humano!</span>
           </div>
 
-          <div class="reminder-bar">
-            <span class="reminder-label">
-              <svg class="ico-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-              Alertar sem beber há:
-            </span>
-            <select id="reminderIntervalSelect" onchange="updateReminderInterval(this.value)">
-              <option value="60">1 hora</option>
-              <option value="90">1h 30m</option>
-              <option value="120" selected>2 horas</option>
-              <option value="180">3 horas</option>
-            </select>
+          <div class="slider-control-box" style="margin: 0;">
+            <div class="slider-head">
+              <span class="reminder-label">
+                <svg class="ico-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                Alertar sem beber há:
+              </span>
+              <strong class="water-val" id="reminderSliderVal">2h</strong>
+            </div>
+            <input type="range" class="touch-range water-range" id="reminderSlider" min="30" max="240" step="15" value="120" aria-label="Intervalo de alerta de hidratação" />
+            <div class="slider-bounds">
+              <span>30m</span>
+              <span>1h 30m</span>
+              <span>2h 30m</span>
+              <span>4h</span>
+            </div>
           </div>
         </section>
 
@@ -1561,6 +1694,9 @@
     const SVG_TRASH = '<svg class="ico-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
     const SVG_EDIT = '<svg class="ico-sm" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
     const SVG_CHEVRON_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    const SVG_CHEVRON_UP = '<svg class="ico" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>';
+    const SVG_BELL_ON = '<svg class="ico" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+    const SVG_BELL_OFF = '<svg class="ico" viewBox="0 0 24 24"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 
     const ZONES_24 = [
       {
@@ -1687,6 +1823,8 @@
         goalHours: 16,
         openZoneIdx: -1,
         extendedOpen: false,
+        alertsEnabled: true,
+        drawerFontSize: 13,
         waterGoalMl: 2500,
         hydrationDate: todayStr(),
         drinksToday: [],
@@ -1754,6 +1892,44 @@
       state.theme = state.theme === 'dark' ? 'light' : 'dark';
       saveState();
       applyTheme();
+    }
+
+    function applyNotifState() {
+      const btn = document.getElementById('btnNotif');
+      const iconEl = document.getElementById('notifIcon');
+      const on = state.alertsEnabled !== false;
+      if (iconEl) iconEl.innerHTML = on ? SVG_BELL_ON : SVG_BELL_OFF;
+      if (btn) {
+        btn.classList.toggle('muted-off', !on);
+        btn.title = on ? 'Alertas ativos (clica para desativar)' : 'Alertas desativados (clica para ativar)';
+      }
+      if (!on) {
+        const banner = document.getElementById('hydrationAlert');
+        if (banner) banner.classList.remove('show');
+      }
+    }
+
+    function toggleAlerts() {
+      state.alertsEnabled = !(state.alertsEnabled !== false);
+      saveState();
+      applyNotifState();
+      if (state.alertsEnabled) {
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission();
+        }
+        checkHydrationAlert();
+        showToast('Alertas ativados.');
+      } else {
+        showToast('Alertas desativados.');
+      }
+    }
+
+    function formatMinutesLabel(mins) {
+      const m = Number(mins);
+      if (m < 60) return m + ' min';
+      const h = Math.floor(m / 60);
+      const rem = m % 60;
+      return rem ? (h + 'h ' + rem + 'm') : (h + 'h');
     }
 
     function showToast(msg) {
@@ -2014,10 +2190,14 @@
     }
 
     function checkHydrationAlert() {
+      const banner = document.getElementById('hydrationAlert');
+      if (state.alertsEnabled === false) {
+        if (banner) banner.classList.remove('show');
+        return;
+      }
       const now = Date.now();
       const elapsedMs = now - (state.lastDrinkAt || now);
       const thresholdMs = state.reminderMinutes * 60 * 1000;
-      const banner = document.getElementById('hydrationAlert');
 
       if (elapsedMs >= thresholdMs && now >= (state.snoozeUntil || 0)) {
         const hrs = Math.floor(elapsedMs / 3600000);
@@ -2055,16 +2235,32 @@
       renderExtendedPhases();
     }
 
+    function updateDrawerFontSize(val) {
+      state.drawerFontSize = Number(val);
+      saveState();
+      const drawer = document.getElementById('zoneDrawer');
+      const ext = document.getElementById('extendedPhasesBox');
+      if (drawer) drawer.style.setProperty('--drawer-fs', state.drawerFontSize + 'px');
+      if (ext) ext.style.setProperty('--drawer-fs', state.drawerFontSize + 'px');
+    }
+
     function renderExtendedPhases() {
       const box = document.getElementById('extendedPhasesBox');
       if (!box) return;
       box.classList.toggle('open', !!state.extendedOpen);
-      box.innerHTML = EXTENDED_PHASES.map(function (p) {
-        return '<div><strong>' + p.range + ' — ' + p.name + '</strong>' +
-          '<p style="margin-top:3px;">' + p.desc + '</p>' +
-          '<p style="margin-top:4px;"><strong>Dica:</strong> ' + p.tip + '</p>' +
-          '<span class="source-tag">Fonte: ' + p.source + '</span></div>';
-      }).join('');
+      box.style.setProperty('--drawer-fs', (state.drawerFontSize || 13) + 'px');
+      if (!state.extendedOpen) {
+        box.innerHTML = '';
+        return;
+      }
+      box.innerHTML =
+        '<button class="drawer-collapse-top" type="button" onclick="toggleExtendedPhases()" aria-label="Recolher">' + SVG_CHEVRON_UP + '</button>' +
+        EXTENDED_PHASES.map(function (p) {
+          return '<div><strong>' + p.range + ' — ' + p.name + '</strong>' +
+            '<p style="margin-top:3px;">' + p.desc + '</p>' +
+            '<p style="margin-top:4px;"><strong>Dica:</strong> ' + p.tip + '</p>' +
+            '<span class="source-tag">Fonte: ' + p.source + '</span></div>';
+        }).join('');
     }
 
     function render24Bars(hours) {
@@ -2102,28 +2298,41 @@
           '</div>';
       }).join('');
 
+      const fs = state.drawerFontSize || 13;
+      drawer.style.setProperty('--drawer-fs', fs + 'px');
+
       if (state.openZoneIdx >= 0 && ZONES_24[state.openZoneIdx]) {
         const z = ZONES_24[state.openZoneIdx];
+        const prevIdx = drawer.getAttribute('data-open-idx');
         drawer.className = 'zone-drawer open ' + z.cls;
-        drawer.innerHTML =
-          '<div class="zone-drawer-head">' +
-          '<strong>' + z.range + ' — ' + z.name + '</strong>' +
-          '<button class="zone-drawer-close" type="button" onclick="toggleZoneDrawer(' + z.idx + ')">Fechar ✕</button>' +
-          '</div>' +
-          '<p>' + z.desc + '</p>' +
-          '<div class="zone-drawer-tip"><strong>Dica:</strong> ' + z.tip + '</div>' +
-          '<span class="source-tag">Fonte: ' + z.source + '</span>';
+        if (prevIdx !== String(z.idx)) {
+          drawer.setAttribute('data-open-idx', String(z.idx));
+          drawer.innerHTML =
+            '<button class="drawer-collapse-top" type="button" onclick="toggleZoneDrawer(' + z.idx + ')" aria-label="Recolher">' + SVG_CHEVRON_UP + '</button>' +
+            '<div class="zone-drawer-head">' +
+            '<strong>' + z.range + ' — ' + z.name + '</strong>' +
+            '<div class="drawer-font-ctrl" title="Ajustar tamanho da letra">' +
+            '<span class="a-sm">A</span>' +
+            '<input type="range" min="11" max="19" step="1" value="' + fs + '" oninput="updateDrawerFontSize(this.value)" aria-label="Tamanho da letra" />' +
+            '<span class="a-lg">A</span>' +
+            '</div>' +
+            '</div>' +
+            '<p>' + z.desc + '</p>' +
+            '<div class="zone-drawer-tip"><strong>Dica:</strong> ' + z.tip + '</div>' +
+            '<span class="source-tag">Fonte: ' + z.source + '</span>';
+        }
       } else {
         drawer.className = 'zone-drawer';
+        drawer.removeAttribute('data-open-idx');
         drawer.innerHTML = '';
       }
     }
 
     function renderGoals() {
-      document.querySelectorAll('.goal-chip').forEach(function (btn) {
-        const h = Number(btn.dataset.hours);
-        btn.classList.toggle('active', h === state.goalHours);
-      });
+      const slider = document.getElementById('goalSlider');
+      const valEl = document.getElementById('goalSliderVal');
+      if (slider) slider.value = String(state.goalHours);
+      if (valEl) valEl.textContent = state.goalHours + 'h';
     }
 
     function renderControls() {
@@ -2148,7 +2357,8 @@
       const label = document.getElementById('timerLabel');
       const digits = document.getElementById('timerDigits');
       const sub = document.getElementById('timerSub');
-      const ringBtn = document.getElementById('ringActionBtn');
+      const ringBtnLabel = document.getElementById('ringActionLabel');
+      const gomoPath = document.getElementById('gomoPath');
       const metaStart = document.getElementById('metaStart');
       const metaEnd = document.getElementById('metaEnd');
 
@@ -2159,8 +2369,8 @@
         label.textContent = 'Suspenso';
         digits.textContent = state.fastStart ? formatDuration(Date.now() - state.fastStart) : '00:00:00';
         sub.textContent = 'A comer';
-        ringBtn.textContent = state.activeMeal ? 'Iniciar jejum' : 'Iniciar jejum';
-        ringBtn.className = 'ring-inner-btn eating-btn';
+        if (ringBtnLabel) ringBtnLabel.textContent = 'Iniciar jejum';
+        if (gomoPath) gomoPath.setAttribute('fill', 'url(#gomoGradGreen)');
         ring.style.strokeDashoffset = RING_CIRCUMFERENCE * 0.75;
         ring.style.stroke = '#10b981';
         metaStart.textContent = formatShortDate(state.fastStart);
@@ -2181,8 +2391,8 @@
       sub.textContent = pct >= 1
         ? 'Superaste as ' + state.goalHours + 'h'
         : 'Faltam ' + formatDuration(goalMs - elapsedMs);
-      ringBtn.textContent = 'Quebrar jejum';
-      ringBtn.className = 'ring-inner-btn';
+      if (ringBtnLabel) ringBtnLabel.textContent = 'Quebrar jejum';
+      if (gomoPath) gomoPath.setAttribute('fill', 'url(#gomoGradOrange)');
 
       ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
       ring.style.stroke = pct >= 1 ? '#10b981' : '#f59e0b';
@@ -2202,7 +2412,10 @@
       document.getElementById('waterGoalLabel').textContent = state.waterGoalMl + ' ml';
       document.getElementById('waterPercentPill').textContent = pct + '%';
       document.getElementById('waterFill').style.width = pct + '%';
-      document.getElementById('reminderIntervalSelect').value = String(state.reminderMinutes);
+      const rSlider = document.getElementById('reminderSlider');
+      const rVal = document.getElementById('reminderSliderVal');
+      if (rSlider) rSlider.value = String(state.reminderMinutes);
+      if (rVal) rVal.textContent = formatMinutesLabel(state.reminderMinutes);
 
       const lastText = document.getElementById('lastDrinkText');
       if (!state.lastDrinkAt) {
@@ -2362,6 +2575,7 @@
     function renderAll() {
       applyViewMode();
       applyTheme();
+      applyNotifState();
       renderGoals();
       renderControls();
       renderTimerAndPhases();
@@ -2375,19 +2589,7 @@
       document.getElementById('btnViewMode').addEventListener('click', toggleViewMode);
       document.getElementById('btnTheme').addEventListener('click', toggleTheme);
 
-      document.getElementById('btnNotif').addEventListener('click', function () {
-        if (!('Notification' in window)) {
-          showToast('Este browser não suporta notificações nativas.');
-          return;
-        }
-        Notification.requestPermission().then(function (perm) {
-          if (perm === 'granted') {
-            showToast('Alertas ativados.');
-          } else {
-            showToast('Notificações bloqueadas — os alertas continuam visíveis na app.');
-          }
-        });
-      });
+      document.getElementById('btnNotif').addEventListener('click', toggleAlerts);
 
       document.getElementById('mealPhotoInput').addEventListener('change', function (e) {
         const files = Array.from(e.target.files || []);
@@ -2447,13 +2649,19 @@
         reader.readAsText(file);
       });
 
-      document.querySelectorAll('.goal-chip').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          state.goalHours = Number(btn.dataset.hours);
-          saveState();
-          renderGoals();
-          renderTimerAndPhases();
-        });
+      document.getElementById('goalSlider').addEventListener('input', function (e) {
+        state.goalHours = Number(e.target.value);
+        saveState();
+        renderGoals();
+        renderTimerAndPhases();
+      });
+
+      document.getElementById('reminderSlider').addEventListener('input', function (e) {
+        state.reminderMinutes = Number(e.target.value);
+        const rVal = document.getElementById('reminderSliderVal');
+        if (rVal) rVal.textContent = formatMinutesLabel(state.reminderMinutes);
+        saveState();
+        checkHydrationAlert();
       });
 
       renderAll();
